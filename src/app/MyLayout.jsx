@@ -1,6 +1,5 @@
 "use client";
 
-import DirectConsultationPopup from "@/components/DirectConsultationPopup";
 import Footer from "@/components/forWebDevelopment/Footer";
 import Header from "@/components/Header";
 import WhatsAppChat from "@/components/whatsappChat";
@@ -18,7 +17,6 @@ export default function MyLayout({ children }) {
       <main className="theme-main w-full flex-1 pt-20">{children}</main>
       <Footer />
       <WhatsAppChat />
-      <DirectConsultationPopup />
     </div>
   );
 }

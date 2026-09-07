@@ -17,7 +17,7 @@ import {
 } from "../../lib/webdevelopment/catalog";
 import { webdevHref, mainSiteHref } from "../../lib/webdevelopment/paths";
 
-const FOOTER_LOGO = "/tc-new-logo-2.png";
+const FOOTER_LOGO = "/tc-app-logo.png";
 
 const Footer = () => {
   const { settingsData, setSettingsData } = useSite();
@@ -112,10 +112,10 @@ const Footer = () => {
               className="site-footer__logo inline-flex items-center transition hover:opacity-90"
             >
               <Image
-                src={settingsData?.logo || FOOTER_LOGO}
-                alt="TechCultureAi"
-                width={180}
-                height={56}
+                src={FOOTER_LOGO}
+                alt="Tech Culture AI"
+                width={220}
+                height={72}
                 className="h-12 w-auto object-contain sm:h-14"
                 priority={false}
               />
