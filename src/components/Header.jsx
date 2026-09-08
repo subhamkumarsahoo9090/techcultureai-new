@@ -19,9 +19,7 @@ import {
   IndustriesMegaPanel,
   ProductsMobileMenu,
   IndustriesMobileMenu,
-  AutomationMegaPanel,
   AboutMegaPanel,
-  AutomationMobileMenu,
   AboutMobileMenu,
   aboutItems,
 } from "./HeaderMegaMenus";
@@ -52,6 +50,7 @@ const Header = () => {
       portfolio: isLightHeader ? webdevHref("/portfolio") : "/portfolio",
       technologies: isLightHeader ? webdevHref("/technologies") : "/technologies",
       ourWorkspace: isLightHeader ? webdevHref("/our-workspace") : "/our-workspace",
+      team: webdevHref("/team"),
       about: isLightHeader ? webdevHref("/about") : "/about",
       middleware: webdevHref("/middleware"),
     };
@@ -411,95 +410,22 @@ const Header = () => {
             >
 
 
-              {/* AI-Automation Mega Menu - Desktop */}
-              <div
-                className="services-dropdown relative group hidden lg:block"
-                onMouseEnter={isLightHeader ? undefined : handleMouseEnter}
-                onMouseLeave={isLightHeader ? undefined : handleMouseLeave}
+              {/* Our Team */}
+              <Link
+                href={navPaths.team}
+                className={`${getLinkClasses(navPaths.team)} hidden lg:block`}
+                onClick={() => handleNavigation(navPaths.team, "team")}
               >
-                <div
-                  className={`${getLinkClasses(
-                    navPaths.automation
-                  )} flex items-center gap-1 cursor-pointer ${
-                    isServicesDropdownOpen ? dropdownActiveClass : ""
-                  }`}
-                  onClick={(e) => {
-                    if (isLightHeader) {
-                      e.preventDefault();
-                      handleNavigation(navPaths.automation, "automation");
-                      return;
-                    }
-                    handleServicesClick(e);
-                  }}
-                >
-                  AI-Automation
-                  {!isLightHeader && (
-                  <IoChevronDown
-                    className={`text-sm transition-transform duration-300 ${
-                      isServicesDropdownOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                  )}
-                </div>
+                Our Team
+              </Link>
 
-                {!isLightHeader && (
-                <div
-                  className={`absolute top-full left-0 pt-3 z-[120] transition-all duration-300 ${
-                    isServicesDropdownOpen
-                      ? "opacity-100 visible translate-y-0"
-                      : "opacity-0 invisible translate-y-2 pointer-events-none"
-                  }`}
-                >
-                  <div className="w-[min(980px,90vw)]">
-                    <AutomationMegaPanel
-                      services={headerServices}
-                      onNavigate={handleNavigation}
-                      variant={menuVariant}
-                    />
-                  </div>
-                </div>
-                )}
-              </div>
-
-              {/* Mobile AI-Automation Menu */}
-              <div className="w-full lg:hidden">
-                {isLightHeader ? (
-                  <Link
-                    href={navPaths.automation}
-                    className={`${getLinkClasses(
-                      navPaths.automation
-                    )} flex items-center w-full py-3 border-b border-gray-200`}
-                    onClick={() =>
-                      handleNavigation(navPaths.automation, "automation")
-                    }
-                  >
-                    AI-Automation
-                  </Link>
-                ) : (
-                  <>
-                <div
-                  className={`${getLinkClasses(
-                    "/automation"
-                  )} flex items-center justify-between cursor-pointer w-full py-3 border-b border-gray-700`}
-                  onClick={handleServicesClick}
-                >
-                  <span>AI-Automation</span>
-                  <IoChevronDown
-                    className={`text-sm transition-transform duration-300 ${
-                      isMobileSubmenuOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </div>
-                {isMobileSubmenuOpen && (
-                  <AutomationMobileMenu
-                    services={headerServices}
-                    onNavigate={handleNavigation}
-                    variant={menuVariant}
-                  />
-                )}
-                  </>
-                )}
-              </div>
+              <Link
+                href={navPaths.team}
+                className={`${getLinkClasses(navPaths.team)} flex w-full items-center border-b border-gray-200 py-3 lg:hidden`}
+                onClick={() => handleNavigation(navPaths.team, "team")}
+              >
+                Our Team
+              </Link>
 
               {/* Products Mega Menu - Desktop */}
               <div
