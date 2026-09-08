@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import SpotlightCard, { TEAL_SPOTLIGHT, BRAND_SPOTLIGHT } from "@/components/SpotlightCard";
 import { useBookDemo } from "@/context/BookDemoContext";
 
@@ -68,31 +69,96 @@ const features = [
   },
 ];
 
+const heroSlides = [
+  {
+    src: "/hero-ecosystem-2x.png",
+    srcSet: "/hero-ecosystem.png 1024w, /hero-ecosystem-2x.png 2048w",
+    alt: "TechCulture AI ecosystem — Digital KYC, live market rails, workforce platforms, and operations intelligence",
+  },
+  {
+    src: "/hrms-ecosystem-transparent.png",
+    alt: "TechCulture HRMS ecosystem — onboarding, compensation, learning, analytics, and succession planning",
+  },
+];
+
 function HeroEcosystemVisual() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setActiveSlide((current) => (current + 1) % heroSlides.length);
+    }, 5000);
+
+    return () => window.clearTimeout(timer);
+  }, [activeSlide]);
+
   return (
-    <div className="relative mx-auto w-full max-w-[520px] sm:max-w-[560px] lg:max-w-[620px] xl:max-w-[680px] lg:translate-x-1 xl:translate-x-2">
+    <div className="relative mx-auto w-full max-w-[520px] pb-10 sm:max-w-[560px] lg:max-w-[620px] lg:translate-x-1 xl:max-w-[680px] xl:translate-x-2">
       <div
-        className="pointer-events-none absolute bottom-[6%] left-1/2 z-0 h-[12%] w-[72%] -translate-x-1/2 rounded-[100%] bg-[#2E3545]/20 blur-2xl"
+        className="pointer-events-none absolute bottom-[10%] left-1/2 z-0 h-[12%] w-[72%] -translate-x-1/2 rounded-[100%] bg-[#2E3545]/20 blur-2xl"
         aria-hidden
       />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/hero-ecosystem-2x.png"
-        srcSet="/hero-ecosystem.png 1024w, /hero-ecosystem-2x.png 2048w"
-        sizes="(max-width: 640px) 92vw, (max-width: 1024px) 560px, 680px"
-        alt="TechCulture AI ecosystem — Digital KYC, live market rails, workforce platforms, and ops intelligence"
-        width={2048}
-        height={2048}
-        decoding="async"
-        fetchPriority="high"
-        className="hero-ecosystem-img relative z-[1] h-auto w-full select-none object-contain"
-        style={{
-          imageRendering: "auto",
-          WebkitBackfaceVisibility: "hidden",
-          transform: "translateZ(0)",
-        }}
-        draggable={false}
-      />
+
+      <div className="relative z-[1] aspect-square w-full">
+        {heroSlides.map((slide, index) => {
+          const isActive = activeSlide === index;
+
+          return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={slide.src}
+              src={slide.src}
+              srcSet={slide.srcSet}
+              sizes="(max-width: 640px) 92vw, (max-width: 1024px) 560px, 680px"
+              alt={isActive ? slide.alt : ""}
+              width={2048}
+              height={2048}
+              decoding="async"
+              fetchPriority={index === 0 ? "high" : "auto"}
+              loading={index === 0 ? "eager" : "lazy"}
+              aria-hidden={!isActive}
+              className={`hero-ecosystem-img pointer-events-none absolute inset-0 h-full w-full select-none object-contain transition-all duration-700 ease-out ${
+                isActive
+                  ? "scale-100 opacity-100"
+                  : "scale-[0.96] opacity-0"
+              }`}
+              style={{
+                imageRendering: "auto",
+                WebkitBackfaceVisibility: "hidden",
+                transformOrigin: "center",
+              }}
+              draggable={false}
+            />
+          );
+        })}
+      </div>
+
+      <div
+        className="absolute bottom-0 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full border border-orange-100 bg-white/90 px-3 py-2 shadow-lg shadow-orange-500/10 backdrop-blur"
+        aria-label="Hero image slides"
+      >
+        {heroSlides.map((slide, index) => (
+          <button
+            key={slide.src}
+            type="button"
+            onClick={() => setActiveSlide(index)}
+            className={`relative h-2 overflow-hidden rounded-full transition-all duration-300 ${
+              activeSlide === index
+                ? "w-10 bg-orange-100"
+                : "w-2 bg-slate-300 hover:bg-orange-300"
+            }`}
+            aria-label={`Show hero image ${index + 1}`}
+            aria-current={activeSlide === index ? "true" : undefined}
+          >
+            {activeSlide === index && (
+              <span
+                key={`timer-${activeSlide}`}
+                className="absolute inset-y-0 left-0 bg-[#FE602F] animate-[heroSlideTimer_5s_linear_forwards]"
+              />
+            )}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

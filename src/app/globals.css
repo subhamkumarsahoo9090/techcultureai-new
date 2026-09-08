@@ -719,3 +719,12 @@ select {
     transform: translateY(0);
   }
 }
+
+@keyframes heroSlideTimer {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
