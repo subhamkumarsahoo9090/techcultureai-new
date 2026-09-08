@@ -23,7 +23,7 @@ export default function MiddlewareTeaser() {
             </span>
             <h2 className="mb-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
               Route every request through{" "}
-              <span className="bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">
+              <span className="section-heading-accent">
                 one intelligent engine
               </span>
             </h2>
@@ -34,7 +34,7 @@ export default function MiddlewareTeaser() {
             </p>
             <Link
               href={webdevHref("/middleware")}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-700 hover:to-emerald-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg shadow-teal-500/25 transition"
+              className="brand-cta-gradient inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold"
             >
               Explore Middleware
               <ArrowRight size={18} />

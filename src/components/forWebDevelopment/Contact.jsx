@@ -93,7 +93,7 @@ export default function Contact() {
             Connect with us
           </p>
           <h2 className="mb-3 text-3xl font-bold leading-tight text-[#2E3545] sm:text-4xl">
-            Get in touch with our team
+            Get in touch with <span className="section-heading-accent">our team</span>
           </h2>
           <p className="text-[15px] leading-relaxed text-slate-500">
             Have a project or partnership in mind? Reach out — we usually
@@ -263,7 +263,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FE602F] to-[#ff7a4d] px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="brand-cta-gradient mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting ? (
                     <>

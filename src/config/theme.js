@@ -29,7 +29,7 @@ export const themes = {
     gradient: {
       hero: "linear-gradient(90deg, #059669, #0D9488, #0F766E)",
       heading: "linear-gradient(90deg, #059669, #0D9488)",
-      cta: "linear-gradient(135deg, #0F5C58, #0D9488)",
+      cta: "#FE602F",
     },
     shadow: {
       card: "0 10px 30px rgba(15, 40, 38, 0.06)",

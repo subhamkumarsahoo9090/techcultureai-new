@@ -429,7 +429,7 @@ export default function MiddlewarePage() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href={webdevHref("/#contact")}
-                  className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white text-teal-700 font-bold hover:bg-teal-50 transition"
+                  className="brand-cta-gradient inline-flex items-center justify-center px-6 py-3 rounded-full font-bold"
                 >
                   Talk to us
                 </Link>

@@ -72,7 +72,7 @@ export default function Testimonials() {
           <div className="w-10 hidden sm:block" />
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-700 text-center tracking-tight">
             Our{" "}
-            <span className="bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">
+            <span className="section-heading-accent">
               Happy Clients
             </span>
           </h2>
@@ -80,7 +80,7 @@ export default function Testimonials() {
             <button
               type="button"
               onClick={prevSlide}
-              className="w-10 h-10 border border-teal-200 rounded-full flex items-center justify-center text-teal-700 bg-white hover:bg-teal-600 hover:text-white hover:border-teal-600 transition-colors duration-300 shadow-sm"
+              className="brand-cta-outline w-10 h-10 border rounded-full flex items-center justify-center transition-colors duration-300 shadow-sm"
               aria-label="Previous testimonial"
             >
               <FaChevronLeft className="w-4 h-4" />
@@ -88,7 +88,7 @@ export default function Testimonials() {
             <button
               type="button"
               onClick={nextSlide}
-              className="w-10 h-10 border border-teal-600 rounded-full flex items-center justify-center bg-gradient-to-r from-teal-600 to-emerald-500 text-white hover:from-teal-700 hover:to-emerald-600 transition-colors duration-300 shadow-md shadow-teal-500/20"
+              className="brand-cta-gradient w-10 h-10 border border-orange-500 rounded-full flex items-center justify-center text-white transition-colors duration-300 shadow-md"
               aria-label="Next testimonial"
             >
               <FaChevronRight className="w-4 h-4" />
@@ -161,7 +161,7 @@ export default function Testimonials() {
                   onClick={() => setActiveSlide(index)}
                   className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
                     index === activeSlide
-                      ? "bg-gradient-to-r from-teal-600 to-emerald-500"
+                      ? "bg-[#FE602F]"
                       : "bg-slate-200"
                   }`}
                   aria-label={`Go to slide ${index + 1}`}

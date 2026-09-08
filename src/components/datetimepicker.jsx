@@ -216,13 +216,13 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
           {/* Tabs */}
           <div className="flex mb-6 border-b border-gray-100">
             <button
-              className={`flex-1 py-2 text-lg font-semibold rounded-t-xl transition-colors duration-200 ${activeTab === 'date' ? 'bg-blue-50 text-blue-600' : 'bg-transparent text-gray-500'}`}
+              className={`flex-1 py-2 text-lg font-semibold rounded-t-xl transition-colors duration-200 ${activeTab === 'date' ? 'bg-orange-50 text-orange-600' : 'bg-transparent text-gray-500'}`}
               onClick={() => setActiveTab('date')}
             >
               <IoCalendarOutline className="inline mr-2" /> Date
             </button>
             <button
-              className={`flex-1 py-2 text-lg font-semibold rounded-t-xl transition-colors duration-200 ${activeTab === 'time' ? 'bg-blue-50 text-blue-600' : 'bg-transparent text-gray-500'}`}
+              className={`flex-1 py-2 text-lg font-semibold rounded-t-xl transition-colors duration-200 ${activeTab === 'time' ? 'bg-orange-50 text-orange-600' : 'bg-transparent text-gray-500'}`}
               onClick={() => setActiveTab('time')}
             >
               <IoTimeOutline className="inline mr-2" /> Time
@@ -236,7 +236,7 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
               <div className="flex items-center justify-between mb-4">
                 <button
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
-                  className="p-2 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300"
+                  className="brand-cta-outline p-2 rounded-full border"
                 >
                   <IoChevronBack />
                 </button>
@@ -245,7 +245,7 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
                 </span>
                 <button
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
-                  className="p-2 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300"
+                  className="brand-cta-outline p-2 rounded-full border"
                 >
                   <IoChevronForward />
                 </button>
@@ -262,7 +262,7 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
                     disabled={dayObj.isDisabled}
                     onClick={() => handleDateSelect(dayObj)}
                     className={`w-10 h-10 rounded-full text-base font-semibold transition-colors duration-200
-                      ${dayObj.isSelected ? 'bg-blue-600 text-black shadow-lg' : ''}
+                      ${dayObj.isSelected ? 'bg-[#FE602F] text-white shadow-lg' : ''}
                       ${dayObj.isToday ? 'border-2 border-blue-400' : ''}
                       ${!dayObj.isCurrentMonth ? 'text-gray-300' : 'text-black'}
                       ${dayObj.isDisabled ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white'}
@@ -285,7 +285,7 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
                     onClick={() => handleTimeSelect(time)}
                     disabled={false}
                     className={`py-2 px-4 rounded-full font-medium transition-colors duration-200
-                      ${tempTime === time ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-gray-700 hover:bg-blue-100 hover:text-blue-700'}
+                      ${tempTime === time ? 'bg-[#FE602F] text-white shadow-md' : 'bg-white text-gray-700 hover:bg-orange-100 hover:text-orange-700'}
                       ${false ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : ''}
                     `}
                   >
@@ -299,13 +299,13 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
           {/* Actions */}
           <div className="flex justify-between items-center mt-4">
             <button
-              className="px-5 py-2 rounded-lg bg-gray-100 text-gray-600 font-semibold hover:bg-gray-200 transition-colors duration-200"
+              className="brand-cta-outline px-5 py-2 rounded-lg border font-semibold transition-colors duration-200"
               onClick={handleClear}
             >
               Clear
             </button>
             <button
-              className="px-5 py-2 rounded-lg bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition-colors duration-200"
+              className="brand-cta-gradient px-5 py-2 rounded-lg text-white font-semibold shadow transition-colors duration-200"
               onClick={handleApply}
               disabled={!(tempDate && tempTime)}
             >

@@ -70,7 +70,7 @@ const EcosystemsSection = ({ variant = "default" }) => {
           <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
             <h2 className="text-[32px] sm:text-[40px] md:text-[48px] font-bold text-slate-900 leading-[1.2]">
               Five Powerful{" "}
-              <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-teal-600 bg-clip-text text-transparent">
+              <span className="section-heading-accent">
                 Ecosystems
               </span>
             </h2>
@@ -125,14 +125,14 @@ const EcosystemsSection = ({ variant = "default" }) => {
                 <button
                   type="button"
                   onClick={() => router.push(webdevHref("/products"))}
-                  className="inline-flex items-center justify-center gap-2 border-2 border-teal-200 text-teal-700 font-semibold px-6 py-3 rounded-full hover:border-teal-400 hover:bg-teal-50 transition"
+                  className="brand-cta-outline inline-flex items-center justify-center gap-2 border-2 font-semibold px-6 py-3 rounded-full transition"
                 >
                   Know More —
                 </button>
                 <button
                   type="button"
                   onClick={scrollToContact}
-                  className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-700 hover:to-emerald-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg shadow-teal-500/25 transition"
+                  className="brand-cta-gradient inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold"
                 >
                   Get in Touch
                 </button>
@@ -163,7 +163,7 @@ const EcosystemsSection = ({ variant = "default" }) => {
       <div className="container">
         <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
           <h2 className="mainHd text-[36px] sm:text-[44px] md:text-[50px] font-bold text-white leading-[1.2]">
-            Five Powerful <span className="text-gred">Ecosystems</span>
+            Five Powerful <span className="section-heading-accent">Ecosystems</span>
           </h2>
           <p className="text-white/70 font-light text-[16px] sm:text-[18px] md:text-[20px] py-3 leading-relaxed">
             End-to-end solutions for KYC, partner lifecycle, referral growth,
@@ -215,7 +215,7 @@ const EcosystemsSection = ({ variant = "default" }) => {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <Button
                 onClick={() => router.push("/services")}
-                className="!border !border-white/30 !text-white !rounded-md !px-6 !py-3 !capitalize !font-bold hover:!border-primary hover:!text-primary !bg-transparent"
+                className="brand-cta-outline !rounded-md !px-6 !py-3 !capitalize !font-bold"
                 size="large"
                 variant="outlined"
               >
@@ -223,7 +223,7 @@ const EcosystemsSection = ({ variant = "default" }) => {
               </Button>
               <Button
                 onClick={() => router.push("/contact-us")}
-                className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-6 !py-3 !capitalize !font-bold"
+                className="brand-cta-gradient !text-white !rounded-md !px-6 !py-3 !capitalize !font-bold"
                 size="large"
               >
                 Get in Touch

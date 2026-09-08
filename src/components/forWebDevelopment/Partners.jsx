@@ -1,45 +1,71 @@
 "use client";
 
 import Marquee from "react-fast-marquee";
-import { useSite } from "../../context/siteContext";
-import { useEffect } from "react";
 import Image from "next/image";
-import axios from "axios";
 
-/**
- * Force HTTPS + Cloudinary transforms so black logo backgrounds
- * become transparent and the mark renders at original clarity.
- */
-function toOriginalLogoUrl(url = "") {
-  if (!url) return "";
-
-  let src = String(url).trim().replace(/^http:\/\//i, "https://");
-
-  if (src.includes("res.cloudinary.com") && src.includes("/upload/")) {
-    // Avoid stacking transforms if already present
-    if (!src.includes("/upload/e_") && !src.includes("/upload/f_")) {
-      src = src.replace(
-        "/upload/",
-        // negate → white bg, drop white, negate back → original mark on transparent
-        "/upload/f_png,e_negate,e_make_transparent:30,e_negate,q_auto:best/"
-      );
-    }
-  }
-
-  return src;
-}
+const PARTNER_LOGOS = [
+  {
+    name: "Airbnb",
+    website: "https://www.airbnb.com/",
+    logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Airbnb_Logo_B%C3%A9lo.svg",
+  },
+  {
+    name: "GoTu",
+    website: "https://gotu.com/",
+    logo: "https://gotu.com/wp-content/uploads/2024/05/GoTu-Logo.svg",
+  },
+  {
+    name: "Abra Dental",
+    website: "https://abradental.com/",
+    logo: "https://abradental.com/wp-content/uploads/2022/09/Asset-30@4x-1.png",
+  },
+  {
+    name: "Aspen Dental",
+    website: "https://www.aspendental.com/",
+    logo: "https://images.ctfassets.net/m8zwsu9tyucg/3AZGZPc19pKGc3fcpaoyTj/5d1aecc113c6290bcef8ed2b380543c8/AspenDental_logo_RGB_Navy__1_.svg",
+  },
+  {
+    name: "Dental365",
+    website: "https://www.godental365.com/",
+    logo: "https://www.godental365.com/wp-content/uploads/2025/05/cropped-Dental365-Logo.png",
+  },
+  {
+    name: "Lakshmi Stores",
+    website: "https://www.lakshmistores.com/",
+    logo: "https://www.lakshmistores.com/cdn/shop/files/PSD-LS-Logo-SS_779b7b52-895c-4464-8331-57b77e4e9619.png?v=1639413648",
+  },
+  {
+    name: "Shoppin",
+    website: "https://shoppin.app/",
+    logo: "https://shoppin.app/images/shoppin-full-logo.png",
+  },
+  {
+    name: "ChemScience",
+    website: "https://www.chemscience.com/",
+    logo: "https://www.chemscience.com/assets/front/logo/chemscience.svg",
+  },
+  {
+    name: "TechCulture AI",
+    website: "https://techculture.ai/",
+    logo: "https://techculture.ai/tc-new-logo-2.png",
+  },
+  {
+    name: "Burger King",
+    website: "https://www.burgerking.com/",
+    logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Burger_King_2020.svg",
+  },
+];
 
 function getPartner(client) {
   if (typeof client === "string") {
     return {
-      logo: toOriginalLogoUrl(client),
-      href: toOriginalLogoUrl(client),
+      logo: client,
+      href: client,
       name: "Technology partner",
     };
   }
 
-  const rawLogo = client?.logo || client?.image || client?.url || "";
-  const logo = toOriginalLogoUrl(rawLogo);
+  const logo = client?.logo || client?.image || client?.url || "";
   const href =
     client?.website ||
     client?.link ||
@@ -55,27 +81,7 @@ function getPartner(client) {
 }
 
 export default function Partners() {
-  const { settingsData, setSettingsData } = useSite();
-
-  useEffect(() => {
-    async function fetchData() {
-      if (!settingsData) {
-        try {
-          const res = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/site-settings`
-          );
-          if (res.status === 200) {
-            setSettingsData(res.data.data);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }
-    fetchData();
-  }, [settingsData, setSettingsData]);
-
-  const clients = settingsData?.clients || [];
+  const clients = PARTNER_LOGOS;
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-white via-[#f0fdfa]/50 to-white py-14 md:py-16">
@@ -87,7 +93,7 @@ export default function Partners() {
       <div className="container relative mx-auto px-6">
         <h2 className="mb-10 text-center text-2xl font-bold tracking-tight text-slate-700 sm:text-3xl">
           Our{" "}
-          <span className="bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">
+          <span className="section-heading-accent">
             Technology
           </span>{" "}
           Partner

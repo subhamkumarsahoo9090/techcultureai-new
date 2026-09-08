@@ -1,16 +1,15 @@
 "use client"
 import { useSite } from '../context/siteContext';
+import { useBookDemo } from '../context/BookDemoContext';
 import Button from '@mui/material/Button'
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineMenu } from "react-icons/ai";
-import { IoClose, IoChevronDown, IoCalendarOutline } from 'react-icons/io5';
-import { toast } from 'react-hot-toast';
+import { IoClose, IoChevronDown } from 'react-icons/io5';
 import { ImWhatsapp } from "react-icons/im";
-import ModernDateTimePicker from "./datetimepicker";
 import HeaderGooeyBubbles from "./HeaderGooeyBubbles";
 import { webdevHref } from "../lib/webdevelopment/paths";
 
@@ -57,9 +56,9 @@ const Header = () => {
       middleware: webdevHref("/middleware"),
     };
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const { openBookDemo } = useBookDemo();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isOpenNav, setIsOpenNav] = useState(false);
-    const [showEnquiryPopup, setShowEnquiryPopup] = useState(false);
     const [headerServices, setHeaderServices] = useState([]);
     const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
     const [isMobileSubmenuOpen, setIsMobileSubmenuOpen] = useState(false);
@@ -70,16 +69,6 @@ const Header = () => {
     const [isIndustriesDropdownOpen, setIsIndustriesDropdownOpen] = useState(false);
     const [isMobileIndustriesOpen, setIsMobileIndustriesOpen] = useState(false);
     const [navigationSource, setNavigationSource] = useState('direct');
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const dateTimePickerRef = useRef(null);
-    
-     const [enquiryForm, setEnquiryFrom] = useState({
-       name: "",
-       email: "",
-       phone: "",
-       message: "",
-       demoDateTime: "",
-     });
 
     useEffect(() => {
         const handleScroll = () => {
@@ -105,22 +94,6 @@ const Header = () => {
             setNavigationSource(storedSource);
         }
     }, [pathname]);
-
-    // Prevent background scrolling when enquiry popup is open
-    useEffect(() => {
-        if (showEnquiryPopup) {
-            // Prevent scrolling
-            document.body.style.overflow = 'hidden';
-        } else {
-            // Restore scrolling
-            document.body.style.overflow = 'unset';
-        }
-
-        // Cleanup function to restore scrolling when component unmounts
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
-    }, [showEnquiryPopup]);
 
     // Close dropdown when clicking outside (desktop only)
     useEffect(() => {
@@ -189,122 +162,6 @@ const Header = () => {
       fetchData();
     }, [settingsData, setSettingsData]);
 
-    const handleInputChange = (e) => {
-          setEnquiryFrom({
-            ...enquiryForm,
-            [e.target.name]: e.target.value,
-          });
-        }
-
-    // Get minimum datetime (current time + 1 hour)
-    const getMinDateTime = () => {
-        const now = new Date();
-        now.setHours(now.getHours() + 1); // Add 1 hour buffer
-        return now.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:mm
-    };
-
-    // Handle date time picker focus with scroll
-    const handleDateTimePickerFocus = () => {
-        setTimeout(() => {
-            if (dateTimePickerRef.current) {
-                dateTimePickerRef.current.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center' 
-                });
-            }
-        }, 100);
-    };
-
-    const handleSubmit = async (e) => {
-          e.preventDefault();
-          setIsSubmitting(true);
-          
-          // Basic validation
-          if (!enquiryForm.name.trim()) {
-            toast.error("Please enter your name");
-            setIsSubmitting(false);
-            return;
-          }
-          
-          if (!enquiryForm.email.trim()) {
-            toast.error("Please enter your email");
-            setIsSubmitting(false);
-            return;
-          }
-          
-          if (!enquiryForm.phone.trim()) {
-            toast.error("Please enter your phone number");
-            setIsSubmitting(false);
-            return;
-          }
-
-          // Email validation
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(enquiryForm.email)) {
-            toast.error("Please enter a valid email address");
-            setIsSubmitting(false);
-            return;
-          }
-
-          // Phone validation
-          const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-          if (!phoneRegex.test(enquiryForm.phone.replace(/\s+/g, ''))) {
-            toast.error("Please enter a valid phone number");
-            setIsSubmitting(false);
-            return;
-          }
-          
-          try {
-            // Prepare data for submission - NO TIMEZONE
-            const submissionData = {
-              name: enquiryForm.name,
-              email: enquiryForm.email,
-              phone: enquiryForm.phone,
-              message: enquiryForm.message,
-              projectName: "General"
-            };
-
-            // If datetime is provided, split it into date and time for backend
-            if (enquiryForm.demoDateTime) {
-              const [datePart, timePart] = enquiryForm.demoDateTime.split('T');
-              submissionData.demoDate = datePart;
-              submissionData.demoTime = timePart;
-            }
-
-            console.log('Submitting data:', submissionData); // Debug log
-
-            const res = await axios.post(`${apiBaseUrl}/api/enquiries`, submissionData);
-            
-            if (res.status === 201) {
-              toast.success(res.data.message || "Enquiry submitted successfully! We'll get back to you soon.");
-              setEnquiryFrom({
-                name: "",
-                email: "",
-                phone: "",
-                message: "",
-                demoDateTime: "",
-              });
-              setShowEnquiryPopup(false);
-            } else {
-              toast.error("Failed to submit enquiry. Please try again.");
-            }
-          } catch (error) {
-            console.error("Error submitting enquiry form:", error);
-            
-            if (error.response?.data?.message) {
-              toast.error(error.response.data.message);
-            } else if (error.response?.status === 400) {
-              toast.error("Invalid form data. Please check your information.");
-            } else if (error.response?.status === 500) {
-              toast.error("Server error. Please try again later.");
-            } else {
-              toast.error("Failed to submit enquiry. Please check your connection and try again.");
-            }
-          } finally {
-            setIsSubmitting(false);
-          }
-    }
-    
     // Helper function to check if current service is in AI-Automation dropdown
     const isAiAutomationService = () => {
         if (!pathname.startsWith('/services/')) return false;
@@ -387,8 +244,8 @@ const Header = () => {
     };
 
     const scheduleDemoBtnBase = isLightHeader
-        ? "bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-700 hover:to-emerald-600 !text-white !rounded-full !shadow-md !shadow-teal-500/25"
-        : "bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md";
+        ? "brand-cta-gradient !text-white !rounded-full"
+        : "brand-cta-gradient !text-white !rounded-md";
 
     // Handle services dropdown toggle for desktop
     const closeDesktopDropdowns = () => {
@@ -962,7 +819,7 @@ const Header = () => {
               <Button
                 className={`${scheduleDemoBtnBase} !px-4 !py-2 !capitalize !font-bold !text-sm`}
                 size="small"
-                onClick={() => setShowEnquiryPopup(true)}
+                onClick={openBookDemo}
               >
                 Schedule Demo
               </Button>
@@ -988,149 +845,13 @@ const Header = () => {
               <Button
                 className={`${scheduleDemoBtnBase} !px-6 !py-2 !capitalize !font-bold !hidden lg:!flex`}
                 size="large"
-                onClick={() => setShowEnquiryPopup(true)}
+                onClick={openBookDemo}
               >
                 Schedule Demo
               </Button>
             </div>
           </div>
         </header>
-        {/* Popup Enquiry Form */}
-        {showEnquiryPopup && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] flex items-center justify-center p-4">
-            <div
-              className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl max-h-[90vh] flex flex-col"
-              style={{ overflow: "hidden" }}
-            >
-              <button
-                onClick={() => setShowEnquiryPopup(false)}
-                className="absolute top-4 right-4 w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors z-10"
-              >
-                <IoClose />
-              </button>
-
-              <div
-                className="p-6 flex-1"
-                style={{
-                  overflowY: "auto",
-                  scrollbarWidth: "none",
-                  msOverflowStyle: "none",
-                }}
-                css={`
-                  &::-webkit-scrollbar {
-                    display: none;
-                  }
-                `}
-              >
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-black mb-2">
-                    Schedule a Demo
-                  </h3>
-                  <p className="text-black">
-                    Book a personalized demo or just leave your details for a
-                    consultation
-                  </p>
-                </div>
-
-                <form className="space-y-4 text-white" onSubmit={handleSubmit}>
-                  {/* Basic Information */}
-                  <div>
-                    <input
-                      type="text"
-                      name="name"
-                      id="name"
-                      onChange={handleInputChange}
-                      value={enquiryForm.name}
-                      placeholder="Your Name *"
-                      required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/10 focus:ring-2 focus:ring-blue-500 outline-none text-black placeholder-gray-400"
-                    />
-                  </div>
-
-                  <div>
-                    <input
-                      id="email"
-                      name="email"
-                      onChange={handleInputChange}
-                      value={enquiryForm.email}
-                      type="email"
-                      placeholder="Email Address *"
-                      required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/10 focus:ring-2 focus:ring-blue-500 outline-none text-black placeholder-gray-400"
-                    />
-                  </div>
-
-                  <div>
-                    <input
-                      id="phone"
-                      name="phone"
-                      onChange={handleInputChange}
-                      value={enquiryForm.phone}
-                      type="tel"
-                      placeholder="Phone Number *"
-                      required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/10 focus:ring-2 focus:ring-blue-500 outline-none text-black placeholder-gray-400"
-                    />
-                  </div>
-
-                  {/* Demo Scheduling Section */}
-                  <div className="relative" ref={dateTimePickerRef}>
-                    {/* <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Schedule Demo (Optional)
-                    </label> */}
-
-                    <ModernDateTimePicker
-                      value={enquiryForm.demoDateTime}
-                      onChange={handleInputChange}
-                      minDateTime={getMinDateTime()}
-                      onFocus={handleDateTimePickerFocus}
-                    />
-
-                    {/* <p className="text-xs text-gray-500 mt-1">
-                      Leave empty if you just want to submit an enquiry
-                    </p> */}
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <textarea
-                      id="message"
-                      name="message"
-                      onChange={handleInputChange}
-                      value={enquiryForm.message}
-                      placeholder="Tell us about your requirements or questions..."
-                      rows={3}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/10 focus:ring-2 focus:ring-blue-500 outline-none text-black placeholder-gray-400"
-                    />
-                  </div>
-
-                  {/* Submit Button */}
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full ${scheduleDemoBtnBase} !px-6 !py-3 !capitalize !font-bold transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed`}
-                  >
-                    {isSubmitting ? (
-                      <div className="flex items-center justify-center gap-2">
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        Submitting...
-                      </div>
-                    ) : enquiryForm.demoDateTime ? (
-                      "Schedule Demo"
-                    ) : (
-                      "Send Enquiry"
-                    )}
-                  </Button>
-
-                  {/* Info Text */}
-                  <p className="text-xs text-gray-400 text-center mt-2">
-                    * Required fields. We&apos;ll contact you within 24 hours.
-                  </p>
-                </form>
-              </div>
-            </div>
-          </div>
-        )}
       </>
       
      

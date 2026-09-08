@@ -78,8 +78,17 @@ const Footer = () => {
 
   const currentYear = new Date().getFullYear();
   const footerProducts = productPages.slice(0, 6);
+  const footerIndustries = [
+    {
+      title: "All Industries",
+      href: webdevHref("/industries"),
+      slug: "all-industries",
+    },
+    ...industryPages.slice(0, 5),
+  ];
   const aboutFooterLinks = [
     { name: "About Us", href: webdevHref("/about") },
+    { name: "Our Team", href: webdevHref("/team") },
     { name: "Who We Are", href: mainSiteHref("/about-us") },
     { name: "What We Do", href: mainSiteHref("/services") },
     { name: "Contact Us", href: webdevHref("/contact") },
@@ -181,6 +190,13 @@ const Footer = () => {
                   </Link>
                 </li>
               ))}
+              {footerIndustries.slice(0, 2).map((item) => (
+                <li key={`navigation-${item.slug}`}>
+                  <Link href={item.href} className="site-footer__link">
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -217,6 +233,13 @@ const Footer = () => {
                     </Link>
                   </li>
                 )}
+              {footerIndustries.slice(2, 3).map((item) => (
+                <li key={`automation-${item.slug}`}>
+                  <Link href={item.href} className="site-footer__link">
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -239,36 +262,31 @@ const Footer = () => {
                   </Link>
                 </li>
               ))}
-            </ul>
-          </div>
-
-          {/* Industries + About */}
-          <div className="site-footer__col lg:col-span-2" style={{ "--i": 4 }}>
-            <h4 className="site-footer__heading">Industries</h4>
-            <ul className="mt-5 space-y-2.5">
-              <li>
-                <Link
-                  href={webdevHref("/industries")}
-                  className="site-footer__link site-footer__link--accent"
-                >
-                  All Industries
-                </Link>
-              </li>
-              {industryPages.slice(0, 5).map((item) => (
-                <li key={item.slug}>
+              {footerIndustries.slice(3, 5).map((item) => (
+                <li key={`products-${item.slug}`}>
                   <Link href={item.href} className="site-footer__link">
                     {item.title}
                   </Link>
                 </li>
               ))}
             </ul>
+          </div>
 
-            <h4 className="site-footer__heading mt-8">About Us</h4>
+          {/* About */}
+          <div className="site-footer__col lg:col-span-2" style={{ "--i": 4 }}>
+            <h4 className="site-footer__heading">About Us</h4>
             <ul className="mt-5 space-y-2.5">
               {aboutFooterLinks.map((item) => (
                 <li key={item.name}>
                   <Link href={item.href} className="site-footer__link">
                     {item.name}
+                  </Link>
+                </li>
+              ))}
+              {footerIndustries.slice(5).map((item) => (
+                <li key={`about-${item.slug}`}>
+                  <Link href={item.href} className="site-footer__link">
+                    {item.title}
                   </Link>
                 </li>
               ))}

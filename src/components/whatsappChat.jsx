@@ -34,7 +34,7 @@ const WhatsAppChat = () => {
         {!isOpen ? (
           <button
             onClick={() => setIsOpen(true)}
-            className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110 animate-pulse"
+            className="brand-cta-gradient rounded-full p-4 duration-300 hover:scale-110 animate-pulse"
             aria-label="Open WhatsApp Chat"
           >
             <MessageCircle size={24} />
@@ -108,7 +108,7 @@ const WhatsAppChat = () => {
                   <button
                     onClick={() => sendToWhatsApp()}
                     disabled={!message.trim()}
-                    className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 disabled:bg-gray-300 text-white rounded-lg px-3 py-2 transition-colors duration-200"
+                    className="brand-cta-gradient rounded-lg px-3 py-2 duration-200 disabled:opacity-50"
                   >
                     <Send size={16} />
                   </button>

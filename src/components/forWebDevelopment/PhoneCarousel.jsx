@@ -1002,7 +1002,7 @@ const WebAppCarousel = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-            Our <span className="bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">Entire Ecosystem</span>
+            Our <span className="section-heading-accent">Entire Ecosystem</span>
           </h2>
           <p className="text-slate-500 max-w-2xl mx-auto text-base md:text-lg">
             Integrated solutions across India&apos;s financial infrastructure — from KYC, depository, and exchanges to HRMS, mutual funds, and beyond.
@@ -1013,7 +1013,7 @@ const WebAppCarousel = () => {
          
           <button 
             onClick={prevSlide}
-            className="absolute left-0 md:left-4 z-10 bg-white hover:bg-teal-50 text-teal-700 p-4 rounded-full transition-all shadow-lg hover:shadow-xl border border-teal-100"
+            className="brand-cta-outline absolute left-0 md:left-4 z-10 bg-white p-4 rounded-full transition-all shadow-lg hover:shadow-xl border"
             aria-label="Previous module"
           >
             <ChevronLeft size={28} />
@@ -1104,7 +1104,7 @@ const WebAppCarousel = () => {
                         <div className="pt-4 border-t border-gray-100">
                           <div className="flex justify-between items-center">
                             <span className="text-sm text-slate-400">#{slide.id} of {SLIDE_COUNT}</span>
-                            <button className="px-4 py-2 bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-700 hover:to-emerald-600 text-white text-sm rounded-lg transition-colors shadow-sm">
+                            <button className="brand-cta-gradient px-4 py-2 text-sm rounded-lg">
                               Explore
                             </button>
                           </div>
@@ -1120,7 +1120,7 @@ const WebAppCarousel = () => {
           {/* Right Navigation Button */}
           <button 
             onClick={nextSlide}
-            className="absolute right-0 md:right-4 z-10 bg-white hover:bg-teal-50 text-teal-700 p-4 rounded-full transition-all shadow-lg hover:shadow-xl border border-teal-100"
+            className="brand-cta-outline absolute right-0 md:right-4 z-10 bg-white p-4 rounded-full transition-all shadow-lg hover:shadow-xl border"
             aria-label="Next module"
           >
             <ChevronRight size={28} />
@@ -1142,8 +1142,8 @@ const WebAppCarousel = () => {
                 }`}
                 aria-label={`Go to ${slide.title}`}
               >
-                <div className={`w-2.5 h-2.5 rounded-full mb-1.5 ${index === adjustedIndex ? 'bg-teal-600 scale-125' : 'bg-gray-300'}`}></div>
-                <span className={`text-[10px] sm:text-xs font-medium truncate max-w-[56px] ${index === adjustedIndex ? 'text-teal-600' : 'text-gray-500'}`}>
+                <div className={`w-2.5 h-2.5 rounded-full mb-1.5 ${index === adjustedIndex ? 'bg-[#FE602F] scale-125' : 'bg-gray-300'}`}></div>
+                <span className={`text-[10px] sm:text-xs font-medium truncate max-w-[56px] ${index === adjustedIndex ? 'text-orange-600' : 'text-gray-500'}`}>
                   {slide.shortLabel}
                 </span>
               </button>
@@ -1217,7 +1217,7 @@ const EcosystemOverview = () => (
     </div>
     
     <div className="mt-5 pt-4 border-t border-gray-100">
-      <button className="w-full py-3 bg-gradient-to-r from-teal-600 to-emerald-500 text-white rounded-xl font-medium hover:from-teal-700 hover:to-emerald-600 transition-all shadow-md shadow-teal-500/20">
+      <button className="brand-cta-gradient w-full py-3 rounded-xl font-medium">
         View Full Ecosystem
       </button>
     </div>

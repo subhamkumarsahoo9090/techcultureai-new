@@ -287,18 +287,16 @@ body {
   }
 }
 
-/* Hero CTA — animated teal + orange gradient */
+/* Hero CTA — animated deep blue + orange gradient */
 .hero-cta-gradient {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   background: linear-gradient(
     110deg,
-    #0f766e 0%,
-    #0d9488 28%,
-    #fe602f 52%,
-    #ff7a4d 68%,
-    #0f766e 100%
+    #005871 0%,
+    #fe602f 50%,
+    #005871 100%
   );
   background-size: 220% 220%;
   animation: hero-cta-gradient-shift 5s ease-in-out infinite;
@@ -349,7 +347,7 @@ body {
   }
 
   .hero-cta-gradient {
-    background: linear-gradient(110deg, #0f766e, #0d9488 45%, #fe602f);
+    background: linear-gradient(110deg, #005871, #fe602f);
     background-size: 100% 100%;
   }
 }
@@ -377,11 +375,10 @@ body {
   padding: 2px;
   background: linear-gradient(
     120deg,
-    #0d9488,
-    #14b8a6,
+    #005871,
     #fe602f,
     #ff7a4d,
-    #0d9488
+    #005871
   );
   background-size: 300% 300%;
   animation: hero-cta-demo-border 4s ease-in-out infinite;
@@ -466,7 +463,7 @@ body {
   }
 
   .hero-cta-demo::before {
-    background: linear-gradient(120deg, #0d9488, #fe602f);
+    background: linear-gradient(120deg, #005871, #fe602f);
     background-size: 100% 100%;
   }
 }

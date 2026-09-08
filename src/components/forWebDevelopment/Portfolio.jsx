@@ -179,13 +179,13 @@ export default function Portfolio() {
           <div className="flex space-x-4">
             <button 
               onClick={prevSlide}
-              className="w-12 h-12 border border-teal-600 rounded-full flex items-center justify-center text-teal-600 hover:bg-teal-600 hover:text-white transition-all duration-300 group"
+              className="brand-cta-outline w-12 h-12 border rounded-full flex items-center justify-center transition-all duration-300 group"
             >
               <ChevronLeft size={24} />
             </button>
             <button 
               onClick={nextSlide}
-              className="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center text-white hover:bg-teal-700 transition-all duration-300 shadow-lg shadow-teal-200"
+              className="brand-cta-gradient w-12 h-12 rounded-full flex items-center justify-center text-white transition-all duration-300 shadow-lg"
             >
               <ChevronRight size={24} />
             </button>
@@ -240,7 +240,7 @@ export default function Portfolio() {
 
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
-          <button className="bg-teal-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-teal-700 hover:scale-105 transition-all duration-300 shadow-lg shadow-teal-100">
+          <button className="brand-cta-gradient px-10 py-4 rounded-xl font-bold hover:scale-105 duration-300">
             View all testimonials
           </button>
         </div>

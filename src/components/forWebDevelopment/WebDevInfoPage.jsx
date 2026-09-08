@@ -123,7 +123,7 @@ export default function WebDevInfoPage({
                   {productHref && (
                     <Link
                       href={productHref}
-                      className="group w-full flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-700 hover:to-emerald-600 text-white font-semibold px-5 py-3.5 rounded-2xl shadow-lg shadow-teal-500/25 hover:shadow-xl hover:shadow-teal-500/30 transition-all duration-300"
+                      className="brand-cta-gradient group w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl font-semibold duration-300"
                     >
                       {ctaLabel}
                       <ExternalLink
@@ -135,7 +135,7 @@ export default function WebDevInfoPage({
 
                   <Link
                     href={webdevHref("/contact")}
-                    className="group w-full flex items-center justify-center gap-2 border border-teal-200 bg-teal-50/40 text-teal-700 font-semibold px-5 py-3.5 rounded-2xl hover:bg-teal-50 hover:border-teal-300 transition-all duration-300"
+                    className="brand-cta-outline group w-full flex items-center justify-center gap-2 border font-semibold px-5 py-3.5 rounded-2xl transition-all duration-300"
                   >
                     <MessageCircle size={16} />
                     Talk to us

@@ -7,6 +7,7 @@ import Testimonials from "@/components/forWebDevelopment/Testimonials";
 import Contact from "@/components/forWebDevelopment/Contact";
 import EcosystemsSection from "@/components/EcosystemsSection";
 import MiddlewareTeaser from "@/components/forWebDevelopment/MiddlewareTeaser";
+import SupportShowcase from "@/components/forWebDevelopment/SupportShowcase";
 
 const PhoneCarousel = dynamic(
   () => import("@/components/forWebDevelopment/PhoneCarousel"),
@@ -22,6 +23,7 @@ export default function Page() {
       <EcosystemsSection variant="webdevelopment" />
       <MiddlewareTeaser />
       <PhoneCarousel />
+      <SupportShowcase />
       <section id="testimonials" className="scroll-mt-24">
         <Testimonials />
       </section>

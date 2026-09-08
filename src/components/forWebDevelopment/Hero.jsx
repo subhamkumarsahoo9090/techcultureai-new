@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import SpotlightCard, { TEAL_SPOTLIGHT, BRAND_SPOTLIGHT } from "@/components/SpotlightCard";
+import { useBookDemo } from "@/context/BookDemoContext";
 
 const GradientText = dynamic(() => import("@/components/GradientText"), {
   ssr: false,
@@ -97,6 +98,8 @@ function HeroEcosystemVisual() {
 }
 
 export default function Hero() {
+  const { openBookDemo } = useBookDemo();
+
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 z-0">
@@ -135,15 +138,16 @@ export default function Hero() {
             <div className="mb-6 flex flex-col items-center justify-center gap-3 sm:mb-7 sm:flex-row sm:gap-4 lg:justify-start">
               <a
                 href="#overview"
-                className="hero-cta-gradient inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-semibold text-white shadow-lg shadow-teal-600/25 transition hover:brightness-105 hover:shadow-orange-500/20"
+                className="hero-cta-gradient inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-semibold text-white shadow-lg shadow-[#005871]/25 transition hover:brightness-105 hover:shadow-orange-500/20"
               >
                 Explore Solutions
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
-              <a
-                href="#contact"
+              <button
+                type="button"
+                onClick={openBookDemo}
                 className="hero-cta-demo group inline-flex items-center gap-2.5 rounded-full px-6 py-3.5 font-semibold"
               >
                 <span className="hero-cta-demo__icon flex h-7 w-7 items-center justify-center rounded-full">
@@ -152,7 +156,7 @@ export default function Hero() {
                   </svg>
                 </span>
                 Book a Demo
-              </a>
+              </button>
             </div>
 
             {/* Compact feature boxes under CTAs */}
