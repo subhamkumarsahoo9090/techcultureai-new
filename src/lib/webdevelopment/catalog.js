@@ -667,6 +667,6 @@ export const navLinks = [
   { name: "Middleware", href: webdevHref("/middleware") },
   { name: "Portfolio", href: webdevHref("/portfolio") },
   { name: "Technologies", href: webdevHref("/technologies") },
-  { name: "Our Workspace", href: webdevHref("/our-workspace") },
+  { name: "Careers", href: webdevHref("/careers") },
   { name: "About Us", href: webdevHref("/about") },
 ];

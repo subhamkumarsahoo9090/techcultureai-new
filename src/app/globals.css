@@ -72,6 +72,15 @@ body {
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
+/* Use the homepage typeface consistently across every page and UI library. */
+html,
+body,
+body *,
+body *::before,
+body *::after {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif !important;
+}
+
 /* Shared primary CTA — TechCulture logo orange */
 .brand-cta-gradient {
   background: #fe602f !important;

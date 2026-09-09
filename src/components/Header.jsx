@@ -16,9 +16,7 @@ import { webdevHref } from "../lib/webdevelopment/paths";
 const WEBDEV_LOGO = "/tc-new-logo-2.png";
 import {
   ProductsMegaPanel,
-  IndustriesMegaPanel,
   ProductsMobileMenu,
-  IndustriesMobileMenu,
   AboutMegaPanel,
   AboutMobileMenu,
   aboutItems,
@@ -38,7 +36,6 @@ const Header = () => {
         isLightHeader
             ? "text-teal-600 opacity-100 font-semibold"
             : "text-primary opacity-100 font-semibold";
-    const activeUnderlineClass = isLightHeader ? "bg-teal-600" : "bg-primary";
     const router = useRouter();
     const { settingsData, setSettingsData } = useSite();
     const headerLogoSrc = isLightHeader ? WEBDEV_LOGO : settingsData?.logo || WEBDEV_LOGO;
@@ -46,10 +43,8 @@ const Header = () => {
     const navPaths = {
       automation: isLightHeader ? webdevHref("/ai-automation") : "/automation",
       products: isLightHeader ? webdevHref("/products") : "/products",
-      industries: isLightHeader ? webdevHref("/industries") : "/industries",
-      portfolio: isLightHeader ? webdevHref("/portfolio") : "/portfolio",
-      technologies: isLightHeader ? webdevHref("/technologies") : "/technologies",
-      ourWorkspace: isLightHeader ? webdevHref("/our-workspace") : "/our-workspace",
+      careers: webdevHref("/careers"),
+      blog: webdevHref("/blog"),
       team: webdevHref("/team"),
       about: isLightHeader ? webdevHref("/about") : "/about",
       middleware: webdevHref("/middleware"),
@@ -65,8 +60,6 @@ const Header = () => {
     const [isMobileAboutSubmenuOpen, setIsMobileAboutSubmenuOpen] = useState(false);
     const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false);
     const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
-    const [isIndustriesDropdownOpen, setIsIndustriesDropdownOpen] = useState(false);
-    const [isMobileIndustriesOpen, setIsMobileIndustriesOpen] = useState(false);
     const [navigationSource, setNavigationSource] = useState('direct');
 
     useEffect(() => {
@@ -107,15 +100,12 @@ const Header = () => {
                 if (isProductsDropdownOpen && !event.target.closest('.products-dropdown')) {
                     setIsProductsDropdownOpen(false);
                 }
-                if (isIndustriesDropdownOpen && !event.target.closest('.industries-dropdown')) {
-                    setIsIndustriesDropdownOpen(false);
-                }
             }
         };
 
         document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', handleClickOutside);
-    }, [isServicesDropdownOpen, isAboutDropdownOpen, isProductsDropdownOpen, isIndustriesDropdownOpen]);
+    }, [isServicesDropdownOpen, isAboutDropdownOpen, isProductsDropdownOpen]);
 
     // Reset mobile submenu when closing mobile nav
     useEffect(() => {
@@ -123,7 +113,6 @@ const Header = () => {
             setIsMobileSubmenuOpen(false);
             setIsMobileAboutSubmenuOpen(false);
             setIsMobileProductsOpen(false);
-            setIsMobileIndustriesOpen(false);
         }
     }, [isOpenNav]);
 
@@ -197,9 +186,6 @@ const Header = () => {
             if (path === navPaths.products) {
                 return pathname === navPaths.products || pathname.startsWith(`${navPaths.products}/`);
             }
-            if (path === navPaths.industries) {
-                return pathname === navPaths.industries || pathname.startsWith(`${navPaths.industries}/`);
-            }
             if (path === navPaths.about) {
                 return isAboutSectionActive();
             }
@@ -251,7 +237,6 @@ const Header = () => {
         setIsServicesDropdownOpen(false);
         setIsAboutDropdownOpen(false);
         setIsProductsDropdownOpen(false);
-        setIsIndustriesDropdownOpen(false);
     };
 
     const handleServicesClick = (e) => {
@@ -284,17 +269,6 @@ const Header = () => {
             setIsProductsDropdownOpen(next);
         } else {
             setIsMobileProductsOpen(!isMobileProductsOpen);
-        }
-    };
-
-    const handleIndustriesClick = (e) => {
-        e.preventDefault();
-        if (window.innerWidth > 1024) {
-            const next = !isIndustriesDropdownOpen;
-            closeDesktopDropdowns();
-            setIsIndustriesDropdownOpen(next);
-        } else {
-            setIsMobileIndustriesOpen(!isMobileIndustriesOpen);
         }
     };
 
@@ -338,19 +312,6 @@ const Header = () => {
         }
     };
 
-    const handleIndustriesMouseEnter = () => {
-        if (window.innerWidth > 1024) {
-            closeDesktopDropdowns();
-            setIsIndustriesDropdownOpen(true);
-        }
-    };
-
-    const handleIndustriesMouseLeave = () => {
-        if (window.innerWidth > 1024) {
-            setIsIndustriesDropdownOpen(false);
-        }
-    };
-
     // Handle navigation with source tracking
     const handleNavigation = (href, source) => {
         sessionStorage.setItem('navigationSource', source);
@@ -361,7 +322,6 @@ const Header = () => {
         setIsMobileSubmenuOpen(false);
         setIsMobileAboutSubmenuOpen(false);
         setIsMobileProductsOpen(false);
-        setIsMobileIndustriesOpen(false);
     };
 
     return (
@@ -409,6 +369,23 @@ const Header = () => {
               } ${isOpenNav === true && "opacity-100 right-0"}`}
             >
 
+
+              {/* Home */}
+              <Link
+                href={homeHref}
+                className={`${getLinkClasses(homeHref)} hidden lg:block`}
+                onClick={() => handleNavigation(homeHref, "direct")}
+              >
+                Home
+              </Link>
+
+              <Link
+                href={homeHref}
+                className={`${getLinkClasses(homeHref)} flex w-full items-center border-b border-gray-200 py-3 lg:hidden`}
+                onClick={() => handleNavigation(homeHref, "direct")}
+              >
+                Home
+              </Link>
 
               {/* Our Team */}
               <Link
@@ -513,94 +490,6 @@ const Header = () => {
                 )}
               </div>
 
-              {/* Industries Mega Menu - Desktop */}
-              <div
-                className="industries-dropdown relative group hidden lg:block"
-                onMouseEnter={isLightHeader ? undefined : handleIndustriesMouseEnter}
-                onMouseLeave={isLightHeader ? undefined : handleIndustriesMouseLeave}
-              >
-                <div
-                  className={`${getLinkClasses(
-                    navPaths.industries
-                  )} flex items-center gap-1 cursor-pointer ${
-                    isIndustriesDropdownOpen && !isLightHeader ? dropdownActiveClass : ""
-                  }`}
-                  onClick={(e) => {
-                    if (isLightHeader) {
-                      e.preventDefault();
-                      handleNavigation(navPaths.industries, "industries");
-                      return;
-                    }
-                    handleIndustriesClick(e);
-                  }}
-                >
-                  Industries
-                  {!isLightHeader && (
-                  <IoChevronDown
-                    className={`text-sm transition-transform duration-300 ${
-                      isIndustriesDropdownOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                  )}
-                </div>
-
-                {!isLightHeader && (
-                <div
-                  className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 z-[120] transition-all duration-300 ${
-                    isIndustriesDropdownOpen
-                      ? "opacity-100 visible translate-y-0"
-                      : "opacity-0 invisible translate-y-2 pointer-events-none"
-                  }`}
-                >
-                  <div className="w-[min(980px,90vw)]">
-                    <IndustriesMegaPanel
-                      onNavigate={handleNavigation}
-                      variant={menuVariant}
-                    />
-                  </div>
-                </div>
-                )}
-              </div>
-
-              {/* Mobile Industries Menu */}
-              <div className="w-full lg:hidden">
-                {isLightHeader ? (
-                  <Link
-                    href={navPaths.industries}
-                    className={`${getLinkClasses(
-                      navPaths.industries
-                    )} flex items-center w-full py-3 border-b border-gray-200`}
-                    onClick={() =>
-                      handleNavigation(navPaths.industries, "industries")
-                    }
-                  >
-                    Industries
-                  </Link>
-                ) : (
-                  <>
-                <div
-                  className={`${getLinkClasses(
-                    "/industries"
-                  )} flex items-center justify-between cursor-pointer w-full py-3 border-b border-gray-700`}
-                  onClick={handleIndustriesClick}
-                >
-                  <span>Industries</span>
-                  <IoChevronDown
-                    className={`text-sm transition-transform duration-300 ${
-                      isMobileIndustriesOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </div>
-                {isMobileIndustriesOpen && (
-                  <IndustriesMobileMenu
-                    onNavigate={handleNavigation}
-                    variant={menuVariant}
-                  />
-                )}
-                  </>
-                )}
-              </div>
-
               {isLightHeader && (
                 <Link
                   href={navPaths.middleware}
@@ -610,48 +499,29 @@ const Header = () => {
                   onClick={() => handleNavigation(navPaths.middleware, "direct")}
                 >
                   Middleware
-                  {isActiveLink(navPaths.middleware) && (
-                    <span className={`absolute -bottom-1 left-0 w-full h-0.5 ${activeUnderlineClass} rounded-full hidden lg:block`}></span>
-                  )}
                 </Link>
               )}
 
               <Link
-                href={navPaths.portfolio}
+                href={navPaths.careers}
                 className={`${getLinkClasses(
-                  navPaths.portfolio
+                  navPaths.careers
                 )} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b ${isLightHeader ? "border-gray-200" : "border-gray-700"} lg:border-none`}
-                onClick={() => handleNavigation(navPaths.portfolio, "direct")}
+                onClick={() => handleNavigation(navPaths.careers, "direct")}
               >
-                Portfolio
-                {isActiveLink(navPaths.portfolio) && (
-                  <span className={`absolute -bottom-1 left-0 w-full h-0.5 ${activeUnderlineClass} rounded-full hidden lg:block`}></span>
-                )}
+                Careers
               </Link>
+
               <Link
-                href={navPaths.technologies}
+                href={navPaths.blog}
                 className={`${getLinkClasses(
-                  navPaths.technologies
+                  navPaths.blog
                 )} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b ${isLightHeader ? "border-gray-200" : "border-gray-700"} lg:border-none`}
-                onClick={() => handleNavigation(navPaths.technologies, "direct")}
+                onClick={() => handleNavigation(navPaths.blog, "direct")}
               >
-                Technologies
-                {isActiveLink(navPaths.technologies) && (
-                  <span className={`absolute -bottom-1 left-0 w-full h-0.5 ${activeUnderlineClass} rounded-full hidden lg:block`}></span>
-                )}
+                Blog
               </Link>
-              <Link
-                href={navPaths.ourWorkspace}
-                className={`${getLinkClasses(
-                  navPaths.ourWorkspace
-                )} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b ${isLightHeader ? "border-gray-200" : "border-gray-700"} lg:border-none`}
-                onClick={() => handleNavigation(navPaths.ourWorkspace, "direct")}
-              >
-                Our Workspace
-                {isActiveLink(navPaths.ourWorkspace) && (
-                  <span className={`absolute -bottom-1 left-0 w-full h-0.5 ${activeUnderlineClass} rounded-full hidden lg:block`}></span>
-                )}
-              </Link>
+
               {/* About Us Mega Menu - Desktop */}
               <div
                 className="about-dropdown relative group hidden lg:block"

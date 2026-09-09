@@ -196,9 +196,11 @@ export default function Hero() {
             </h1>
 
             <p className="mx-auto mb-6 max-w-xl text-base leading-relaxed text-slate-600 sm:mb-7 sm:text-lg lg:mx-0">
-              We build secure, scalable, and intelligent digital platforms that
+              We build secure, scalable, and intelligent digital platforms
+              across the complete client lifecycle. With nine production-grade
+              services spanning eKYC, onboarding, E-IPO, MFD, and closure, we
               empower financial institutions to grow, innovate, and lead with
-              confidence.
+              confidence — trusted by 25+ brokers.
             </p>
 
             <div className="mb-6 flex flex-col items-center justify-center gap-3 sm:mb-7 sm:flex-row sm:gap-4 lg:justify-start">
