@@ -377,28 +377,7 @@ export default function BlogPage() {
                     className="transition duration-1000 group-hover:scale-[1.06]"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-[#252b38]/45 via-transparent to-transparent" />
-                  <motion.div
-                    animate={
-                      reduceMotion ? undefined : { y: [0, -8, 0] }
-                    }
-                    transition={{
-                      duration: 3.6,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    className="absolute bottom-5 left-5 right-5 flex items-center justify-between rounded-2xl border border-white/25 bg-[#252b38]/75 px-4 py-3 text-white shadow-xl backdrop-blur-md sm:bottom-7 sm:left-7 sm:right-auto sm:min-w-64"
-                  >
-                    <span>
-                      <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff9877]">
-                        Curated by
-                      </span>
-                      <span className="mt-0.5 block text-sm font-semibold">
-                        TechCulture AI
-                      </span>
-                    </span>
-                    <Sparkles size={18} className="text-[#FE602F]" />
-                  </motion.div>
-                  </div>
+                </div>
               </Link>
             </motion.div>
           </div>

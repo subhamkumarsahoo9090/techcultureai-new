@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { LiaLinkedinIn } from "react-icons/lia";
@@ -7,84 +8,74 @@ import EmployeeReelGallery from "@/components/EmployeeReelGallery";
 import {
   ArrowRight,
   ArrowUpRight,
-  Braces,
-  Code2,
-  Rocket,
-  Smartphone,
+  BriefcaseBusiness,
+  Cpu,
   Sparkles,
+  Users,
 } from "lucide-react";
+import { team } from "@/lib/teams";
 
-const TEAM_MEMBERS = [
-  {
-    name: "Manoj Rawat",
-    initials: "MR",
-    image:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85",
-    designation: "Director",
-    discipline: "Leadership & Strategy",
-    description:
-      "Guiding TechCulture's vision, partnerships, and delivery of scalable technology solutions.",
-    linkedin: "https://www.linkedin.com/in/manojrawat1010",
-    icon: Rocket,
-    gradient: "from-[#005871] via-[#087d8f] to-[#18a4b0]",
-    glow: "bg-cyan-300",
-  },
-  {
-    name: "Nikhil Chaudhary",
-    initials: "NC",
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&q=85",
-    designation: "Full Stack Developer",
-    discipline: "Web Platforms",
-    description:
-      "Building responsive interfaces, reliable APIs, and high-performance full-stack applications.",
-    linkedin: "https://www.linkedin.com/in/nikhilroyal04",
-    icon: Braces,
-    gradient: "from-[#fe602f] via-[#f97316] to-[#fb923c]",
-    glow: "bg-orange-300",
-  },
-  {
-    name: "Vivek Singh",
-    initials: "VS",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&q=85",
-    designation: "Full Stack Engineer",
-    discipline: "Product Engineering",
-    description:
-      "Turning product ideas into dependable digital experiences across frontend and backend systems.",
-    linkedin: "https://www.linkedin.com/in/vivek-singh-5b343b281",
-    icon: Code2,
-    gradient: "from-[#063b51] via-[#005871] to-[#0d9488]",
-    glow: "bg-teal-300",
-  },
-  {
-    name: "Rahul Goel",
-    initials: "RG",
-    image:
-      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=700&q=85",
-    designation: "Software Engineer",
-    discipline: "Software Development",
-    description:
-      "Engineering maintainable software and collaborating across teams to deliver polished solutions.",
-    linkedin: "https://www.linkedin.com/in/rahul-goel-314497240",
-    icon: Sparkles,
-    gradient: "from-[#f4511e] via-[#fe602f] to-[#fb8c55]",
-    glow: "bg-orange-300",
-  },
-  {
-    name: "Ananya",
-    initials: "AN",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=700&q=85",
-    designation: "Full Stack Mobile App Developer",
-    discipline: "Mobile Experiences",
-    description:
-      "Creating smooth, user-focused mobile experiences backed by robust full-stack engineering.",
-    linkedin: "https://www.linkedin.com/in/ananya1808",
-    icon: Smartphone,
-    gradient: "from-[#075266] via-[#0087a0] to-[#12a594]",
-    glow: "bg-cyan-300",
-  },
+function getDiscipline(role = "") {
+  const value = role.toLowerCase();
+
+  if (
+    value.includes("developer") ||
+    value.includes("technology") ||
+    value.includes("engineer") ||
+    value === "it"
+  ) {
+    return "Technology";
+  }
+  if (
+    value.includes("operation") ||
+    value.includes("backoffice") ||
+    value.includes("depository") ||
+    value.includes("rms") ||
+    value.includes("risk")
+  ) {
+    return "Operations";
+  }
+  if (
+    value.includes("sales") ||
+    value.includes("marketing") ||
+    value.includes("regional")
+  ) {
+    return "Growth";
+  }
+  if (value.includes("human") || value.includes("hr")) {
+    return "People";
+  }
+  return "Business";
+}
+
+const TEAM_MEMBERS = team.data
+  .filter((member) => Boolean(member.imageUrl))
+  .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
+  .map((member) => ({
+    id: member._id,
+    name: member.name,
+    initials: member.name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase(),
+    image: member.imageUrl.replace(/^http:/, "https:"),
+    designation: member.roleId?.name || "Team Member",
+    discipline: getDiscipline(member.roleId?.name),
+    linkedin: member.linkedIn,
+    order: member.order,
+    gradient: "from-[#2E3545] to-[#FE602F]",
+  }));
+
+const EXECUTIVE_LEADERS = TEAM_MEMBERS.slice(0, 4);
+const WIDER_TEAM = TEAM_MEMBERS.slice(4);
+
+const leadershipDescriptions = [
+  "Setting the long-term vision and guiding the organisation toward meaningful, sustainable growth.",
+  "Strengthening financial discipline, governance, and compliance across every business function.",
+  "Transforming strategy into efficient operations and consistently strong customer outcomes.",
+  "Leading technology strategy and building secure, scalable platforms for the future.",
 ];
 
 const containerVariants = {
@@ -113,10 +104,10 @@ export default function TeamPage() {
     : itemVariants;
 
   return (
-    <div className="overflow-hidden bg-[#fbfcfc] text-slate-900">
-      <section className="relative isolate flex min-h-[670px] items-center overflow-hidden border-b border-teal-900/5 px-5 py-20 sm:px-6 md:min-h-[720px] md:py-24">
+    <div className="overflow-hidden bg-white text-[#2E3545]">
+      <section className="relative isolate flex min-h-167.5 items-center overflow-hidden border-b border-[#2E3545]/5 px-5 py-20 sm:px-6 md:min-h-180 md:py-24">
         <EmployeeReelGallery
-          members={TEAM_MEMBERS}
+          members={TEAM_MEMBERS.slice(0, 8)}
           className="absolute inset-0 -z-10"
         />
 
@@ -127,9 +118,9 @@ export default function TeamPage() {
           variants={containerVariants}
         >
           <motion.div variants={animatedItem}>
-            <span className="inline-flex items-center gap-2 rounded-full border border-teal-200/80 bg-white/85 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#005871] shadow-lg backdrop-blur-md">
-              <Sparkles size={14} className="text-[#fe602f]" />
-              The people behind the product
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#FE602F]/25 bg-white/90 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#2E3545] shadow-lg backdrop-blur-md">
+              <Sparkles size={14} className="text-[#FE602F]" />
+              {TEAM_MEMBERS.length} people, one shared mission
             </span>
           </motion.div>
 
@@ -138,7 +129,7 @@ export default function TeamPage() {
             className="mx-auto mt-6 max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-slate-900 drop-shadow-[0_5px_18px_rgba(255,255,255,0.85)] sm:text-5xl md:text-6xl"
           >
             Meet the minds shaping{" "}
-            <span className="bg-gradient-to-r from-[#005871] via-[#008cba] to-[#fe602f] bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-[#2E3545] via-[#FE602F] to-[#2E3545] bg-clip-text text-transparent">
               what comes next
             </span>
           </motion.h1>
@@ -177,10 +168,8 @@ export default function TeamPage() {
         </motion.div>
       </section>
 
-      <section
-        id="team-members"
-        className="relative scroll-mt-24 px-5 py-20 sm:px-6 md:py-28"
-      >
+      <section id="team-members" className="relative scroll-mt-24 bg-[#fffaf8] px-5 py-20 sm:px-6 md:py-28">
+        <div className="absolute -right-32 top-0 h-96 w-96 rounded-full bg-[#FE602F]/9 blur-[110px]" />
         <div className="container mx-auto">
           <motion.div
             className="mb-12 flex flex-col justify-between gap-5 sm:flex-row sm:items-end md:mb-16"
@@ -190,83 +179,166 @@ export default function TeamPage() {
             transition={{ duration: 0.55 }}
           >
             <div>
-              <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#fe602f]">
-                Our team
+              <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#FE602F]">
+                Executive leadership
               </p>
               <h2 className="max-w-xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                Different strengths. One shared purpose.
+                Vision at the top. Ownership at every level.
               </h2>
             </div>
             <p className="max-w-md text-sm leading-6 text-slate-500 sm:text-right">
-              We blend strategic thinking, thoughtful design, and strong
-              engineering to move every project from idea to impact.
+              Meet the leaders guiding strategy, governance, operations, and
+              technology across the organisation.
             </p>
           </motion.div>
 
           <motion.div
-            className="grid gap-6 md:grid-cols-2 xl:grid-cols-3"
+            className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.12 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={containerVariants}
           >
-            {TEAM_MEMBERS.map((member, index) => {
-              const Icon = member.icon;
-
-              return (
-                <motion.article
-                  key={member.name}
-                  variants={animatedItem}
-                  whileHover={reduceMotion ? undefined : { y: -8 }}
-                  transition={{ duration: 0.25 }}
-                  className={`group relative min-h-[390px] overflow-hidden rounded-[28px] border border-slate-200/80 bg-white p-7 shadow-[0_18px_50px_rgba(2,68,78,0.07)] ${
-                    index > 2 ? "xl:translate-x-1/2" : ""
-                  }`}
-                >
-                  <div
-                    className={`absolute -right-16 -top-16 h-44 w-44 rounded-full ${member.glow} opacity-20 blur-3xl transition duration-500 group-hover:scale-125 group-hover:opacity-35`}
+            {EXECUTIVE_LEADERS.map((member, index) => (
+              <motion.article
+                key={member.id}
+                variants={animatedItem}
+                whileHover={reduceMotion ? undefined : { y: -9 }}
+                transition={{ duration: 0.28 }}
+                className="group relative overflow-hidden rounded-4xl border border-[#2E3545]/10 bg-[#2E3545] shadow-[0_22px_60px_rgba(46,53,69,0.2)]"
+              >
+                <div className="relative aspect-[4/4.8] overflow-hidden">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="(max-width: 640px) 90vw, (max-width: 1280px) 45vw, 24vw"
+                    unoptimized
+                    className="object-cover object-top transition duration-700 group-hover:scale-105"
                   />
-                  <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#005871] via-[#008cba] to-[#fe602f]" />
-
-                  <div className="relative">
-                    <div className="flex items-start justify-between">
-                      <div
-                        className={`relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-[30px] bg-gradient-to-br ${member.gradient} text-3xl font-bold tracking-tight text-white shadow-xl`}
-                      >
-                        <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.38),transparent_36%)]" />
-                        <span className="relative">{member.initials}</span>
-                        <span className="absolute -bottom-8 -right-5 h-20 w-20 rounded-full border border-white/20 bg-white/10" />
-                      </div>
-
-                      <a
-                        href={member.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${member.name} on LinkedIn`}
-                        className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-400 transition hover:border-[#008cba] hover:bg-[#008cba] hover:text-white"
-                      >
-                        <LiaLinkedinIn size={19} />
-                      </a>
-                    </div>
-
-                    <div className="mt-8 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[#008cba]">
-                      <Icon size={15} />
-                      {member.discipline}
-                    </div>
-                    <h3 className="mt-3 text-2xl font-bold tracking-tight text-slate-900">
-                      {member.name}
-                    </h3>
-                    <p className="mt-1.5 font-semibold text-[#fe602f]">
+                  <div className="absolute inset-0 bg-linear-to-t from-[#202531] via-[#202531]/12 to-transparent" />
+                  <span className="absolute left-4 top-4 rounded-full border border-white/20 bg-[#2E3545]/75 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-md">
+                    Leadership · 0{index + 1}
+                  </span>
+                  {member.linkedin && (
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${member.name} on LinkedIn`}
+                      className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/90 text-[#2E3545] transition hover:border-[#FE602F] hover:bg-[#FE602F] hover:text-white"
+                    >
+                      <LiaLinkedinIn size={18} />
+                    </a>
+                  )}
+                  <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                    <h3 className="text-xl font-bold text-white!">{member.name}</h3>
+                    <p className="mt-1 text-sm font-semibold text-[#ff9877]">
                       {member.designation}
                     </p>
-                    <p className="mt-5 border-t border-slate-100 pt-5 text-sm leading-6 text-slate-500">
-                      {member.description}
-                    </p>
                   </div>
-                </motion.article>
-              );
-            })}
+                </div>
+                <div className="border-t border-white/10 p-5">
+                  <p className="text-sm leading-6 text-slate-300">
+                    {leadershipDescriptions[index]}
+                  </p>
+                </div>
+                <span className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-[#FE602F] transition-transform duration-500 group-hover:scale-x-100" />
+              </motion.article>
+            ))}
           </motion.div>
+        </div>
+      </section>
+
+      <section className="relative bg-[#f7f7f8] px-5 py-20 sm:px-6 md:py-28">
+        <div className="container mx-auto">
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            className="mb-12 flex flex-col justify-between gap-5 sm:flex-row sm:items-end"
+          >
+            <div>
+              <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#FE602F]">
+                Our people
+              </p>
+              <h2 className="max-w-xl text-3xl font-bold tracking-tight sm:text-4xl">
+                The team turning ideas into impact.
+              </h2>
+            </div>
+            <p className="max-w-md text-sm leading-6 text-slate-500 sm:text-right">
+              Specialists across technology, operations, compliance, growth,
+              research, and customer experience.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.05 }}
+            variants={containerVariants}
+            className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+          >
+            {WIDER_TEAM.map((member) => (
+              <motion.article
+                key={member.id}
+                variants={animatedItem}
+                whileHover={reduceMotion ? undefined : { y: -7 }}
+                className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_12px_35px_rgba(46,53,69,0.06)] transition hover:border-[#FE602F]/30 hover:shadow-[0_18px_45px_rgba(254,96,47,0.1)]"
+              >
+                <div className="relative aspect-[4/4.4] overflow-hidden bg-slate-100">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="(max-width: 640px) 48vw, (max-width: 1024px) 32vw, 20vw"
+                    unoptimized
+                    className="object-cover object-top transition duration-600 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-[#2E3545]/35 to-transparent opacity-70" />
+                  {member.linkedin && (
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${member.name} on LinkedIn`}
+                      className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#2E3545] opacity-0 shadow-md transition group-hover:opacity-100 hover:bg-[#FE602F] hover:text-white"
+                    >
+                      <LiaLinkedinIn size={16} />
+                    </a>
+                  )}
+                </div>
+                <div className="p-4 sm:p-5">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#FE602F]">
+                    {member.discipline}
+                  </span>
+                  <h3 className="mt-2 line-clamp-1 text-base font-bold text-[#2E3545]">
+                    {member.name}
+                  </h3>
+                  <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500">
+                    {member.designation}
+                  </p>
+                </div>
+              </motion.article>
+            ))}
+          </motion.div>
+
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 rounded-3xl border border-[#FE602F]/15 bg-white px-6 py-5 text-sm text-slate-500 shadow-sm">
+            <span className="inline-flex items-center gap-2">
+              <Users size={17} className="text-[#FE602F]" />
+              {TEAM_MEMBERS.length} team members
+            </span>
+            <span className="hidden h-5 w-px bg-slate-200 sm:block" />
+            <span className="inline-flex items-center gap-2">
+              <Cpu size={17} className="text-[#FE602F]" />
+              Multidisciplinary expertise
+            </span>
+            <span className="hidden h-5 w-px bg-slate-200 sm:block" />
+            <span className="inline-flex items-center gap-2">
+              <BriefcaseBusiness size={17} className="text-[#FE602F]" />
+              One shared vision
+            </span>
+          </div>
         </div>
       </section>
 

@@ -158,25 +158,19 @@ select {
   position: relative;
   z-index: 20;
   isolation: isolate;
-  /* Deep teal + logo orange (#FE602F) blend */
+  /* TechCulture logo black with a subtle brand-orange glow. */
   background:
     radial-gradient(
-      900px circle at 88% -10%,
-      color-mix(in srgb, #fe602f 42%, transparent) 0%,
-      transparent 55%
+      760px circle at 88% -18%,
+      rgba(254, 96, 47, 0.2) 0%,
+      transparent 58%
     ),
     radial-gradient(
-      700px circle at 8% 110%,
-      color-mix(in srgb, #fe602f 22%, transparent) 0%,
-      transparent 50%
+      620px circle at 4% 115%,
+      rgba(254, 96, 47, 0.09) 0%,
+      transparent 54%
     ),
-    linear-gradient(
-      155deg,
-      color-mix(in srgb, var(--theme-primary) 78%, #fe602f) 0%,
-      var(--theme-primary) 38%,
-      color-mix(in srgb, var(--theme-primary) 82%, #2e3545) 72%,
-      color-mix(in srgb, var(--theme-primary) 70%, #fe602f) 100%
-    ) !important;
+    linear-gradient(145deg, #020202 0%, #070707 52%, #0d0d0f 100%) !important;
   margin-top: auto;
   overflow: hidden;
 }
