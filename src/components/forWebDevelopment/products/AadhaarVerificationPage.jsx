@@ -18,7 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 import { webdevHref } from "../../../lib/webdevelopment/paths";
-import SpotlightCard, { TEAL_SPOTLIGHT } from "@/components/SpotlightCard";
+import SpotlightCard, { BRAND_SPOTLIGHT } from "@/components/SpotlightCard";
 
 const heroStats = [
   { title: "100% Secure", subtitle: "UIDAI Compliant", icon: ShieldCheck },
@@ -114,9 +114,9 @@ const brands = ["PayMe", "LoanQuick", "OnBoard", "eBanking", "KYCNow"];
 
 function AadhaarCardMockup() {
   return (
-    <div className="relative w-full max-w-[520px] mx-auto">
-      <div className="absolute top-2 -right-4 w-44 h-44 bg-emerald-200/25 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-6 -left-8 w-40 h-40 bg-teal-200/20 rounded-full blur-3xl pointer-events-none" />
+    <div className="relative w-full max-w-130 mx-auto">
+      <div className="absolute top-2 -right-4 w-44 h-44 bg-[#FE602F]/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-6 -left-8 w-40 h-40 bg-[#2E3545]/15 rounded-full blur-3xl pointer-events-none" />
 
       <Image
         src="/aadhaar-card-verification.png"
@@ -136,28 +136,29 @@ export default function AadhaarVerificationPage() {
     <div className="bg-white text-slate-800 w-full min-w-0">
       {/* HERO */}
       <section className="relative overflow-hidden py-12 md:py-16">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#f6fefb] via-white to-[#f0fdf9] pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-br from-[#fff8f5] via-white to-[#f5f5f6] pointer-events-none" />
         <div
           className="absolute inset-0 opacity-[0.5] pointer-events-none"
           style={{
             backgroundImage:
-              "linear-gradient(to right, rgba(16,185,129,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(16,185,129,0.07) 1px, transparent 1px)",
+              "linear-gradient(to right, rgba(46,53,69,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(46,53,69,0.06) 1px, transparent 1px)",
             backgroundSize: "46px 46px",
           }}
         />
-        <div className="absolute -top-16 left-1/3 w-[420px] h-[420px] bg-emerald-200/25 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute -top-16 left-1/3 w-105 h-105 bg-[#FE602F]/16 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="container relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             <div>
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold tracking-[0.14em] uppercase ring-1 ring-emerald-100 mb-6">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fff0eb] text-[#d9471b] text-[11px] font-bold tracking-[0.14em] uppercase ring-1 ring-orange-100 mb-6">
+                <ShieldCheck size={14} />
                 Aadhaar Verification API
               </span>
 
               <h1 className="text-[34px] sm:text-[42px] md:text-[48px] font-bold text-slate-900 leading-[1.15] mb-5">
                 Fast. Secure. Reliable.
                 <br />
-                <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-[#FE602F] via-[#e94e20] to-[#2E3545] bg-clip-text text-transparent">
                   Aadhaar Verification
                 </span>
                 <br />
@@ -175,7 +176,7 @@ export default function AadhaarVerificationPage() {
                   const Icon = stat.icon;
                   return (
                     <div key={stat.title} className="flex items-center gap-2.5">
-                      <span className="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100 flex items-center justify-center shrink-0">
+                      <span className="w-9 h-9 rounded-lg bg-[#fff0eb] text-[#FE602F] ring-1 ring-orange-100 flex items-center justify-center shrink-0">
                         <Icon size={17} strokeWidth={2} />
                       </span>
                       <div className="leading-tight">
@@ -204,7 +205,7 @@ export default function AadhaarVerificationPage() {
                 </Link>
                 <Link
                   href={webdevHref("/contact")}
-                  className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 font-semibold px-6 py-3.5 rounded-xl hover:border-emerald-300 hover:text-emerald-700 transition-all"
+                  className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 font-semibold px-6 py-3.5 rounded-xl hover:border-[#FE602F]/50 hover:text-[#d9471b] transition-all"
                 >
                   View API Docs
                   <FileText size={16} />
@@ -236,10 +237,10 @@ export default function AadhaarVerificationPage() {
               return (
                 <SpotlightCard
                   key={card.title}
-                  spotlightColor={TEAL_SPOTLIGHT}
-                  className="group bg-white rounded-2xl border border-slate-200/80 p-6 text-center hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300"
+                  spotlightColor={BRAND_SPOTLIGHT}
+                  className="group bg-white rounded-2xl border border-slate-200/80 p-6 text-center hover:border-[#FE602F]/40 hover:shadow-lg hover:shadow-[#FE602F]/10 transition-all duration-300"
                 >
-                  <span className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
+                  <span className="w-12 h-12 rounded-xl bg-[#fff0eb] text-[#FE602F] ring-1 ring-orange-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                     <Icon size={22} strokeWidth={2} />
                   </span>
                   <h3 className="text-[15px] font-bold text-slate-900 mb-2">
@@ -260,7 +261,7 @@ export default function AadhaarVerificationPage() {
         <div className="container">
           <h2 className="text-[26px] sm:text-[32px] font-bold text-slate-900 text-center mb-10 md:mb-12">
             How{" "}
-            <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-[#FE602F] to-[#2E3545] bg-clip-text text-transparent">
               Aadhaar Verification
             </span>{" "}
             Works
@@ -274,8 +275,8 @@ export default function AadhaarVerificationPage() {
                   key={item.step}
                   className="flex-1 flex flex-col lg:flex-row items-center lg:items-stretch gap-4 lg:gap-0"
                 >
-                  <div className="relative w-full bg-white rounded-2xl border border-slate-200/80 p-5 pt-7 text-center shadow-sm hover:border-emerald-300 hover:shadow-md transition-all">
-                    <span className="absolute -top-3 left-4 w-7 h-7 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-[12px] font-bold flex items-center justify-center shadow-md shadow-emerald-500/25">
+                  <div className="relative w-full bg-white rounded-2xl border border-slate-200/80 p-5 pt-7 text-center shadow-sm hover:border-[#FE602F]/40 hover:shadow-md transition-all">
+                    <span className="absolute -top-3 left-4 w-7 h-7 rounded-full bg-linear-to-br from-[#FE602F] to-[#2E3545] text-white text-[12px] font-bold flex items-center justify-center shadow-md shadow-[#FE602F]/25">
                       {item.step}
                     </span>
                     {item.image ? (
@@ -285,10 +286,10 @@ export default function AadhaarVerificationPage() {
                         width={512}
                         height={512}
                         quality={100}
-                        className="w-[72px] h-[72px] object-contain mx-auto mb-4 select-none pointer-events-none mix-blend-multiply"
+                        className="w-18 h-18 object-contain mx-auto mb-4 select-none pointer-events-none mix-blend-multiply"
                       />
                     ) : (
-                      <span className="w-[72px] h-[72px] rounded-xl bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100 flex items-center justify-center mx-auto mb-4">
+                      <span className="w-18 h-18 rounded-xl bg-[#fff0eb] text-[#FE602F] ring-1 ring-orange-100 flex items-center justify-center mx-auto mb-4">
                         <Icon size={28} strokeWidth={2} />
                       </span>
                     )}
@@ -304,7 +305,7 @@ export default function AadhaarVerificationPage() {
                     <div className="flex items-center justify-center px-2 shrink-0">
                       <ArrowRight
                         size={20}
-                        className="text-emerald-400 rotate-90 lg:rotate-0"
+                        className="text-[#FE602F] rotate-90 lg:rotate-0"
                       />
                     </div>
                   )}
@@ -318,8 +319,8 @@ export default function AadhaarVerificationPage() {
       {/* CTA BAND */}
       <section className="pb-14 md:pb-20">
         <div className="container">
-          <div className="relative rounded-3xl bg-gradient-to-br from-[#f0fdf9] via-white to-[#eefbf6] border border-emerald-100 overflow-hidden p-7 sm:p-10">
-            <div className="absolute -top-20 -right-16 w-64 h-64 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative rounded-3xl bg-linear-to-br from-[#fff4ef] via-white to-[#f3f4f6] border border-orange-100 overflow-hidden p-7 sm:p-10">
+            <div className="absolute -top-20 -right-16 w-64 h-64 bg-[#FE602F]/20 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr_auto] gap-8 lg:gap-10 items-center">
               <div>
@@ -343,7 +344,7 @@ export default function AadhaarVerificationPage() {
                   </Link>
                   <Link
                     href={webdevHref("/contact")}
-                    className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-xl hover:border-emerald-300 hover:text-emerald-700 transition-all"
+                    className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-xl hover:border-[#FE602F]/50 hover:text-[#d9471b] transition-all"
                   >
                     Contact Sales
                     <Headphones size={16} />
@@ -356,7 +357,7 @@ export default function AadhaarVerificationPage() {
                   const Icon = point.icon;
                   return (
                     <div key={point.title} className="flex items-center gap-3">
-                      <span className="w-10 h-10 rounded-xl bg-white text-emerald-600 ring-1 ring-emerald-100 flex items-center justify-center shrink-0 shadow-sm">
+                      <span className="w-10 h-10 rounded-xl bg-white text-[#FE602F] ring-1 ring-orange-100 flex items-center justify-center shrink-0 shadow-sm">
                         <Icon size={18} strokeWidth={2} />
                       </span>
                       <div className="leading-tight">
@@ -379,7 +380,7 @@ export default function AadhaarVerificationPage() {
                   width={1024}
                   height={683}
                   quality={100}
-                  className="w-[200px] sm:w-[240px] lg:w-[260px] h-auto select-none pointer-events-none mix-blend-multiply"
+                  className="w-50 sm:w-60 lg:w-65 h-auto select-none pointer-events-none mix-blend-multiply"
                   priority={false}
                 />
               </div>

@@ -292,7 +292,11 @@ export default function TeamPage() {
                     fill
                     sizes="(max-width: 640px) 48vw, (max-width: 1024px) 32vw, 20vw"
                     unoptimized
-                    className="object-cover object-top transition duration-600 group-hover:scale-105"
+                    className={`object-cover transition duration-600 ${
+                      member.name === "Rahul Goel"
+                        ? "scale-110 object-center group-hover:scale-115"
+                        : "object-top group-hover:scale-105"
+                    }`}
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-[#2E3545]/35 to-transparent opacity-70" />
                   {member.linkedin && (

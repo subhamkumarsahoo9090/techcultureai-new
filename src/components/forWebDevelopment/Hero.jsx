@@ -79,6 +79,10 @@ const heroSlides = [
     src: "/hrms-ecosystem-transparent.png",
     alt: "TechCulture HRMS ecosystem — onboarding, compensation, learning, analytics, and succession planning",
   },
+  {
+    src: "/financial-growth-illustration.png",
+    alt: "Financial growth illustration with investment analytics and rising market chart",
+  },
 ];
 
 function HeroEcosystemVisual() {
