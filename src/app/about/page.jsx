@@ -85,11 +85,12 @@ export default function AboutInfoPage() {
 
         <div className="container mx-auto grid min-h-162.5 items-center gap-12 px-5 py-16 sm:px-6 md:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:px-8">
           <motion.div initial="hidden" animate="visible">
-            <motion.div variants={animation} className="mb-7 flex items-center gap-3">
-              <span className="h-px w-9 bg-[#FE602F]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#2E3545]">
-                About TechCulture AI
-              </span>
+            <motion.div
+              variants={animation}
+              className="mb-7 inline-flex items-center gap-2 rounded-full bg-[#fff0eb] px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#d9471b] ring-1 ring-orange-100"
+            >
+              <Blocks size={14} />
+              About TechCulture AI
             </motion.div>
 
             <motion.h1

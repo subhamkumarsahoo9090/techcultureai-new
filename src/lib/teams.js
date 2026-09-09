@@ -473,7 +473,7 @@ export const team={
             "email": "subhamkumarsahoo109@gmail.com",
             "linkedIn": "https://www.linkedin.com/in/subham-kumar-sahoo-48a649198/",
             "twitter": "",
-            "imageUrl": "http://res.cloudinary.com/dakf05m4x/image/upload/v1781678362/ourTeams/subham-1-b987fb37-e926-406d-93f6-e40d41dde861.jpg",
+            "imageUrl": "/team/subham-sahoo.jpg",
             "joinedDate": "1997-05-01T00:00:00.000Z",
             "createdAt": "2026-06-17T06:39:22.676Z",
             "updatedAt": "2026-08-28T05:50:03.499Z",

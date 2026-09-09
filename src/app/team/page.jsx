@@ -8,12 +8,10 @@ import EmployeeReelGallery from "@/components/EmployeeReelGallery";
 import {
   ArrowRight,
   ArrowUpRight,
-  BriefcaseBusiness,
-  Cpu,
-  Sparkles,
-  Users,
 } from "lucide-react";
 import { team } from "@/lib/teams";
+
+const FEATURED_LEADERS = ["Manoj Rawat", "Mukesh Chaudhari"];
 
 function getDiscipline(role = "") {
   const value = role.toLowerCase();
@@ -49,7 +47,13 @@ function getDiscipline(role = "") {
 }
 
 const TEAM_MEMBERS = team.data
-  .filter((member) => Boolean(member.imageUrl))
+  .filter(
+    (member) =>
+      Boolean(member.imageUrl) &&
+      (FEATURED_LEADERS.includes(member.name) ||
+        member.name === "Rahul Goel" ||
+        member.roleId?.name?.toLowerCase().includes("developer"))
+  )
   .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
   .map((member) => ({
     id: member._id,
@@ -68,12 +72,14 @@ const TEAM_MEMBERS = team.data
     gradient: "from-[#2E3545] to-[#FE602F]",
   }));
 
-const EXECUTIVE_LEADERS = TEAM_MEMBERS.slice(0, 4);
-const WIDER_TEAM = TEAM_MEMBERS.slice(4);
+const EXECUTIVE_LEADERS = TEAM_MEMBERS.filter((member) =>
+  FEATURED_LEADERS.includes(member.name)
+);
+const WIDER_TEAM = TEAM_MEMBERS.filter(
+  (member) => !FEATURED_LEADERS.includes(member.name)
+);
 
 const leadershipDescriptions = [
-  "Setting the long-term vision and guiding the organisation toward meaningful, sustainable growth.",
-  "Strengthening financial discipline, governance, and compliance across every business function.",
   "Transforming strategy into efficient operations and consistently strong customer outcomes.",
   "Leading technology strategy and building secure, scalable platforms for the future.",
 ];
@@ -117,16 +123,9 @@ export default function TeamPage() {
           animate="visible"
           variants={containerVariants}
         >
-          <motion.div variants={animatedItem}>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#FE602F]/25 bg-white/90 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#2E3545] shadow-lg backdrop-blur-md">
-              <Sparkles size={14} className="text-[#FE602F]" />
-              {TEAM_MEMBERS.length} people, one shared mission
-            </span>
-          </motion.div>
-
           <motion.h1
             variants={animatedItem}
-            className="mx-auto mt-6 max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-slate-900 drop-shadow-[0_5px_18px_rgba(255,255,255,0.85)] sm:text-5xl md:text-6xl"
+            className="mx-auto max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-slate-900 drop-shadow-[0_5px_18px_rgba(255,255,255,0.85)] sm:text-5xl md:text-6xl"
           >
             Meet the minds shaping{" "}
             <span className="bg-linear-to-r from-[#2E3545] via-[#FE602F] to-[#2E3545] bg-clip-text text-transparent">
@@ -193,7 +192,7 @@ export default function TeamPage() {
           </motion.div>
 
           <motion.div
-            className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4"
+            className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
@@ -277,7 +276,7 @@ export default function TeamPage() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.05 }}
             variants={containerVariants}
-            className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+            className="grid grid-cols-2 gap-4 md:grid-cols-3"
           >
             {WIDER_TEAM.map((member) => (
               <motion.article
@@ -323,22 +322,6 @@ export default function TeamPage() {
             ))}
           </motion.div>
 
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 rounded-3xl border border-[#FE602F]/15 bg-white px-6 py-5 text-sm text-slate-500 shadow-sm">
-            <span className="inline-flex items-center gap-2">
-              <Users size={17} className="text-[#FE602F]" />
-              {TEAM_MEMBERS.length} team members
-            </span>
-            <span className="hidden h-5 w-px bg-slate-200 sm:block" />
-            <span className="inline-flex items-center gap-2">
-              <Cpu size={17} className="text-[#FE602F]" />
-              Multidisciplinary expertise
-            </span>
-            <span className="hidden h-5 w-px bg-slate-200 sm:block" />
-            <span className="inline-flex items-center gap-2">
-              <BriefcaseBusiness size={17} className="text-[#FE602F]" />
-              One shared vision
-            </span>
-          </div>
         </div>
       </section>
 

@@ -12,12 +12,6 @@ import {
   Search,
   Sparkles,
 } from "lucide-react";
-import {
-  SiMongodb,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiReact,
-} from "react-icons/si";
 import { blog } from "@/lib/blog";
 
 const FILTERS = [
@@ -25,37 +19,6 @@ const FILTERS = [
   { value: "brokers", label: "Brokers" },
   { value: "mfd", label: "MFD" },
   { value: "nbfc", label: "NBFC" },
-];
-
-const floatingLogos = [
-  {
-    Icon: SiReact,
-    label: "React",
-    position: "left-[2%] top-[16%] sm:left-[8%]",
-    color: "text-[#61dafb]",
-    delay: 0,
-  },
-  {
-    Icon: SiNextdotjs,
-    label: "Next.js",
-    position: "right-[2%] top-[12%] sm:right-[8%]",
-    color: "text-[#2E3545]",
-    delay: 0.4,
-  },
-  {
-    Icon: SiNodedotjs,
-    label: "Node.js",
-    position: "bottom-[8%] left-[10%] sm:left-[16%]",
-    color: "text-[#4f9f43]",
-    delay: 0.8,
-  },
-  {
-    Icon: SiMongodb,
-    label: "MongoDB",
-    position: "bottom-[5%] right-[10%] sm:right-[15%]",
-    color: "text-[#47a248]",
-    delay: 1.2,
-  },
 ];
 
 function formatDate(value) {
@@ -211,11 +174,9 @@ export default function BlogPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="mb-6 flex items-center gap-3">
-              <span className="h-px w-9 bg-[#FE602F]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em]">
-                TechCulture AI Journal
-              </span>
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#fff0eb] px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#d9471b] ring-1 ring-orange-100">
+              <BookOpen size={14} />
+              TechCulture AI Journal
             </div>
             <h1 className="max-w-3xl text-4xl font-semibold leading-[1.06] tracking-[-0.045em] sm:text-5xl lg:text-[4rem]">
               Ideas for building better{" "}
@@ -249,48 +210,26 @@ export default function BlogPage() {
             initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="relative mx-auto h-80 w-full max-w-117.5 sm:h-96"
+            className="relative mx-auto w-full max-w-150"
           >
             <motion.div
               animate={
                 reduceMotion
                   ? undefined
-                  : { y: [0, -10, 0], rotate: [0, 1.5, 0] }
+                  : { y: [0, -8, 0], rotate: [0, 0.8, 0] }
               }
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute left-1/2 top-1/2 flex h-48 w-[82%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-4xl border border-[#FE602F]/20 bg-white p-6 shadow-[0_30px_80px_rgba(46,53,69,0.16)] sm:h-56"
+              className="overflow-hidden rounded-4xl border border-[#FE602F]/15 bg-white shadow-[0_30px_80px_rgba(46,53,69,0.16)]"
             >
-              <div className="absolute inset-3 rounded-3xl border border-dashed border-[#2E3545]/10" />
               <Image
-                src="/tc-new-logo-2.png"
-                alt="TechCulture AI"
+                src="/blog/techculture-ecosystem.jpg"
+                alt="TechCulture AI digital KYC, automation, compliance, and innovation ecosystem"
                 width={1024}
-                height={275}
+                height={696}
                 priority
-                className="relative h-auto w-full object-contain"
+                className="h-auto w-full object-cover"
               />
             </motion.div>
-
-            {floatingLogos.map(({ Icon, label, position, color, delay }) => (
-              <motion.div
-                key={label}
-                animate={
-                  reduceMotion
-                    ? undefined
-                    : { y: [0, -9, 0], rotate: [0, 5, -3, 0] }
-                }
-                transition={{
-                  duration: 3.8,
-                  delay,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className={`absolute ${position} flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-[0_12px_30px_rgba(46,53,69,0.12)] sm:h-16 sm:w-16`}
-                title={label}
-              >
-                <Icon className={`text-2xl sm:text-3xl ${color}`} />
-              </motion.div>
-            ))}
           </motion.div>
         </div>
       </section>

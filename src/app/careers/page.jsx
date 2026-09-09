@@ -114,11 +114,12 @@ export default function CareersPage() {
 
         <div className="container mx-auto grid min-h-162.5 items-center gap-14 px-5 py-16 sm:px-6 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
           <motion.div initial="hidden" animate="visible">
-            <motion.div variants={animation} className="mb-7 flex items-center gap-3">
-              <span className="h-px w-9 bg-[#FE602F]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#2E3545]">
-                Careers at TechCulture AI
-              </span>
+            <motion.div
+              variants={animation}
+              className="mb-7 inline-flex items-center gap-2 rounded-full bg-[#fff0eb] px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#d9471b] ring-1 ring-orange-100"
+            >
+              <BriefcaseBusiness size={14} />
+              Careers at TechCulture AI
             </motion.div>
 
             <motion.h1
