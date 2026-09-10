@@ -33,6 +33,7 @@ export async function POST(request) {
       phone,
       company,
       location,
+      message,
       demoDate,
       demoTime,
     } = body || {};
@@ -44,8 +45,6 @@ export async function POST(request) {
     if (!phone?.trim() || !PHONE_REGEX.test(String(phone).replace(/\D/g, ""))) {
       return badRequest("A valid 10-digit phone number is required.");
     }
-    if (!company?.trim()) return badRequest("Company is required.");
-    if (!location?.trim()) return badRequest("Location is required.");
     if (!demoDate || !DATE_REGEX.test(demoDate)) {
       return badRequest("A valid demo date is required.");
     }
@@ -68,8 +67,9 @@ export async function POST(request) {
       fullName: fullName.trim(),
       workEmail: workEmail.trim().toLowerCase(),
       phone: String(phone).replace(/\D/g, ""),
-      company: company.trim(),
-      location: location.trim(),
+      company: company?.trim() || "N/A",
+      location: location?.trim() || "N/A",
+      message: message?.trim() || "",
       demoDate,
       demoTime: demoTime.trim(),
     });
@@ -87,6 +87,13 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error("Book demo / Google Calendar error:", error);
+
+    if (error?.code === "SLOT_UNAVAILABLE") {
+      return NextResponse.json(
+        { success: false, message: error.message },
+        { status: 409 }
+      );
+    }
 
     const message =
       error?.response?.data?.error?.message ||

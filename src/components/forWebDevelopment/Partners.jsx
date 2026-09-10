@@ -84,10 +84,10 @@ export default function Partners() {
   const clients = PARTNER_LOGOS;
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white via-[#f0fdfa]/50 to-white py-14 md:py-16">
+    <section className="relative overflow-hidden bg-white/40 py-14 md:py-16 backdrop-blur-[1px]">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-10 right-1/4 h-80 w-80 rounded-full bg-teal-200/20 blur-[100px]" />
-        <div className="absolute bottom-0 left-1/5 h-64 w-64 rounded-full bg-emerald-100/30 blur-[90px]" />
+        <div className="absolute top-10 right-1/4 h-80 w-80 rounded-full bg-[#FE602F]/10 blur-[100px]" />
+        <div className="absolute bottom-0 left-1/5 h-64 w-64 rounded-full bg-[#2E3545]/8 blur-[90px]" />
       </div>
 
       <div className="container relative mx-auto px-6">

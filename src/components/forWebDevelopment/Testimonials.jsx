@@ -71,9 +71,9 @@ export default function Testimonials() {
   const story = CLIENT_STORIES[activeClient];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white via-orange-50/25 to-teal-50/45 px-5 py-16 sm:px-6 md:py-24">
+    <section className="relative overflow-hidden bg-white/40 px-5 py-16 sm:px-6 md:py-24 backdrop-blur-[1px]">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#008CBA]/10 blur-[90px]" />
+        <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#2E3545]/8 blur-[90px]" />
         <div className="absolute -right-20 bottom-10 h-80 w-80 rounded-full bg-[#FE602F]/12 blur-[100px]" />
       </div>
 

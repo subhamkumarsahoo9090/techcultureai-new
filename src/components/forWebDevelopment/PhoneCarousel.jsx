@@ -998,7 +998,7 @@ const WebAppCarousel = () => {
   };
 
   return (
-    <section className="theme-hero-section py-16 md:py-20 overflow-hidden relative z-0 isolate">
+    <section className="relative z-0 isolate overflow-hidden bg-white/35 py-16 md:py-20 backdrop-blur-[1px]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">

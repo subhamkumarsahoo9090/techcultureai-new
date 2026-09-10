@@ -45,12 +45,13 @@ const INITIAL_FORM = {
   phone: "",
   company: "",
   location: "",
+  message: "",
 };
 
 const TEAM_EMAIL = "info@techculture.ai";
 const LOGO_SRC = "/tc-new-logo-2.png";
 const PROJECT_FONT =
-  "var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
+  "var(--font-app), var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
 const popupFontClass = "font-sans antialiased";
 const popupFontStyle = { fontFamily: PROJECT_FONT };
 
@@ -277,6 +278,9 @@ function ScheduleStep({
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), 1);
   });
+  const [bookedSlots, setBookedSlots] = useState([]);
+  const [slotsLoading, setSlotsLoading] = useState(false);
+  const [slotsError, setSlotsError] = useState("");
 
   const viewYear = viewDate.getFullYear();
   const viewMonth = viewDate.getMonth();
@@ -302,6 +306,58 @@ function ScheduleStep({
     const prevMonthEnd = new Date(viewYear, viewMonth, 0);
     return prevMonthEnd > today;
   }, [viewYear, viewMonth, today]);
+
+  useEffect(() => {
+    if (!selectedDate) {
+      setBookedSlots([]);
+      setSlotsError("");
+      setSlotsLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+    const loadBookedSlots = async () => {
+      setSlotsLoading(true);
+      setSlotsError("");
+      try {
+        const res = await fetch(
+          `/api/book-demo/slots?date=${encodeURIComponent(selectedDate)}`
+        );
+        const payload = await res.json().catch(() => ({}));
+        if (cancelled) return;
+
+        if (!res.ok || !payload.success) {
+          setBookedSlots([]);
+          setSlotsError(
+            payload.message || "Could not load availability for this date."
+          );
+          return;
+        }
+
+        const nextBooked = Array.isArray(payload.bookedSlots)
+          ? payload.bookedSlots
+          : [];
+        setBookedSlots(nextBooked);
+
+        if (selectedTime && nextBooked.includes(selectedTime)) {
+          onSelectTime("");
+        }
+      } catch (error) {
+        if (cancelled) return;
+        console.error("Failed to load booked slots:", error);
+        setBookedSlots([]);
+        setSlotsError("Could not load availability for this date.");
+      } finally {
+        if (!cancelled) setSlotsLoading(false);
+      }
+    };
+
+    loadBookedSlots();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDate]);
 
   const goPrev = () => {
     if (!canGoPrev) return;
@@ -489,25 +545,38 @@ function ScheduleStep({
                 <p className="mb-3 text-sm font-semibold text-[#1c2b2a]">
                   {selectedLabel}
                 </p>
-                <div className="flex max-h-[320px] flex-col gap-2 overflow-y-auto pr-1">
-                  {TIME_SLOTS.map((slot) => {
-                    const active = selectedTime === slot;
-                    return (
-                      <button
-                        key={slot}
-                        type="button"
-                        onClick={() => onSelectTime(slot)}
-                        className={`rounded-lg border px-3 py-2.5 text-sm font-semibold transition ${
-                          active
-                            ? "border-[#FE602F] bg-[#FE602F] !text-white shadow-sm shadow-orange-500/25"
-                            : "border-orange-200 bg-white text-orange-700 hover:border-orange-400 hover:bg-orange-50"
-                        }`}
-                      >
-                        {slot}
-                      </button>
-                    );
-                  })}
-                </div>
+                {slotsLoading ? (
+                  <p className="text-sm text-slate-500">Checking availability…</p>
+                ) : slotsError ? (
+                  <p className="text-sm font-medium text-orange-600">{slotsError}</p>
+                ) : (
+                  <div className="flex max-h-80 flex-col gap-2 overflow-y-auto pr-1">
+                    {TIME_SLOTS.map((slot) => {
+                      const active = selectedTime === slot;
+                      const booked = bookedSlots.includes(slot);
+                      return (
+                        <button
+                          key={slot}
+                          type="button"
+                          disabled={booked}
+                          onClick={() => {
+                            if (!booked) onSelectTime(slot);
+                          }}
+                          className={`rounded-lg border px-3 py-2.5 text-sm font-semibold transition ${
+                            booked
+                              ? "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 line-through"
+                              : active
+                                ? "border-[#FE602F] bg-[#FE602F] text-white! shadow-sm shadow-orange-500/25"
+                                : "border-orange-200 bg-white text-orange-700 hover:border-orange-400 hover:bg-orange-50"
+                          }`}
+                          title={booked ? "Already booked" : undefined}
+                        >
+                          {booked ? `${slot} · Booked` : slot}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -553,7 +622,7 @@ function ScheduleStep({
 }
 
 export default function BookDemoPopup() {
-  const { isOpen, closeBookDemo } = useBookDemo();
+  const { isOpen, draft, closeBookDemo, clearDraft } = useBookDemo();
   const { settingsData } = useSite();
   const [step, setStep] = useState("form");
   const [form, setForm] = useState(INITIAL_FORM);
@@ -566,6 +635,19 @@ export default function BookDemoPopup() {
 
   const contactPhone = settingsData?.phone || "+91 74282 38091";
   const contactEmail = settingsData?.email || TEAM_EMAIL;
+
+  useEffect(() => {
+    if (!isOpen || !draft) return;
+
+    if (draft.form) {
+      setForm({ ...INITIAL_FORM, ...draft.form });
+    }
+    if (draft.step) {
+      setStep(draft.step);
+    }
+
+    clearDraft();
+  }, [isOpen, draft, clearDraft]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -658,8 +740,9 @@ export default function BookDemoPopup() {
           fullName: form.fullName,
           workEmail: form.workEmail,
           phone: form.phone,
-          company: form.company,
-          location: form.location,
+          company: form.company || "N/A",
+          location: form.location || "N/A",
+          message: form.message || "",
           demoDate: selectedDate,
           demoTime: selectedTime,
         }),
@@ -731,6 +814,7 @@ export default function BookDemoPopup() {
             onSelectDate={(v) => {
               setScheduleError("");
               setSelectedDate(v);
+              setSelectedTime("");
             }}
             onSelectTime={(v) => {
               setScheduleError("");

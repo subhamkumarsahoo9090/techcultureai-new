@@ -29,10 +29,10 @@ const highlights = [
 
 export default function SupportShowcase() {
   return (
-    <section className="relative overflow-hidden bg-white py-16 md:py-24">
+    <section className="relative overflow-hidden bg-white/40 py-16 md:py-24 backdrop-blur-[1px]">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-20 top-12 h-72 w-72 rounded-full bg-teal-100/55 blur-3xl" />
-        <div className="absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-orange-100/60 blur-3xl" />
+        <div className="absolute -left-20 top-12 h-72 w-72 rounded-full bg-[#2E3545]/8 blur-3xl" />
+        <div className="absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-[#FE602F]/12 blur-3xl" />
       </div>
 
       <div className="container relative">

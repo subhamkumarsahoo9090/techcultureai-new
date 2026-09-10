@@ -11,6 +11,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { IoClose, IoChevronDown } from 'react-icons/io5';
 import { ImWhatsapp } from "react-icons/im";
 import HeaderGooeyBubbles from "./HeaderGooeyBubbles";
+import FontSwitcher from "./FontSwitcher";
 import { webdevHref } from "../lib/webdevelopment/paths";
 
 const WEBDEV_LOGO = "/tc-new-logo-2.png";
@@ -612,6 +613,7 @@ const Header = () => {
             </HeaderGooeyBubbles>
 
             <div className="flex items-center gap-3 lg:hidden">
+              <FontSwitcher compact />
               <Button
                 className={`${scheduleDemoBtnBase} !px-4 !py-2 !capitalize !font-bold !text-sm`}
                 size="small"
@@ -633,7 +635,8 @@ const Header = () => {
               ></div>
             )}
 
-            <div className="items-center gap-4 hidden lg:flex">
+            <div className="items-center gap-3 hidden lg:flex xl:gap-4">
+              <FontSwitcher />
               <ImWhatsapp
                 className="text-green-600 text-3xl cursor-pointer hidden lg:block"
                 onClick={sendToWhatsApp}

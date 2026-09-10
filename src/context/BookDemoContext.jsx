@@ -6,13 +6,23 @@ const BookDemoContext = createContext(null);
 
 export function BookDemoProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [draft, setDraft] = useState(null);
 
-  const openBookDemo = useCallback(() => setIsOpen(true), []);
-  const closeBookDemo = useCallback(() => setIsOpen(false), []);
+  const openBookDemo = useCallback((options) => {
+    setDraft(options || null);
+    setIsOpen(true);
+  }, []);
+
+  const closeBookDemo = useCallback(() => {
+    setIsOpen(false);
+    setDraft(null);
+  }, []);
+
+  const clearDraft = useCallback(() => setDraft(null), []);
 
   const value = useMemo(
-    () => ({ isOpen, openBookDemo, closeBookDemo }),
-    [isOpen, openBookDemo, closeBookDemo]
+    () => ({ isOpen, draft, openBookDemo, closeBookDemo, clearDraft }),
+    [isOpen, draft, openBookDemo, closeBookDemo, clearDraft]
   );
 
   return (

@@ -287,16 +287,16 @@ body {
   }
 }
 
-/* Hero CTA — animated deep blue + orange gradient */
+/* Hero CTA — animated charcoal + orange gradient (logo colors) */
 .hero-cta-gradient {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   background: linear-gradient(
     110deg,
-    #005871 0%,
+    #2e3545 0%,
     #fe602f 50%,
-    #005871 100%
+    #2e3545 100%
   );
   background-size: 220% 220%;
   animation: hero-cta-gradient-shift 5s ease-in-out infinite;
@@ -347,7 +347,7 @@ body {
   }
 
   .hero-cta-gradient {
-    background: linear-gradient(110deg, #005871, #fe602f);
+    background: linear-gradient(110deg, #2e3545, #fe602f);
     background-size: 100% 100%;
   }
 }

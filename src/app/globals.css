@@ -55,7 +55,7 @@
   --color-border: var(--theme-border);
   --color-card-border: var(--theme-card-border);
 
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-app);
 }
 
 * {
@@ -64,21 +64,22 @@
 
 html {
   scroll-behavior: smooth;
+  --font-app: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
 body {
   background: var(--theme-background);
   color: var(--theme-text);
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-app);
 }
 
-/* Use the homepage typeface consistently across every page and UI library. */
+/* Active font family applies globally across every page and UI library. */
 html,
 body,
 body *,
 body *::before,
 body *::after {
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif !important;
+  font-family: var(--font-app) !important;
 }
 
 /* Shared primary CTA — TechCulture logo orange */
@@ -729,5 +730,94 @@ select {
   }
   to {
     width: 100%;
+  }
+}
+
+@keyframes heroSlideHalo {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.04);
+    opacity: 0.85;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.55;
+  }
+}
+
+@keyframes heroSlideRing {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(254, 96, 47, 0.18),
+      0 0 40px rgba(254, 96, 47, 0.16),
+      inset 0 0 50px rgba(255, 255, 255, 0.35);
+    border-color: rgba(254, 96, 47, 0.28);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(46, 53, 69, 0.16),
+      0 0 55px rgba(46, 53, 69, 0.14),
+      inset 0 0 60px rgba(255, 240, 235, 0.45);
+    border-color: rgba(46, 53, 69, 0.2);
+  }
+}
+
+@keyframes heroSlideCore {
+  0%,
+  100% {
+    background: radial-gradient(
+      circle at 50% 45%,
+      rgba(255, 255, 255, 0.72) 0%,
+      rgba(255, 240, 235, 0.5) 38%,
+      rgba(254, 96, 47, 0.12) 68%,
+      transparent 78%
+    );
+  }
+  50% {
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.78) 0%,
+      rgba(238, 240, 244, 0.55) 40%,
+      rgba(46, 53, 69, 0.1) 68%,
+      transparent 78%
+    );
+  }
+}
+
+.hero-slide-halo {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(254, 96, 47, 0.45) 55deg,
+    transparent 120deg,
+    rgba(46, 53, 69, 0.28) 200deg,
+    transparent 270deg,
+    rgba(255, 154, 112, 0.35) 320deg,
+    transparent 360deg
+  );
+  filter: blur(18px);
+  animation: heroSlideHalo 14s linear infinite;
+}
+
+.hero-slide-ring {
+  border: 1.5px solid rgba(254, 96, 47, 0.28);
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(8px);
+  animation: heroSlideRing 6s ease-in-out infinite;
+}
+
+.hero-slide-core {
+  animation: heroSlideCore 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide-halo,
+  .hero-slide-ring,
+  .hero-slide-core {
+    animation: none;
   }
 }

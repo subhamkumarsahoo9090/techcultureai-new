@@ -61,10 +61,10 @@ const EcosystemsSection = ({ variant = "default" }) => {
 
   if (isWebDev) {
     return (
-      <section className="relative overflow-hidden bg-gradient-to-b from-white via-[#f0fdfa]/50 to-white py-16 md:py-24">
+      <section className="relative overflow-hidden bg-white/45 py-16 md:py-24 backdrop-blur-[1px]">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-10 right-1/4 h-80 w-80 rounded-full bg-teal-200/20 blur-[100px]" />
-          <div className="absolute bottom-0 left-1/5 h-64 w-64 rounded-full bg-emerald-100/30 blur-[90px]" />
+          <div className="absolute top-10 right-1/4 h-80 w-80 rounded-full bg-[#FE602F]/10 blur-[100px]" />
+          <div className="absolute bottom-0 left-1/5 h-64 w-64 rounded-full bg-[#2E3545]/8 blur-[90px]" />
         </div>
         <div className="container relative">
           <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
@@ -143,7 +143,7 @@ const EcosystemsSection = ({ variant = "default" }) => {
               <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-teal-300/25 via-emerald-200/10 to-teal-400/20 blur-2xl pointer-events-none" />
               <div className="relative rounded-2xl overflow-hidden border border-teal-100 shadow-[0_20px_60px_rgba(13,148,136,0.15)] bg-white ring-1 ring-teal-50">
                 <Image
-                  src="/kyc-verification-dashboard-webdev.png"
+                  src="/kyc-verification-dashboard.webp"
                   alt="KYC Verification Process Dashboard"
                   width={1200}
                   height={900}
