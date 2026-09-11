@@ -8,7 +8,6 @@ import {
   Mail,
   MessageSquareText,
   Phone,
-  Sparkles,
   UserRound,
 } from "lucide-react";
 import SpotlightCard, { TEAL_SPOTLIGHT, BRAND_SPOTLIGHT } from "@/components/SpotlightCard";
@@ -174,10 +173,6 @@ function HeroBookDemoForm() {
               <CalendarDays size={18} strokeWidth={2} />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="mb-1 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#d9471b]">
-                <Sparkles size={12} className="shrink-0" />
-                Book a Demo
-              </p>
               <h2 className="text-xl font-bold tracking-tight text-[#2E3545] sm:text-2xl">
                 Schedule a walkthrough
               </h2>
@@ -208,7 +203,7 @@ function HeroBookDemoForm() {
             </div>
           </div>
 
-          <div className="grid gap-3.5 sm:grid-cols-2">
+          <div className="space-y-3.5">
             <div>
               <label htmlFor="hero-workEmail" className={labelClass}>
                 Work email <span className="text-[#FE602F]">*</span>
@@ -312,12 +307,12 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-transparent">
       <div className="relative z-10 w-full px-4 pb-10 pt-6 sm:px-6 sm:pb-12 sm:pt-8 lg:px-10 lg:pt-10 xl:px-14">
-        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10 xl:gap-14">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10 xl:gap-14" style={{marginLeft:"100px"}}>
           <div className="text-center lg:text-left">
             <h1 className="-mt-1 mb-4 text-4xl font-bold leading-[1.12] tracking-tight sm:mb-5 sm:text-5xl lg:-mt-2 lg:text-[3.4rem]">
               <GradientText
                 colors={["#2E3545", "#FE602F", "#FF7A4D", "#FE602F", "#2E3545"]}
-                animationSpeed={8}
+                animationSpeed={4}
                 showBorder={false}
                 className="hero-gradient-heading"
               >
