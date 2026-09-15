@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
@@ -10,7 +11,7 @@ import {
   Clock3,
   Share2,
 } from "lucide-react";
-import { blog } from "@/lib/blog";
+import { fetchBlogBySlug, fetchPublishedBlogs } from "@/lib/blogApi";
 
 function formatDate(value) {
   if (!value) return "TechCulture Insights";
@@ -115,9 +116,69 @@ export default function BlogArticlePage() {
   const params = useParams();
   const reduceMotion = useReducedMotion();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
-  const article = blog.find((item) => item.slug === slug);
+  const [article, setArticle] = useState(null);
+  const [relatedArticles, setRelatedArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-  if (!article) {
+  useEffect(() => {
+    if (!slug) return;
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      setNotFound(false);
+      try {
+        const post = await fetchBlogBySlug(slug);
+        if (cancelled) return;
+
+        if (!post) {
+          setArticle(null);
+          setRelatedArticles([]);
+          setNotFound(true);
+          return;
+        }
+
+        setArticle(post);
+
+        const { posts } = await fetchPublishedBlogs();
+        if (cancelled) return;
+
+        const related = posts
+          .filter(
+            (item) =>
+              item.slug !== post.slug &&
+              (item.vertical === post.vertical ||
+                item.tags?.some((tag) => post.tags?.includes(tag)))
+          )
+          .slice(0, 3);
+        setRelatedArticles(related);
+      } catch {
+        if (!cancelled) {
+          setArticle(null);
+          setRelatedArticles([]);
+          setNotFound(true);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <section className="flex min-h-[50vh] items-center justify-center bg-[#fdfcfb] px-5 text-center">
+        <p className="text-sm text-slate-500">Loading article…</p>
+      </section>
+    );
+  }
+
+  if (notFound || !article) {
     return (
       <section className="flex min-h-[60vh] items-center justify-center bg-[#fdfcfb] px-5 text-center">
         <div>
@@ -138,16 +199,6 @@ export default function BlogArticlePage() {
       </section>
     );
   }
-
-  const relatedArticles = blog
-    .filter(
-      (item) =>
-        item.status === "PUBLISHED" &&
-        item.slug !== article.slug &&
-        (item.vertical === article.vertical ||
-          item.tags?.some((tag) => article.tags?.includes(tag)))
-    )
-    .slice(0, 3);
 
   return (
     <article className="bg-white text-[#2E3545]">

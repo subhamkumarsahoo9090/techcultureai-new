@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
@@ -12,7 +12,7 @@ import {
   Search,
   Sparkles,
 } from "lucide-react";
-import { blog } from "@/lib/blog";
+import { fetchPublishedBlogs } from "@/lib/blogApi";
 
 const FILTERS = [
   { value: "all", label: "All insights" },
@@ -119,18 +119,42 @@ export default function BlogPage() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [query, setQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(12);
+  const [publishedPosts, setPublishedPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const publishedPosts = useMemo(
-    () =>
-      blog
-        .filter((article) => article.status === "PUBLISHED")
-        .sort(
-          (a, b) =>
-            new Date(b.publishedAt || 0).getTime() -
-            new Date(a.publishedAt || 0).getTime()
-        ),
-    []
-  );
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      setError("");
+      try {
+        const { posts } = await fetchPublishedBlogs();
+        if (!cancelled) {
+          setPublishedPosts(
+            [...posts].sort(
+              (a, b) =>
+                new Date(b.publishedAt || 0).getTime() -
+                new Date(a.publishedAt || 0).getTime()
+            )
+          );
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message || "Failed to load articles");
+          setPublishedPosts([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const filteredPosts = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -334,7 +358,11 @@ export default function BlogPage() {
                 {query ? "Search results" : "Latest insights"}
               </h2>
               <p className="mt-2 text-sm text-slate-500">
-                {filteredPosts.length} articles found
+                {loading
+                  ? "Loading articles…"
+                  : error
+                    ? error
+                    : `${filteredPosts.length} articles found`}
               </p>
             </div>
 
@@ -356,7 +384,11 @@ export default function BlogPage() {
             </div>
           </div>
 
-          {visiblePosts.length > 0 ? (
+          {loading ? (
+            <div className="mt-10 rounded-3xl border border-slate-200 bg-white px-6 py-16 text-center text-sm text-slate-500">
+              Loading articles from API…
+            </div>
+          ) : visiblePosts.length > 0 ? (
             <>
               <div className="mt-9 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 {visiblePosts.map((article, index) => (

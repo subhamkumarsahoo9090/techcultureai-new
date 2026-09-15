@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { LiaLinkedinIn } from "react-icons/lia";
 import EmployeeReelGallery from "@/components/EmployeeReelGallery";
@@ -10,7 +10,7 @@ import {
   ArrowRight,
   ArrowUpRight,
 } from "lucide-react";
-import { team } from "@/lib/teams";
+import { fetchTeamMembers } from "@/lib/teamApi";
 
 const FEATURED_LEADERS = ["Manoj Rawat", "Mukesh Chaudhari"];
 const EXCLUDED_MEMBERS = ["Shubham Agarwal", "Mukul Yadav"];
@@ -48,41 +48,39 @@ function getDiscipline(role = "") {
   return "Business";
 }
 
-const TEAM_MEMBERS = team.data
-  .filter(
-    (member) =>
-      Boolean(member.imageUrl) &&
-      !EXCLUDED_MEMBERS.includes(member.name) &&
-      (FEATURED_LEADERS.includes(member.name) ||
-        member.name === "Rahul Goel" ||
-        member.roleId?.name?.toLowerCase().includes("developer"))
-  )
-  .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
-  .map((member) => ({
-    id: member._id,
-    name: member.name,
-    initials: member.name
-      .split(" ")
-      .map((part) => part[0])
-      .join("")
-      .slice(0, 2)
-      .toUpperCase(),
-    image: member.imageUrl.replace(/^http:/, "https:"),
-    designation: member.roleId?.name || "Team Member",
-    discipline: getDiscipline(member.roleId?.name),
-    linkedin: member.linkedIn,
-    order: member.order,
-    gradient: "from-[#2E3545] to-[#FE602F]",
-  }));
-
-const EXECUTIVE_LEADERS = TEAM_MEMBERS.filter((member) =>
-  FEATURED_LEADERS.includes(member.name)
-);
-const WIDER_TEAM = TEAM_MEMBERS.filter(
-  (member) => !FEATURED_LEADERS.includes(member.name)
-);
-const DEFAULT_ORBIT_CENTER =
-  TEAM_MEMBERS.find((member) => member.name === "Manoj Rawat") || WIDER_TEAM[0];
+function mapTeamMembers(raw = []) {
+  return raw
+    .filter(
+      (member) =>
+        Boolean(member.imageUrl) &&
+        !EXCLUDED_MEMBERS.includes(member.name) &&
+        (FEATURED_LEADERS.includes(member.name) ||
+          member.name === "Rahul Goel" ||
+          member.roleId?.name?.toLowerCase().includes("developer") ||
+          member.role?.toLowerCase?.().includes("developer"))
+    )
+    .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
+    .map((member) => ({
+      id: member._id || member.id,
+      name: member.name,
+      initials: member.name
+        .split(" ")
+        .map((part) => part[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase(),
+      image: (() => {
+        const raw = String(member.imageUrl || "");
+        if (raw.startsWith("http://localhost") || raw.startsWith("http://127.")) return raw;
+        return raw.replace(/^http:/, "https:");
+      })(),
+      designation: member.roleId?.name || member.role || "Team Member",
+      discipline: getDiscipline(member.roleId?.name || member.role),
+      linkedin: member.linkedIn,
+      order: member.order,
+      gradient: "from-[#2E3545] to-[#FE602F]",
+    }));
+}
 
 const leadershipDescriptions = [
   "Transforming strategy into efficient operations and consistently strong customer outcomes.",
@@ -110,9 +108,55 @@ const itemVariants = {
 
 export default function TeamPage() {
   const reduceMotion = useReducedMotion();
-  const [selectedMemberId, setSelectedMemberId] = useState(
-    DEFAULT_ORBIT_CENTER?.id
+  const [rawMembers, setRawMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [selectedMemberId, setSelectedMemberId] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      setLoading(true);
+      setError("");
+      try {
+        const { data } = await fetchTeamMembers();
+        if (!cancelled) setRawMembers(data || []);
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message || "Failed to load team");
+          setRawMembers([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const TEAM_MEMBERS = useMemo(() => mapTeamMembers(rawMembers), [rawMembers]);
+  const EXECUTIVE_LEADERS = useMemo(
+    () => TEAM_MEMBERS.filter((member) => FEATURED_LEADERS.includes(member.name)),
+    [TEAM_MEMBERS]
   );
+  const WIDER_TEAM = useMemo(
+    () => TEAM_MEMBERS.filter((member) => !FEATURED_LEADERS.includes(member.name)),
+    [TEAM_MEMBERS]
+  );
+  const DEFAULT_ORBIT_CENTER = useMemo(
+    () =>
+      TEAM_MEMBERS.find((member) => member.name === "Manoj Rawat") || WIDER_TEAM[0],
+    [TEAM_MEMBERS, WIDER_TEAM]
+  );
+
+  useEffect(() => {
+    if (!selectedMemberId && DEFAULT_ORBIT_CENTER?.id) {
+      setSelectedMemberId(DEFAULT_ORBIT_CENTER.id);
+    }
+  }, [DEFAULT_ORBIT_CENTER, selectedMemberId]);
+
   const selectedMember =
     TEAM_MEMBERS.find((member) => member.id === selectedMemberId) ||
     DEFAULT_ORBIT_CENTER;
@@ -122,6 +166,25 @@ export default function TeamPage() {
   const animatedItem = reduceMotion
     ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
     : itemVariants;
+
+  if (loading) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center bg-white text-sm text-slate-500">
+        Loading team…
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-[50vh] flex-col items-center justify-center gap-3 bg-white px-5 text-center">
+        <p className="text-sm font-semibold text-red-600">{error}</p>
+        <p className="text-xs text-slate-500">
+          Make sure backoffice API is running on port 5050.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="overflow-hidden bg-white text-[#2E3545]">
