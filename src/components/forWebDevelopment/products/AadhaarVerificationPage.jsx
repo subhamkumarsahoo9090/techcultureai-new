@@ -60,35 +60,30 @@ const workflowSteps = [
     title: "Submit Aadhaar Number",
     desc: "Send Aadhaar number using our simple API request.",
     icon: MonitorCheck,
-    image: "/aadhaar-step-submit.png",
   },
   {
     step: 2,
     title: "Secure Processing",
     desc: "We securely send the request to UIDAI for verification.",
     icon: ServerCog,
-    image: "/aadhaar-step-secure-processing.png",
   },
   {
     step: 3,
     title: "Verify & Validate",
     desc: "UIDAI validates the Aadhaar number and returns the response.",
     icon: Search,
-    image: "/aadhaar-step-verify-validate.png",
   },
   {
     step: 4,
     title: "Get Instant Response",
     desc: "Receive real-time verification status in your system.",
     icon: BadgeCheck,
-    image: "/aadhaar-step-instant-response.png",
   },
   {
     step: 5,
     title: "Use Verified Data",
     desc: "Proceed with onboarding, KYC, or service activation.",
     icon: BarChart3,
-    image: null,
   },
 ];
 
@@ -110,30 +105,9 @@ const ctaPoints = [
   },
 ];
 
-const brands = ["PayMe", "LoanQuick", "OnBoard", "eBanking", "KYCNow"];
-
-function AadhaarCardMockup() {
-  return (
-    <div className="relative w-full max-w-130 mx-auto">
-      <div className="absolute top-2 -right-4 w-44 h-44 bg-[#FE602F]/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-6 -left-8 w-40 h-40 bg-[#2E3545]/15 rounded-full blur-3xl pointer-events-none" />
-
-      <Image
-        src="/aadhaar-card-verification.png"
-        alt="Aadhaar card with successful verification status"
-        width={1024}
-        height={962}
-        quality={100}
-        priority
-        className="relative z-10 w-full h-auto select-none pointer-events-none"
-      />
-    </div>
-  );
-}
-
 export default function AadhaarVerificationPage() {
   return (
-    <div className="bg-white text-slate-800 w-full min-w-0">
+    <div className="bg-white text-slate-800 w-full min-w-0" data-manual-reveal>
       {/* HERO */}
       <section className="relative overflow-hidden py-12 md:py-16">
         <div className="absolute inset-0 bg-linear-to-br from-[#fff8f5] via-white to-[#f5f5f6] pointer-events-none" />
@@ -148,7 +122,7 @@ export default function AadhaarVerificationPage() {
         <div className="absolute -top-16 left-1/3 w-105 h-105 bg-[#FE602F]/16 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="container relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.95fr] gap-10 lg:gap-10 items-center">
             <div>
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fff0eb] text-[#d9471b] text-[11px] font-bold tracking-[0.14em] uppercase ring-1 ring-orange-100 mb-6">
                 <ShieldCheck size={14} />
@@ -213,15 +187,25 @@ export default function AadhaarVerificationPage() {
               </div>
             </div>
 
-            <AadhaarCardMockup />
+            <div className="relative mx-auto w-full max-w-md sm:max-w-lg lg:max-w-[480px] lg:ml-auto lg:min-w-0">
+              <Image
+                src="/aadhaar-verification-hero.jpg"
+                alt="Aadhaar Verification — Instant, compliant Aadhaar-based identity checks for onboarding"
+                width={1800}
+                height={1125}
+                priority
+                className="h-auto w-full object-contain object-center"
+                sizes="(max-width: 1024px) 90vw, 480px"
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* WHY TRUST */}
-      <section className="py-14 md:py-20 bg-[#fafbfc]">
+      <section className="py-10 md:py-14 bg-[#fafbfc]">
         <div className="container">
-          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-8 md:mb-10">
             <h2 className="text-[26px] sm:text-[32px] font-bold text-slate-900 mb-3">
               Why Businesses Trust Our Aadhaar Verification API
             </h2>
@@ -257,9 +241,9 @@ export default function AadhaarVerificationPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="py-14 md:py-20">
+      <section className="py-10 md:py-14 bg-white">
         <div className="container">
-          <h2 className="text-[26px] sm:text-[32px] font-bold text-slate-900 text-center mb-10 md:mb-12">
+          <h2 className="text-[26px] sm:text-[32px] font-bold text-slate-900 text-center mb-8 md:mb-10">
             How{" "}
             <span className="bg-linear-to-r from-[#FE602F] to-[#2E3545] bg-clip-text text-transparent">
               Aadhaar Verification
@@ -267,46 +251,28 @@ export default function AadhaarVerificationPage() {
             Works
           </h2>
 
-          <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-4 lg:gap-0">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 lg:gap-3">
             {workflowSteps.map((item, index) => {
               const Icon = item.icon;
               return (
-                <div
-                  key={item.step}
-                  className="flex-1 flex flex-col lg:flex-row items-center lg:items-stretch gap-4 lg:gap-0"
-                >
-                  <div className="relative w-full bg-white rounded-2xl border border-slate-200/80 p-5 pt-7 text-center shadow-sm hover:border-[#FE602F]/40 hover:shadow-md transition-all">
-                    <span className="absolute -top-3 left-4 w-7 h-7 rounded-full bg-linear-to-br from-[#FE602F] to-[#2E3545] text-white text-[12px] font-bold flex items-center justify-center shadow-md shadow-[#FE602F]/25">
+                <div key={item.step} className="relative flex items-stretch gap-3">
+                  <div className="relative w-full rounded-2xl border border-slate-200/80 bg-white p-5 pt-7 text-center shadow-sm transition-all hover:border-[#FE602F]/40 hover:shadow-md">
+                    <span className="absolute -top-3 left-4 flex h-7 w-7 items-center justify-center rounded-full bg-linear-to-br from-[#FE602F] to-[#2E3545] text-[12px] font-bold text-white shadow-md shadow-[#FE602F]/25">
                       {item.step}
                     </span>
-                    {item.image ? (
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        width={512}
-                        height={512}
-                        quality={100}
-                        className="w-18 h-18 object-contain mx-auto mb-4 select-none pointer-events-none mix-blend-multiply"
-                      />
-                    ) : (
-                      <span className="w-18 h-18 rounded-xl bg-[#fff0eb] text-[#FE602F] ring-1 ring-orange-100 flex items-center justify-center mx-auto mb-4">
-                        <Icon size={28} strokeWidth={2} />
-                      </span>
-                    )}
-                    <h3 className="text-[14px] font-bold text-slate-900 mb-2 leading-snug">
+                    <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-[#fff0eb] text-[#FE602F] ring-1 ring-orange-100">
+                      <Icon size={26} strokeWidth={2} />
+                    </span>
+                    <h3 className="mb-2 text-[14px] font-bold leading-snug text-slate-900">
                       {item.title}
                     </h3>
-                    <p className="text-[12.5px] text-slate-500 leading-relaxed">
+                    <p className="text-[12.5px] leading-relaxed text-slate-500">
                       {item.desc}
                     </p>
                   </div>
-
                   {index < workflowSteps.length - 1 && (
-                    <div className="flex items-center justify-center px-2 shrink-0">
-                      <ArrowRight
-                        size={20}
-                        className="text-[#FE602F] rotate-90 lg:rotate-0"
-                      />
+                    <div className="absolute -right-2 top-1/2 z-10 hidden -translate-y-1/2 lg:block">
+                      <ArrowRight size={18} className="text-[#FE602F]" />
                     </div>
                   )}
                 </div>
@@ -317,34 +283,34 @@ export default function AadhaarVerificationPage() {
       </section>
 
       {/* CTA BAND */}
-      <section className="pb-14 md:pb-20">
+      <section className="bg-white pb-10 pt-2 md:pb-12">
         <div className="container">
-          <div className="relative rounded-3xl bg-linear-to-br from-[#fff4ef] via-white to-[#f3f4f6] border border-orange-100 overflow-hidden p-7 sm:p-10">
-            <div className="absolute -top-20 -right-16 w-64 h-64 bg-[#FE602F]/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative overflow-hidden rounded-3xl border border-orange-100 bg-linear-to-br from-[#fff4ef] via-white to-[#f3f4f6] p-7 sm:p-10">
+            <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-[#FE602F]/20 blur-3xl" />
 
-            <div className="relative grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr_auto] gap-8 lg:gap-10 items-center">
+            <div className="relative grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10">
               <div>
-                <h2 className="text-[24px] sm:text-[30px] font-bold text-slate-900 mb-3 leading-snug">
+                <h2 className="mb-3 text-[24px] font-bold leading-snug text-slate-900 sm:text-[30px]">
                   Ready to Verify Aadhaar Instantly?
                 </h2>
-                <p className="text-slate-500 text-[14.5px] leading-relaxed mb-6 max-w-md">
+                <p className="mb-6 max-w-md text-[14.5px] leading-relaxed text-slate-500">
                   Integrate our Aadhaar Verification API and streamline your KYC
                   process, reduce fraud and build trust with your customers.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row">
                   <Link
                     href={webdevHref("/contact")}
-                    className="brand-cta-gradient group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold"
+                    className="brand-cta-gradient group inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-semibold"
                   >
                     Get Started Now
                     <ArrowRight
                       size={16}
-                      className="group-hover:translate-x-0.5 transition-transform"
+                      className="transition-transform group-hover:translate-x-0.5"
                     />
                   </Link>
                   <Link
                     href={webdevHref("/contact")}
-                    className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-xl hover:border-[#FE602F]/50 hover:text-[#d9471b] transition-all"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 font-semibold text-slate-700 transition-all hover:border-[#FE602F]/50 hover:text-[#d9471b]"
                   >
                     Contact Sales
                     <Headphones size={16} />
@@ -357,14 +323,14 @@ export default function AadhaarVerificationPage() {
                   const Icon = point.icon;
                   return (
                     <div key={point.title} className="flex items-center gap-3">
-                      <span className="w-10 h-10 rounded-xl bg-white text-[#FE602F] ring-1 ring-orange-100 flex items-center justify-center shrink-0 shadow-sm">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#FE602F] shadow-sm ring-1 ring-orange-100">
                         <Icon size={18} strokeWidth={2} />
                       </span>
                       <div className="leading-tight">
                         <p className="text-[13.5px] font-bold text-slate-800">
                           {point.title}
                         </p>
-                        <p className="text-[12px] text-slate-500 mt-0.5">
+                        <p className="mt-0.5 text-[12px] text-slate-500">
                           {point.desc}
                         </p>
                       </div>
@@ -372,39 +338,7 @@ export default function AadhaarVerificationPage() {
                   );
                 })}
               </div>
-
-              <div className="flex items-center justify-center">
-                <Image
-                  src="/aadhaar-verified-shield.png"
-                  alt="Secure Aadhaar verification shield"
-                  width={1024}
-                  height={683}
-                  quality={100}
-                  className="w-50 sm:w-60 lg:w-65 h-auto select-none pointer-events-none mix-blend-multiply"
-                  priority={false}
-                />
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TRUSTED BY */}
-      <section className="pb-16 md:pb-20">
-        <div className="container">
-          <p className="text-center text-[13px] text-slate-400 font-medium mb-6">
-            Trusted by innovative businesses
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-14">
-            {brands.map((brand) => (
-              <span
-                key={brand}
-                className="flex items-center gap-2 text-slate-300 font-semibold text-[15px] sm:text-[17px] tracking-tight"
-              >
-                <ShieldCheck size={16} className="text-slate-200" />
-                {brand}
-              </span>
-            ))}
           </div>
         </div>
       </section>

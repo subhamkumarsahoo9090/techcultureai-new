@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Button from "@mui/material/Button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { webdevHref } from "../lib/webdevelopment/paths";
 import SpotlightCard, { TEAL_SPOTLIGHT, BRAND_SPOTLIGHT } from "@/components/SpotlightCard";
+import ScrollReveal, { ScrollRevealItem } from "@/components/ScrollReveal";
 
 const features = [
   {
@@ -67,91 +68,109 @@ const EcosystemsSection = ({ variant = "default" }) => {
           <div className="absolute bottom-0 left-1/5 h-64 w-64 rounded-full bg-[#2E3545]/8 blur-[90px]" />
         </div>
         <div className="container relative">
-          <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
-            <h2 className="text-[32px] sm:text-[40px] md:text-[48px] font-bold text-slate-900 leading-[1.2]">
-              Five Powerful{" "}
-              <span className="section-heading-accent">
-                Ecosystems
-              </span>
-            </h2>
-            <p className="text-slate-500 font-normal text-[16px] sm:text-[18px] md:text-[20px] py-3 leading-relaxed">
-              End-to-end solutions for KYC, partner lifecycle, referral growth,
-              journey-driven CRM, and customer service.
-            </p>
-          </div>
+          <ScrollReveal direction="up" delay={0.02} duration={0.65}>
+            <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
+              <h2 className="text-[32px] sm:text-[40px] md:text-[48px] font-bold text-slate-900 leading-[1.2]">
+                Five Powerful{" "}
+                <span className="section-heading-accent">
+                  Ecosystems
+                </span>
+              </h2>
+              <p className="text-slate-500 font-normal text-[16px] sm:text-[18px] md:text-[20px] py-3 leading-relaxed">
+                End-to-end solutions for KYC, partner lifecycle, referral growth,
+                journey-driven CRM, and customer service.
+              </p>
+            </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-            <div>
-              <p className="text-teal-600 text-[13px] sm:text-[14px] font-semibold tracking-[0.14em] uppercase mb-3">
-                KYC &amp; Onboarding
-              </p>
-              <h3 className="text-slate-900 text-[28px] sm:text-[34px] md:text-[40px] font-bold leading-tight mb-4">
-                Unified KYC Ecosystem
-              </h3>
-              <p className="text-slate-500 text-[16px] sm:text-[17px] md:text-[18px] leading-relaxed mb-7">
-                AI-driven identity verification platform for Individuals,
-                Corporates, HUFs, NRIs, and Joint accounts — with biometric
-                recognition, OCR extraction, and automated compliance scoring.
-              </p>
+            <ScrollReveal direction="left" delay={0.05} stagger={0.07}>
+              <ScrollRevealItem>
+                <p className="text-teal-600 text-[13px] sm:text-[14px] font-semibold tracking-[0.14em] uppercase mb-3">
+                  KYC &amp; Onboarding
+                </p>
+              </ScrollRevealItem>
+              <ScrollRevealItem>
+                <h3 className="text-slate-900 text-[28px] sm:text-[34px] md:text-[40px] font-bold leading-tight mb-4">
+                  Unified KYC Ecosystem
+                </h3>
+              </ScrollRevealItem>
+              <ScrollRevealItem>
+                <p className="text-slate-500 text-[16px] sm:text-[17px] md:text-[18px] leading-relaxed mb-7">
+                  AI-driven identity verification platform for Individuals,
+                  Corporates, HUFs, NRIs, and Joint accounts — with biometric
+                  recognition, OCR extraction, and automated compliance scoring.
+                </p>
+              </ScrollRevealItem>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-8">
+              <ScrollReveal
+                direction="fade"
+                delay={0.05}
+                stagger={0.07}
+                className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-8"
+              >
                 {features.map((feature) => {
                   const Icon = feature.icon;
                   return (
-                    <SpotlightCard
-                      key={feature.title}
-                      spotlightColor={TEAL_SPOTLIGHT}
-                      className="rounded-xl border border-teal-100 bg-white/80 backdrop-blur-sm p-4 shadow-sm hover:border-teal-300 hover:shadow-md hover:shadow-teal-500/10 transition-all duration-300 group"
-                    >
-                      <div className="flex items-start gap-3">
-                        <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-50 to-emerald-50 text-teal-600 ring-1 ring-teal-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                          <Icon size={18} strokeWidth={2} />
-                        </span>
-                        <div>
-                          <h4 className="text-slate-900 text-[15px] sm:text-[16px] font-semibold mb-1">
-                            {feature.title}
-                          </h4>
-                          <p className="text-slate-500 text-[13px] sm:text-[14px] leading-snug">
-                            {feature.subtitle}
-                          </p>
+                    <ScrollRevealItem key={feature.title}>
+                      <SpotlightCard
+                        spotlightColor={TEAL_SPOTLIGHT}
+                        className="rounded-xl border border-teal-100 bg-white/80 backdrop-blur-sm p-4 shadow-sm hover:border-teal-300 hover:shadow-md hover:shadow-teal-500/10 transition-all duration-300 group h-full"
+                      >
+                        <div className="flex items-start gap-3">
+                          <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-50 to-emerald-50 text-teal-600 ring-1 ring-teal-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Icon size={18} strokeWidth={2} />
+                          </span>
+                          <div>
+                            <h4 className="text-slate-900 text-[15px] sm:text-[16px] font-semibold mb-1">
+                              {feature.title}
+                            </h4>
+                            <p className="text-slate-500 text-[13px] sm:text-[14px] leading-snug">
+                              {feature.subtitle}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </SpotlightCard>
+                      </SpotlightCard>
+                    </ScrollRevealItem>
                   );
                 })}
-              </div>
+              </ScrollReveal>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => router.push(webdevHref("/products"))}
-                  className="brand-cta-outline inline-flex items-center justify-center gap-2 border-2 font-semibold px-6 py-3 rounded-full transition"
-                >
-                  Know More —
-                </button>
-                <button
-                  type="button"
-                  onClick={scrollToContact}
-                  className="brand-cta-gradient inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold"
-                >
-                  Get in Touch
-                </button>
-              </div>
-            </div>
+              <ScrollRevealItem>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => router.push(webdevHref("/products"))}
+                    className="brand-cta-outline inline-flex items-center justify-center gap-2 border-2 font-semibold px-6 py-3 rounded-full transition"
+                  >
+                    Know More —
+                  </button>
+                  <button
+                    type="button"
+                    onClick={scrollToContact}
+                    className="brand-cta-gradient inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold"
+                  >
+                    Get in Touch
+                  </button>
+                </div>
+              </ScrollRevealItem>
+            </ScrollReveal>
 
-            <div className="relative">
-              <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-teal-300/25 via-emerald-200/10 to-teal-400/20 blur-2xl pointer-events-none" />
-              <div className="relative rounded-2xl overflow-hidden border border-teal-100 shadow-[0_20px_60px_rgba(13,148,136,0.15)] bg-white ring-1 ring-teal-50">
-                <Image
-                  src="/kyc-verification-dashboard.webp"
-                  alt="KYC Verification Process Dashboard"
-                  width={1200}
-                  height={900}
-                  className="w-full h-auto object-cover object-top"
-                  priority={false}
-                />
+            <ScrollReveal direction="right" delay={0.12} duration={0.8}>
+              <div className="relative">
+                <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-teal-300/25 via-emerald-200/10 to-teal-400/20 blur-2xl pointer-events-none" />
+                <div className="relative rounded-2xl overflow-hidden border border-teal-100 shadow-[0_20px_60px_rgba(13,148,136,0.15)] bg-white ring-1 ring-teal-50">
+                  <Image
+                    src="/kyc-verification-dashboard.jpg"
+                    alt="KYC Verification Process Dashboard"
+                    width={1200}
+                    height={900}
+                    className="w-full h-auto object-cover object-top"
+                    priority={false}
+                  />
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>

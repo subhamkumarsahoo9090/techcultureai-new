@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import BounceCards from "@/components/BounceCards";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const CLIENT_STORIES = [
   {
@@ -78,37 +79,42 @@ export default function Testimonials() {
       </div>
 
       <div className="container relative mx-auto">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#e95325] shadow-sm">
-            <Sparkles size={13} />
-            Built around real business needs
-          </span>
-          <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            Our <span className="section-heading-accent">Happy Clients</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
-            We partner with teams across fintech, compliance, customer
-            experience, and enterprise operations to build technology that
-            feels clear, dependable, and ready to scale.
-          </p>
-        </div>
+        <ScrollReveal direction="up" delay={0.03} duration={0.65}>
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#e95325] shadow-sm">
+              <Sparkles size={13} />
+              Built around real business needs
+            </span>
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Our <span className="section-heading-accent">Happy Clients</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
+              We partner with teams across fintech, compliance, customer
+              experience, and enterprise operations to build technology that
+              feels clear, dependable, and ready to scale.
+            </p>
+          </div>
+        </ScrollReveal>
 
         <div className="mt-14 grid items-center gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
-          <div className="relative flex min-h-[390px] items-center justify-center overflow-hidden bg-transparent px-3 py-8 sm:min-h-[440px]">
-            <BounceCards
-              className="relative z-10"
-              items={CLIENT_STORIES}
-              containerWidth={620}
-              containerHeight={390}
-              animationDelay={0.25}
-              animationStagger={0.09}
-              easeType="elastic.out(1, 0.55)"
-              transformStyles={CARD_TRANSFORMS}
-              enableHover
-              onActiveChange={setActiveClient}
-            />
-          </div>
+          <ScrollReveal direction="scale" delay={0.06} duration={0.8}>
+            <div className="relative flex min-h-[390px] items-center justify-center overflow-hidden bg-transparent px-3 py-8 sm:min-h-[440px]">
+              <BounceCards
+                className="relative z-10"
+                items={CLIENT_STORIES}
+                containerWidth={620}
+                containerHeight={390}
+                animationDelay={0.25}
+                animationStagger={0.09}
+                easeType="elastic.out(1, 0.55)"
+                transformStyles={CARD_TRANSFORMS}
+                enableHover
+                onActiveChange={setActiveClient}
+              />
+            </div>
+          </ScrollReveal>
 
+          <ScrollReveal direction="right" delay={0.1} duration={0.75}>
           <div
             key={story.title}
             className="animate-[clientStoryIn_420ms_cubic-bezier(0.22,1,0.36,1)] rounded-[28px] border border-orange-100 bg-white p-7 shadow-[0_20px_55px_rgba(46,53,69,0.08)] sm:p-9"
@@ -165,8 +171,10 @@ export default function Testimonials() {
               <ArrowRight className="shrink-0 text-[#FE602F]" size={22} />
             </div>
           </div>
+          </ScrollReveal>
         </div>
 
+        <ScrollReveal direction="up" delay={0.08} duration={0.6}>
         <div className="mt-10 flex flex-wrap justify-center gap-2">
           {CLIENT_STORIES.map((client, index) => (
             <button
@@ -183,6 +191,7 @@ export default function Testimonials() {
             </button>
           ))}
         </div>
+        </ScrollReveal>
       </div>
     </section>
   );

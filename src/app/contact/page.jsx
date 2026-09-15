@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import WebDevInfoPage from "@/components/forWebDevelopment/WebDevInfoPage";
 import { hubPages } from "@/lib/webdevelopment/catalog";
@@ -16,7 +16,7 @@ export default function ContactInfoPage() {
       ctaLabel={page.ctaLabel}
       relatedLinks={[
         { name: "About Us", href: webdevHref("/about") },
-        { name: "Products", href: webdevHref("/products") },
+        { name: "Fintech", href: webdevHref("/fintech") },
       ]}
     />
   );

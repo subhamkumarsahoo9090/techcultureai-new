@@ -2,6 +2,7 @@
 
 import Marquee from "react-fast-marquee";
 import Image from "next/image";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const PARTNER_LOGOS = [
   {
@@ -45,9 +46,9 @@ const PARTNER_LOGOS = [
     logo: "https://www.chemscience.com/assets/front/logo/chemscience.svg",
   },
   {
-    name: "TechCulture AI",
-    website: "https://techculture.ai/",
-    logo: "https://techculture.ai/tc-new-logo-2.png",
+    name: "IPO Master",
+    website: "https://ipomaster.com/",
+    logo: "/ipo-master-logo.webp",
   },
   {
     name: "Burger King",
@@ -91,14 +92,17 @@ export default function Partners() {
       </div>
 
       <div className="container relative mx-auto px-6">
-        <h2 className="mb-10 text-center text-2xl font-bold tracking-tight text-slate-700 sm:text-3xl">
-          Our{" "}
-          <span className="section-heading-accent">
-            Technology
-          </span>{" "}
-          Partner
-        </h2>
+        <ScrollReveal direction="up" delay={0.03} duration={0.6}>
+          <h2 className="mb-10 text-center text-2xl font-bold tracking-tight text-slate-700 sm:text-3xl">
+            Our{" "}
+            <span className="section-heading-accent">
+              Technology
+            </span>{" "}
+            Partner
+          </h2>
+        </ScrollReveal>
 
+        <ScrollReveal direction="fade" delay={0.08} duration={0.75}>
         {clients.length > 0 ? (
           <Marquee className="marquee__" direction="left" speed={40} gradient={false}>
             {clients.map((client, index) => {
@@ -136,6 +140,7 @@ export default function Partners() {
         ) : (
           <p className="text-center text-sm text-slate-400">Loading partners…</p>
         )}
+        </ScrollReveal>
       </div>
     </section>
   );

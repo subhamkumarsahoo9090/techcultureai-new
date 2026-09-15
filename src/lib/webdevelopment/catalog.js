@@ -1,4 +1,4 @@
-import { mainSiteHref, slugify, webdevHref } from "./paths";
+﻿import { mainSiteHref, slugify, webdevHref } from "./paths";
 
 function productPage({
   title,
@@ -70,19 +70,7 @@ export const productPages = [
     ],
     productPath: "/services",
   }),
-  productPage({
-    title: "Business KYC",
-    summary: "Corporate and entity KYC with multi-document workflows.",
-    about:
-      "Business KYC is built for companies, HUFs and other entities. Collect CIN/GST/PAN packs, verify authorised signatories, and keep a structured trail for compliance teams.",
-    highlights: [
-      "Multi-document entity packs",
-      "Signatory verification",
-      "Maker-checker ready",
-      "Reusable for partners & vendors",
-    ],
-    productPath: "/services",
-  }),
+
   productPage({
     title: "Re-KYC",
     summary: "Periodic re-KYC campaigns with automated reminders.",
@@ -109,45 +97,8 @@ export const productPages = [
     ],
     productPath: "/services",
   }),
-  productPage({
-    title: "Joint Account KYC",
-    summary: "Multi-holder KYC orchestration for joint accounts.",
-    about:
-      "Joint Account KYC coordinates identity checks for every holder, tracks who is pending, and only marks the case complete when all parties clear verification.",
-    highlights: [
-      "Multi-applicant tracking",
-      "Shared case ID",
-      "Per-holder status",
-      "Unified completion event",
-    ],
-    productPath: "/services",
-  }),
-  productPage({
-    title: "Aadhaar eSign",
-    summary: "Aadhaar-based eSign for contracts and KYC packs.",
-    about:
-      "Aadhaar eSign lets customers digitally sign agreements and KYC forms with Aadhaar authentication — faster than wet ink, with legally recognisable evidence.",
-    highlights: [
-      "Aadhaar-authenticated signing",
-      "PDF & form support",
-      "Signed artefact storage",
-      "Webhook status updates",
-    ],
-    productPath: "/services",
-  }),
-  productPage({
-    title: "Secure eSignature",
-    summary: "Secure multi-party eSignature beyond Aadhaar-only flows.",
-    about:
-      "Secure eSignature supports broader signing scenarios — DSC, Aadhaar and hybrid workflows — so sales, ops and compliance can close documents from one place.",
-    highlights: [
-      "Multi-signer workflows",
-      "Template libraries",
-      "Tamper-evident certificates",
-      "Role-based access",
-    ],
-    productPath: "/services",
-  }),
+
+ 
   productPage({
     title: "Partner Onboarding",
     summary: "Digitise partner acquisition with KYC and agreement steps.",
@@ -174,19 +125,7 @@ export const productPages = [
     ],
     productPath: "/services",
   }),
-  productPage({
-    title: "Supplier Onboarding",
-    summary: "Supplier lifecycle capture with compliance controls.",
-    about:
-      "Supplier Onboarding helps supply-chain teams onboard suppliers consistently — from registration to verification — so sourcing stays fast without skipping checks.",
-    highlights: [
-      "Supplier portal",
-      "Category-wise checklists",
-      "Compliance gates",
-      "Master data sync",
-    ],
-    productPath: "/services",
-  }),
+ 
   productPage({
     title: "Employee Onboarding",
     summary: "HR-ready digital onboarding with identity & eSign.",
@@ -200,19 +139,7 @@ export const productPages = [
     ],
     productPath: "/services",
   }),
-  productPage({
-    title: "Gig Workforce Onboarding",
-    summary: "Fast KYC for gig and field workforce at scale.",
-    about:
-      "Gig Workforce Onboarding is built for high-volume, short-tenure workers. Verify IDs quickly, capture consent, and push approved workers into rostering systems.",
-    highlights: [
-      "Mobile-first flows",
-      "Bulk onboarding",
-      "Geo & selfie checks",
-      "Roster API hooks",
-    ],
-    productPath: "/services",
-  }),
+
   productPage({
     title: "WhatsApp Automation",
     summary: "Automate customer conversations on WhatsApp.",
@@ -278,19 +205,7 @@ export const productPages = [
     ],
     productPath: "/services",
   }),
-  productPage({
-    title: "Campaign Management",
-    summary: "Plan and run multi-channel marketing campaigns.",
-    about:
-      "Campaign Management helps you design, schedule and measure campaigns across email, SMS and WhatsApp with audience segments and performance reporting.",
-    highlights: [
-      "Audience segments",
-      "Multi-channel send",
-      "A/B testing hooks",
-      "ROI dashboards",
-    ],
-    productPath: "/services",
-  }),
+
   productPage({
     title: "Appointment Scheduler",
     summary: "Book demos and meetings without back-and-forth.",
@@ -317,32 +232,8 @@ export const productPages = [
     ],
     productPath: "/services",
   }),
-  productPage({
-    title: "Field Service",
-    summary: "Dispatch, track and close field jobs.",
-    about:
-      "Field Service coordinates technicians: assign jobs, share location, capture proofs on-site, and update customers automatically when work is done.",
-    highlights: [
-      "Job dispatch",
-      "Geo tracking",
-      "Photo / eSign proof",
-      "Customer updates",
-    ],
-    productPath: "/services",
-  }),
-  productPage({
-    title: "Contact Center",
-    summary: "Unified voice and digital contact center layer.",
-    about:
-      "Contact Center brings calls, chat and messaging into one agent workspace with IVR, queues and quality monitoring for high-volume support teams.",
-    highlights: [
-      "Omnichannel inbox",
-      "IVR & queues",
-      "Call recording hooks",
-      "QA scorecards",
-    ],
-    productPath: "/services",
-  }),
+ 
+ 
   productPage({
     title: "Email Automation",
     summary: "Triggered email journeys for nurture and ops.",
@@ -356,19 +247,7 @@ export const productPages = [
     ],
     productPath: "/services",
   }),
-  productPage({
-    title: "SMS & WhatsApp Campaigns",
-    summary: "Bulk and triggered SMS + WhatsApp outreach.",
-    about:
-      "SMS & WhatsApp Campaigns let growth and ops teams broadcast offers, OTPs and reminders with DLT-friendly templates and performance reporting.",
-    highlights: [
-      "Bulk & triggered sends",
-      "Template governance",
-      "Opt-out handling",
-      "Campaign reports",
-    ],
-    productPath: "/services",
-  }),
+
   productPage({
     title: "Online IPO Bidding",
     summary: "Digital IPO bidding experience for investors.",
@@ -661,12 +540,8 @@ export function getHubBySlug(slug) {
 }
 
 export const navLinks = [
-  { name: "AI-Automation", href: webdevHref("/ai-automation") },
   { name: "Products", href: webdevHref("/products") },
-  { name: "Industries", href: webdevHref("/industries") },
   { name: "Middleware", href: webdevHref("/middleware") },
-  { name: "Portfolio", href: webdevHref("/portfolio") },
-  { name: "Technologies", href: webdevHref("/technologies") },
   { name: "Careers", href: webdevHref("/careers") },
   { name: "About Us", href: webdevHref("/about") },
 ];

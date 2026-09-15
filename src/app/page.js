@@ -9,6 +9,7 @@ import Contact from "@/components/forWebDevelopment/Contact";
 import EcosystemsSection from "@/components/EcosystemsSection";
 import MiddlewareTeaser from "@/components/forWebDevelopment/MiddlewareTeaser";
 import SupportShowcase from "@/components/forWebDevelopment/SupportShowcase";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const PhoneCarousel = dynamic(
   () => import("@/components/forWebDevelopment/PhoneCarousel"),
@@ -35,19 +36,40 @@ export default function Page() {
         <section id="home" className="scroll-mt-24">
           <Hero />
         </section>
-        <EcosystemsSection variant="webdevelopment" />
-        <MiddlewareTeaser />
-        <PhoneCarousel />
-        <SupportShowcase />
-        <section id="testimonials" className="scroll-mt-24">
-          <Testimonials />
-        </section>
-        <section id="clients" className="scroll-mt-24">
-          <Partners />
-        </section>
-        <section id="contact" className="scroll-mt-24 relative z-0 pb-8">
-          <Contact />
-        </section>
+
+        <ScrollReveal direction="up" delay={0.04} duration={0.75}>
+          <EcosystemsSection variant="webdevelopment" />
+        </ScrollReveal>
+
+        <ScrollReveal direction="left" delay={0.06} duration={0.75}>
+          <MiddlewareTeaser />
+        </ScrollReveal>
+
+        <ScrollReveal direction="scale" delay={0.05} duration={0.8}>
+          <PhoneCarousel />
+        </ScrollReveal>
+
+        <ScrollReveal direction="right" delay={0.06} duration={0.75}>
+          <SupportShowcase />
+        </ScrollReveal>
+
+        <ScrollReveal direction="up" delay={0.05} duration={0.75}>
+          <section id="testimonials" className="scroll-mt-24">
+            <Testimonials />
+          </section>
+        </ScrollReveal>
+
+        <ScrollReveal direction="fade" delay={0.04} duration={0.7}>
+          <section id="clients" className="scroll-mt-24">
+            <Partners />
+          </section>
+        </ScrollReveal>
+
+        <ScrollReveal direction="up" delay={0.06} duration={0.75}>
+          <section id="contact" className="scroll-mt-24 relative z-0 pb-8">
+            <Contact />
+          </section>
+        </ScrollReveal>
       </div>
     </div>
   );

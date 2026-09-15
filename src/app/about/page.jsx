@@ -5,7 +5,6 @@ import { motion, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
   Blocks,
-  CheckCircle2,
   Layers3,
   ShieldCheck,
   Workflow,
@@ -42,13 +41,6 @@ const beliefs = [
   },
 ];
 
-const stats = [
-  { value: "25+", label: "trusted brokers" },
-  { value: "9", label: "production-grade services" },
-  { value: "360°", label: "client lifecycle coverage" },
-  { value: "India", label: "built for regulated growth" },
-];
-
 const technologies = [
   "MERN Stack",
   "Next.js",
@@ -83,7 +75,7 @@ export default function AboutInfoPage() {
         <div className="absolute bottom-0 left-[12%] -z-10 h-64 w-64 rounded-full bg-[#2E3545]/8 blur-[90px]" />
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(46,53,69,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(46,53,69,0.035)_1px,transparent_1px)] bg-size-[48px_48px] mask-[linear-gradient(to_bottom,black,transparent_80%)]" />
 
-        <div className="container mx-auto grid min-h-162.5 items-center gap-12 px-5 py-16 sm:px-6 md:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:px-8">
+        <div className="container mx-auto grid min-h-162.5 items-center gap-12 px-5 py-16 sm:px-6 md:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:px-8">
           <motion.div initial="hidden" animate="visible">
             <motion.div
               variants={animation}
@@ -138,106 +130,13 @@ export default function AboutInfoPage() {
             initial={reduceMotion ? false : { opacity: 0, x: 38, rotate: 1.5 }}
             animate={{ opacity: 1, x: 0, rotate: 0 }}
             transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto w-full max-w-117.5"
+            className="relative mx-auto w-full max-w-[47.92rem] sm:max-w-[55.9rem] lg:max-w-[45.25rem]"
           >
-            <div className="absolute -inset-5 -z-10 rounded-[2.25rem] bg-[#FE602F]/8 blur-2xl" />
-            <div className="absolute -inset-3 -z-10 -rotate-2 rounded-4xl border border-[#FE602F]/20 bg-white/70" />
-
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#252b38] p-6 text-white shadow-[0_30px_80px_rgba(46,53,69,0.3)] sm:p-8">
-              <div
-                className="absolute inset-0 opacity-[0.07]"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle, #ffffff 1px, transparent 1px)",
-                  backgroundSize: "22px 22px",
-                }}
-                aria-hidden
-              />
-              <div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-[#FE602F]/25 blur-3xl" />
-              <div className="absolute -bottom-24 -left-20 h-48 w-48 rounded-full bg-white/6 blur-3xl" />
-
-              <div className="relative flex items-center justify-between pb-6">
-                <div>
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#FE602F] shadow-[0_0_12px_rgba(254,96,47,0.9)]" />
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#ffad92]">
-                      Built for impact
-                    </p>
-                  </div>
-                  <h2 className="text-2xl font-semibold text-white!">
-                    At a glance
-                  </h2>
-                </div>
-
-                <motion.span
-                  animate={
-                    reduceMotion
-                      ? undefined
-                      : { y: [0, -7, 0], rotate: [0, 5, 0] }
-                  }
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="flex h-13 w-13 items-center justify-center rounded-2xl bg-[#FE602F] text-white shadow-[0_12px_28px_rgba(254,96,47,0.35)]"
-                >
-                  <Blocks size={23} />
-                </motion.span>
-              </div>
-
-              <div className="relative grid grid-cols-2 gap-3">
-                {stats.map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={reduceMotion ? false : { opacity: 0, scale: 0.92, y: 12 }}
-                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                    whileHover={reduceMotion ? undefined : { y: -4, scale: 1.02 }}
-                    viewport={{ once: true, amount: 0.4 }}
-                    transition={{ duration: 0.4, delay: 0.12 + index * 0.08 }}
-                    className="group min-h-32 rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-sm transition-colors hover:border-[#FE602F]/45 hover:bg-white/11 sm:p-5"
-                  >
-                    <div className="mb-5 flex items-center justify-between">
-                      <span className="text-[10px] font-bold tracking-[0.16em] text-white/35">
-                        0{index + 1}
-                      </span>
-                      <span className="h-1.5 w-1.5 rounded-full bg-white/25 transition group-hover:bg-[#FE602F]" />
-                    </div>
-                    <strong className="block text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-                      {stat.value}
-                    </strong>
-                    <span className="mt-1.5 block text-xs leading-5 text-slate-300">
-                      {stat.label}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="relative mt-4 flex items-center justify-between gap-3 rounded-2xl border border-[#FE602F]/20 bg-[#FE602F]/10 px-4 py-3.5">
-                <span className="flex items-center gap-2 text-xs font-medium text-slate-100">
-                  <CheckCircle2 size={16} className="shrink-0 text-[#FE602F]" />
-                  Trusted across India
-                </span>
-                <span className="flex items-center gap-1">
-                  {[0, 1, 2].map((item) => (
-                    <motion.span
-                      key={item}
-                      animate={
-                        reduceMotion
-                          ? undefined
-                          : { opacity: [0.35, 1, 0.35] }
-                      }
-                      transition={{
-                        duration: 1.8,
-                        repeat: Infinity,
-                        delay: item * 0.25,
-                      }}
-                      className="h-1.5 w-1.5 rounded-full bg-[#FE602F]"
-                    />
-                  ))}
-                </span>
-              </div>
-            </div>
+            <img
+              src="/about-hero.jpg"
+              alt="Join our team — Build your future with TechCulture AI"
+              className="h-auto w-full object-contain object-center"
+            />
           </motion.div>
         </div>
       </section>

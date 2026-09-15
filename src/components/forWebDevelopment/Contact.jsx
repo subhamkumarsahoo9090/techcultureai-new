@@ -7,6 +7,7 @@ import SpotlightCard, {
   TEAL_SPOTLIGHT,
   BRAND_SPOTLIGHT,
 } from "@/components/SpotlightCard";
+import ScrollReveal, { ScrollRevealItem } from "@/components/ScrollReveal";
 
 const inputClass =
   "w-full rounded-xl border border-slate-200 bg-[#fafbfc] px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-[#FE602F]/60 focus:bg-white focus:ring-2 focus:ring-[#FE602F]/15";
@@ -88,21 +89,28 @@ export default function Contact() {
       </div>
 
       <div className="container relative">
-        <div className="mb-10 max-w-2xl md:mb-12">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-[#FE602F]">
-            Connect with us
-          </p>
-          <h2 className="mb-3 text-3xl font-bold leading-tight text-[#2E3545] sm:text-4xl">
-            Get in touch with <span className="section-heading-accent">our team</span>
-          </h2>
-          <p className="text-[15px] leading-relaxed text-slate-500">
-            Have a project or partnership in mind? Reach out — we usually
-            respond within one business day.
-          </p>
-        </div>
+        <ScrollReveal direction="up" delay={0.03} duration={0.65}>
+          <div className="mb-10 max-w-2xl md:mb-12">
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-[#FE602F]">
+              Connect with us
+            </p>
+            <h2 className="mb-3 text-3xl font-bold leading-tight text-[#2E3545] sm:text-4xl">
+              Get in touch with <span className="section-heading-accent">our team</span>
+            </h2>
+            <p className="text-[15px] leading-relaxed text-slate-500">
+              Have a project or partnership in mind? Reach out — we usually
+              respond within one business day.
+            </p>
+          </div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[0.95fr_1.15fr] lg:gap-10">
-          <div className="flex h-full flex-col gap-4">
+          <ScrollReveal
+            direction="left"
+            delay={0.05}
+            stagger={0.09}
+            className="flex h-full flex-col gap-4"
+          >
             {contactInfo.map((info) => {
               const Wrapper = info.href ? "a" : "div";
               const wrapperProps = info.href
@@ -110,53 +118,57 @@ export default function Contact() {
                 : {};
 
               return (
-                <SpotlightCard
-                  key={info.label}
-                  spotlightColor={
-                    info.label === "Email us" ? BRAND_SPOTLIGHT : TEAL_SPOTLIGHT
-                  }
-                  className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-[0_8px_28px_rgba(46,53,69,0.05)] backdrop-blur-sm transition hover:border-slate-300"
-                >
-                  <Wrapper
-                    {...wrapperProps}
-                    className="flex items-start gap-4"
+                <ScrollRevealItem key={info.label}>
+                  <SpotlightCard
+                    spotlightColor={
+                      info.label === "Email us" ? BRAND_SPOTLIGHT : TEAL_SPOTLIGHT
+                    }
+                    className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-[0_8px_28px_rgba(46,53,69,0.05)] backdrop-blur-sm transition hover:border-slate-300"
                   >
-                    <span
-                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ring-1 ${info.tint}`}
+                    <Wrapper
+                      {...wrapperProps}
+                      className="flex items-start gap-4"
                     >
-                      {info.icon}
-                    </span>
-                    <div className="min-w-0 pt-0.5">
-                      <p className="mb-0.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                        {info.label}
-                      </p>
-                      <p className="text-[14px] font-semibold leading-snug text-[#2E3545]">
-                        {info.value}
-                      </p>
-                    </div>
-                  </Wrapper>
-                </SpotlightCard>
+                      <span
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ring-1 ${info.tint}`}
+                      >
+                        {info.icon}
+                      </span>
+                      <div className="min-w-0 pt-0.5">
+                        <p className="mb-0.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                          {info.label}
+                        </p>
+                        <p className="text-[14px] font-semibold leading-snug text-[#2E3545]">
+                          {info.value}
+                        </p>
+                      </div>
+                    </Wrapper>
+                  </SpotlightCard>
+                </ScrollRevealItem>
               );
             })}
 
-            <div className="relative mt-auto overflow-hidden rounded-2xl bg-gradient-to-br from-[#2E3545] to-[#073B3A] p-5 text-white shadow-lg lg:mt-8">
-              <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-[#FE602F]/25 blur-2xl" />
-              <p className="relative mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[#FDBA74]">
-                Prefer a demo?
-              </p>
-              <p className="relative mb-3 text-sm leading-relaxed text-white/80">
-                Book a short walkthrough of our KYC and compliance products.
-              </p>
-              <a
-                href="#contact-form"
-                className="relative inline-flex items-center gap-1.5 text-sm font-semibold text-white transition hover:text-[#FDBA74]"
-              >
-                Use the form
-                <ArrowRight size={15} />
-              </a>
-            </div>
-          </div>
+            <ScrollRevealItem>
+              <div className="relative mt-auto overflow-hidden rounded-2xl bg-gradient-to-br from-[#2E3545] to-[#073B3A] p-5 text-white shadow-lg lg:mt-8">
+                <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-[#FE602F]/25 blur-2xl" />
+                <p className="relative mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[#FDBA74]">
+                  Prefer a demo?
+                </p>
+                <p className="relative mb-3 text-sm leading-relaxed text-white/80">
+                  Book a short walkthrough of our KYC and compliance products.
+                </p>
+                <a
+                  href="#contact-form"
+                  className="relative inline-flex items-center gap-1.5 text-sm font-semibold text-white transition hover:text-[#FDBA74]"
+                >
+                  Use the form
+                  <ArrowRight size={15} />
+                </a>
+              </div>
+            </ScrollRevealItem>
+          </ScrollReveal>
 
+          <ScrollReveal direction="right" delay={0.1} duration={0.75}>
           <SpotlightCard
             spotlightColor={BRAND_SPOTLIGHT}
             className="flex h-full flex-col rounded-[1.5rem] border border-slate-200/90 bg-white p-6 shadow-[0_16px_50px_rgba(46,53,69,0.08)] sm:p-8"
@@ -299,6 +311,7 @@ export default function Contact() {
               </div>
             </form>
           </SpotlightCard>
+          </ScrollReveal>
         </div>
       </div>
     </section>

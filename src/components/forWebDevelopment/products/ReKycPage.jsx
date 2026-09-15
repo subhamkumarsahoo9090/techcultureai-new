@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -111,7 +111,7 @@ const trustBadges = [
 ];
 
 /** Set when the final hero illustration is provided */
-const HERO_IMAGE_SRC = null;
+const HERO_IMAGE_SRC = "/re-kyc-hero.jpg";
 
 function HeroVisualPlaceholder() {
   const checks = ["Identity Proof", "Address Proof", "Selfie Verification"];
@@ -195,11 +195,11 @@ export default function ReKycPage() {
           <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-12 items-start">
             <div>
               <Link
-                href={webdevHref("/products")}
+                href={webdevHref("/fintech")}
                 className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-teal-700 hover:text-teal-800 mb-6 transition-colors"
               >
                 <ArrowLeft size={15} />
-                Back to Products
+                Back to Fintech
               </Link>
 
               <h1 className="text-[36px] sm:text-[44px] md:text-[48px] font-bold text-slate-900 leading-tight mb-3">
@@ -252,12 +252,12 @@ export default function ReKycPage() {
               {HERO_IMAGE_SRC ? (
                 <Image
                   src={HERO_IMAGE_SRC}
-                  alt="Re-KYC verification on mobile with reminders"
-                  width={1024}
-                  height={1024}
+                  alt="Re-KYC verification — identity, address and selfie checks on mobile"
+                  width={1400}
+                  height={1050}
                   quality={100}
                   priority
-                  className="w-full h-auto max-w-[500px] mx-auto select-none pointer-events-none"
+                  className="w-full h-auto max-w-[572px] mx-auto select-none pointer-events-none object-contain"
                 />
               ) : (
                 <HeroVisualPlaceholder />

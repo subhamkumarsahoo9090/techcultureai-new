@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -154,11 +154,11 @@ export default function BusinessKycPage() {
           <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-12 items-center">
             <div>
               <Link
-                href={webdevHref("/products")}
+                href={webdevHref("/fintech")}
                 className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-teal-700 hover:text-teal-800 mb-6 transition-colors"
               >
                 <ArrowLeft size={15} />
-                Back to Products
+                Back to Fintech
               </Link>
 
               <h1 className="text-[36px] sm:text-[44px] md:text-[48px] font-bold text-slate-900 leading-tight mb-3">

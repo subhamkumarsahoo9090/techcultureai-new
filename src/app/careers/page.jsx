@@ -1,10 +1,13 @@
 "use client";
 
+import Link from "next/link";
+import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
   BriefcaseBusiness,
   Code2,
+  Eye,
   HeartHandshake,
   Lightbulb,
   MapPin,
@@ -14,6 +17,10 @@ import {
   Users,
   Zap,
 } from "lucide-react";
+import JobApplyModal from "@/components/careers/JobApplyModal";
+import JobDescriptionModal from "@/components/careers/JobDescriptionModal";
+import { getFeaturedJobs } from "@/lib/careers/jobs";
+import { webdevHref } from "@/lib/webdevelopment/paths";
 
 const benefits = [
   {
@@ -42,29 +49,13 @@ const benefits = [
   },
 ];
 
-const roles = [
-  {
-    title: "Full Stack Developer",
-    stack: "MERN · Next.js · Node.js",
-    description:
-      "Build responsive product interfaces, reliable APIs, and scalable services across our financial platforms.",
-    icon: Code2,
-  },
-  {
-    title: "React Native Developer",
-    stack: "React Native · JavaScript · APIs",
-    description:
-      "Create smooth, dependable mobile experiences used across onboarding and operational workflows.",
-    icon: Zap,
-  },
-  {
-    title: "QA & Automation Engineer",
-    stack: "Automation · API Testing · Quality",
-    description:
-      "Strengthen product quality through thoughtful test strategy, automation, and reliable release practices.",
-    icon: BriefcaseBusiness,
-  },
-];
+const roleIcons = {
+  "full-stack-developer": Code2,
+  "react-native-developer": Zap,
+  "qa-automation-engineer": BriefcaseBusiness,
+};
+
+const featuredRoles = getFeaturedJobs(3);
 
 const hiringSteps = [
   {
@@ -103,6 +94,21 @@ export default function CareersPage() {
   const animation = reduceMotion
     ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
     : reveal;
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [jdOpen, setJdOpen] = useState(false);
+  const [applyOpen, setApplyOpen] = useState(false);
+
+  const openJd = (job) => {
+    setSelectedJob(job);
+    setJdOpen(true);
+    setApplyOpen(false);
+  };
+
+  const openApply = (job) => {
+    setSelectedJob(job);
+    setApplyOpen(true);
+    setJdOpen(false);
+  };
 
   return (
     <div className="overflow-hidden bg-white text-[#2E3545]">
@@ -163,60 +169,14 @@ export default function CareersPage() {
             initial={reduceMotion ? false : { opacity: 0, x: 36, rotate: 2 }}
             animate={{ opacity: 1, x: 0, rotate: 0 }}
             transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto w-full max-w-117.5"
+            className="relative mx-auto w-full max-w-2xl"
           >
-            <div className="absolute -inset-5 -z-10 rounded-[2.25rem] bg-[#FE602F]/10 blur-2xl" />
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#252b38] p-6 text-white shadow-[0_30px_80px_rgba(46,53,69,0.3)] sm:p-8">
-              <div className="absolute -right-16 -top-20 h-52 w-52 rounded-full bg-[#FE602F]/25 blur-3xl" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-size-[24px_24px] opacity-40" />
-
-              <div className="relative flex items-start justify-between">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#ffad92]">
-                    Your next chapter
-                  </span>
-                  <h2 className="mt-2 max-w-64 text-2xl font-semibold leading-tight text-white!">
-                    Ideas become products here.
-                  </h2>
-                </div>
-                <motion.span
-                  animate={
-                    reduceMotion
-                      ? undefined
-                      : { y: [0, -7, 0], rotate: [0, 6, 0] }
-                  }
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl bg-[#FE602F] shadow-[0_12px_28px_rgba(254,96,47,0.35)]"
-                >
-                  <Sparkles size={23} />
-                </motion.span>
-              </div>
-
-              <div className="relative mt-8 space-y-3">
-                {[
-                  "Build production-grade platforms",
-                  "Work across web and mobile",
-                  "Solve meaningful technical problems",
-                ].map((item, index) => (
-                  <motion.div
-                    key={item}
-                    initial={reduceMotion ? false : { opacity: 0, x: 18 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.55 + index * 0.12 }}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-3.5 text-sm text-slate-100 backdrop-blur"
-                  >
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#FE602F]/15 text-xs font-bold text-[#ff8b66]">
-                      0{index + 1}
-                    </span>
-                    {item}
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="relative mt-5 flex items-center gap-3 rounded-2xl bg-[#FE602F] px-4 py-4 text-sm font-semibold shadow-[0_12px_25px_rgba(254,96,47,0.22)]">
-                <HeartHandshake size={20} />
-                Build with people who care about the outcome.
-              </div>
+            <div className="relative overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white shadow-[0_30px_80px_rgba(46,53,69,0.18)] ring-1 ring-slate-100">
+              <img
+                src="/careers-hero.jpg"
+                alt="Join our team — Build your future with TechCulture AI"
+                className="h-auto w-full object-contain object-center"
+              />
             </div>
           </motion.div>
         </div>
@@ -286,18 +246,22 @@ export default function CareersPage() {
                 <MapPin size={17} className="text-[#FE602F]" />
                 India · Full-time opportunities
               </div>
+              <Link
+                href={webdevHref("/careers/openings")}
+                className="brand-cta-gradient mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
+              >
+                Find more
+                <ArrowRight size={16} />
+              </Link>
             </div>
 
             <div className="space-y-4">
-              {roles.map((role, index) => {
-                const Icon = role.icon;
-                const subject = encodeURIComponent(
-                  `Application for ${role.title} - TechCulture AI`
-                );
+              {featuredRoles.map((role, index) => {
+                const Icon = roleIcons[role.id] || BriefcaseBusiness;
 
                 return (
                   <motion.article
-                    key={role.title}
+                    key={role.id}
                     initial={reduceMotion ? false : { opacity: 0, x: 24 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, amount: 0.25 }}
@@ -314,20 +278,41 @@ export default function CareersPage() {
                           {role.stack}
                         </p>
                         <p className="mt-3 text-sm leading-6 text-slate-500">
-                          {role.description}
+                          {role.summary}
                         </p>
                       </div>
-                      <a
-                        href={`mailto:info@techculture.ai?subject=${subject}`}
-                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-[#2E3545]/15 px-5 py-2.5 text-sm font-semibold transition hover:border-[#FE602F] hover:bg-[#FE602F] hover:text-white"
-                      >
-                        Apply
-                        <ArrowRight size={15} />
-                      </a>
+                      <div className="flex shrink-0 flex-col gap-2 sm:items-stretch">
+                        <button
+                          type="button"
+                          onClick={() => openJd(role)}
+                          className="inline-flex items-center justify-center gap-2 rounded-full border border-[#2E3545]/15 px-5 py-2.5 text-sm font-semibold transition hover:border-[#2E3545]/35"
+                        >
+                          <Eye size={15} />
+                          View JD
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => openApply(role)}
+                          className="inline-flex items-center justify-center gap-2 rounded-full border border-[#2E3545]/15 px-5 py-2.5 text-sm font-semibold transition hover:border-[#FE602F] hover:bg-[#FE602F] hover:text-white"
+                        >
+                          Apply
+                          <ArrowRight size={15} />
+                        </button>
+                      </div>
                     </div>
                   </motion.article>
                 );
               })}
+
+              <div className="pt-2 text-center sm:text-right">
+                <Link
+                  href={webdevHref("/careers/openings")}
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-[#FE602F] transition hover:gap-3"
+                >
+                  View all openings
+                  <ArrowRight size={15} />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -403,16 +388,28 @@ export default function CareersPage() {
                 </p>
               </div>
             </div>
-            <a
-              href="mailto:info@techculture.ai?subject=General%20Career%20Application%20-%20TechCulture%20AI"
+            <Link
+              href={webdevHref("/careers/openings")}
               className="brand-cta-gradient inline-flex shrink-0 items-center gap-2 rounded-full px-7 py-3.5 font-semibold"
             >
-              Send an open application
+              Browse all openings
               <ArrowRight size={17} />
-            </a>
+            </Link>
           </motion.div>
         </div>
       </section>
+
+      <JobDescriptionModal
+        open={jdOpen}
+        job={selectedJob}
+        onClose={() => setJdOpen(false)}
+        onApply={openApply}
+      />
+      <JobApplyModal
+        open={applyOpen}
+        job={selectedJob}
+        onClose={() => setApplyOpen(false)}
+      />
     </div>
   );
 }

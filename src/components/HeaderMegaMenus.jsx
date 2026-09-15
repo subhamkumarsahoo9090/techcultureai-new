@@ -38,7 +38,6 @@ import {
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import {
-  getIndustryBySlug,
   getProductBySlug,
 } from "../lib/webdevelopment/catalog";
 import { slugify, webdevHref } from "../lib/webdevelopment/paths";
@@ -47,23 +46,22 @@ function resolveProductHref(label, variant) {
   if (variant === "webdevelopment") {
     const slug = slugify(label);
     const page = getProductBySlug(slug);
-    return page?.href || webdevHref(`/products/${slug}`);
+    return page?.href || webdevHref(`/fintech/${slug}`);
   }
   return "/services";
 }
 
 function resolveIndustryHref(item, variant) {
   if (variant === "webdevelopment") {
-    const slug = slugify(item.title);
-    const page = getIndustryBySlug(slug);
-    return page?.href || webdevHref(`/industries/${slug}`);
+    // Industries pages removed — send category traffic to Fintech hub.
+    return webdevHref("/fintech");
   }
   return item.href || "/services";
 }
 
 function resolveAutomationHref(service, variant) {
   if (variant === "webdevelopment") {
-    return webdevHref("/ai-automation");
+    return webdevHref("/products");
   }
   return `/services/${service.slug}`;
 }
@@ -71,7 +69,7 @@ function resolveAutomationHref(service, variant) {
 function resolveAboutHref(item, variant) {
   if (variant === "webdevelopment") {
     if (item.href === "/about-us") return webdevHref("/about");
-    if (item.href === "/services") return webdevHref("/products");
+    if (item.href === "/services") return webdevHref("/fintech");
     if (item.href === "/contact-us") return webdevHref("/contact");
   }
   return item.href;
@@ -148,6 +146,88 @@ export const productColumns = [
 
 export const productCategories = productColumns.flat();
 
+/** Categories derived from Our Technology Partner work on the homepage. */
+export const partnerWorkCategories = [
+  {
+    title: "Fintech",
+    subtitle: "KYC, identity & compliance platforms",
+    icon: Landmark,
+    partners: ["IPO Master"],
+    href: webdevHref("/products"),
+    links: [
+      { label: "All Fintech Products", type: "hub" },
+      { label: "Banking & FinTech", type: "industry" },
+      { label: "Aadhaar Verification", type: "product" },
+      { label: "Digital KYC", type: "product" },
+      { label: "Business KYC", type: "product" },
+      { label: "Online IPO Bidding", type: "product" },
+    ],
+  },
+  {
+    title: "E-Commerce",
+    subtitle: "Retail, marketplace & QSR journeys",
+    icon: ShoppingCart,
+    partners: ["Lakshmi Stores", "Shoppin", "Burger King"],
+    href: webdevHref("/fintech"),
+    links: [
+      { label: "E-Commerce", type: "industry" },
+      { label: "Live Chat Support", type: "product" },
+      { label: "AI Virtual Assistant", type: "product" },
+      { label: "WhatsApp Automation", type: "product" },
+      { label: "Campaign Management", type: "product" },
+    ],
+  },
+  {
+    title: "Healthcare",
+    subtitle: "Dental, clinical & patient workflows",
+    icon: HeartPulse,
+    partners: ["GoTu", "Abra Dental", "Aspen Dental", "Dental365"],
+    href: webdevHref("/fintech"),
+    links: [
+      { label: "Healthcare", type: "industry" },
+      { label: "Appointment Scheduler", type: "product" },
+      { label: "Employee Onboarding", type: "product" },
+      { label: "Helpdesk", type: "product" },
+    ],
+  },
+  {
+    title: "Travel & Hospitality",
+    subtitle: "Guest journeys and booking support",
+    icon: Plane,
+    partners: ["Airbnb"],
+    href: webdevHref("/fintech"),
+    links: [
+      { label: "Travel & Hospitality", type: "industry" },
+      { label: "Lead Management", type: "product" },
+      { label: "Live Chat Support", type: "product" },
+      { label: "Partner Onboarding", type: "product" },
+    ],
+  },
+  {
+    title: "Manufacturing",
+    subtitle: "Supplier, ops and field workflows",
+    icon: Factory,
+    partners: ["ChemScience"],
+    href: webdevHref("/fintech"),
+    links: [
+      { label: "Manufacturing", type: "industry" },
+      { label: "Supplier Onboarding", type: "product" },
+      { label: "Vendor Onboarding", type: "product" },
+      { label: "Field Service", type: "product" },
+    ],
+  },
+];
+
+function resolvePartnerWorkHref(link, category) {
+  if (link.type === "hub") return webdevHref("/products");
+  if (link.type === "industry") {
+    return resolveIndustryHref({ title: link.label }, "webdevelopment");
+  }
+  if (link.type === "product") {
+    return resolveProductHref(link.label, "webdevelopment");
+  }
+  return category.href || webdevHref("/products");
+}
 
 export const industryItems = [
   {
@@ -286,34 +366,33 @@ const megaThemes = {
     linkHover: "hover:text-primary",
   },
   webdevelopment: {
-    accentText: "text-teal-600",
-    accentBg: "bg-teal-50",
-    accentBgStrong: "bg-teal-100",
-    accentBorder: "border-teal-200",
-    accentBorderMd: "border-teal-200",
-    accentBorderBottom: "border-teal-400/60",
-    hoverBg: "hover:bg-teal-50",
-    hoverText: "group-hover:text-teal-700",
-    iconHover: "group-hover:bg-teal-600 group-hover:text-white",
-    bullet: "bg-teal-500",
+    accentText: "text-[#FE602F]",
+    accentBg: "bg-[#fff0eb]",
+    accentBgStrong: "bg-[#ffe4da]",
+    accentBorder: "border-orange-200",
+    accentBorderMd: "border-orange-200",
+    accentBorderBottom: "border-[#FE602F]/50",
+    hoverBg: "hover:bg-[#fff5f1]",
+    hoverText: "group-hover:text-[#d9471b]",
+    iconHover: "group-hover:bg-[#FE602F] group-hover:text-white",
+    bullet: "bg-[#FE602F]",
     productsShell:
-      "bg-gradient-to-br from-[#f0fdfa] to-white rounded-2xl shadow-[0_24px_70px_rgba(13,148,136,0.18)] border border-teal-100/80",
+      "bg-gradient-to-br from-[#fff8f5] via-white to-[#f5f5f6] rounded-2xl shadow-[0_24px_70px_rgba(46,53,69,0.14)] border border-orange-100/80",
     productCard:
-      "bg-white/95 rounded-xl border border-teal-100 p-4 shadow-[0_2px_12px_rgba(13,148,136,0.08)]",
+      "bg-white/95 rounded-xl border border-orange-100 p-4 shadow-[0_2px_12px_rgba(254,96,47,0.06)]",
     productIconBox:
-      "w-10 h-10 rounded-xl border border-teal-200 bg-teal-50 text-teal-600",
+      "w-10 h-10 rounded-xl border border-orange-200 bg-[#fff0eb] text-[#FE602F]",
     sidebarGradient:
-      "from-teal-500/20 via-emerald-400/25 to-teal-900/10",
-    bar1: "bg-teal-300/70",
-    bar2: "bg-teal-500/80",
-    bar3: "bg-teal-600",
-    bar4: "bg-emerald-500/80",
-    bar5: "bg-teal-800/40",
-    bar6: "bg-teal-700/30",
-    // White background par clearly dikhane ke liye higher opacity
-    decor: "text-teal-700/70",
-    shellShadow: "shadow-[0_20px_60px_rgba(13,148,136,0.15)]",
-    linkHover: "hover:text-teal-400",
+      "from-[#FE602F]/20 via-[#ff8a62]/20 to-[#2E3545]/12",
+    bar1: "bg-[#FE602F]/40",
+    bar2: "bg-[#FE602F]/70",
+    bar3: "bg-[#FE602F]",
+    bar4: "bg-[#e95325]/80",
+    bar5: "bg-[#2E3545]/45",
+    bar6: "bg-[#2E3545]/30",
+    decor: "text-[#2E3545]/60",
+    shellShadow: "shadow-[0_20px_60px_rgba(46,53,69,0.14)]",
+    linkHover: "hover:text-[#FE602F]",
   },
 };
 
@@ -373,6 +452,89 @@ function MegaItem({ icon: Icon, title, subtitle, onClick, theme }) {
 
 export function ProductsMegaPanel({ onNavigate, variant = "default" }) {
   const t = getMegaTheme(variant);
+
+  if (variant === "webdevelopment") {
+    return (
+      <div className={`${t.productsShell} overflow-hidden`}>
+        <div className="border-b border-orange-100/80 px-5 py-4">
+          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#FE602F]">
+            Built across industries
+          </p>
+          <p className="mt-1 text-sm text-slate-500">
+            Categories from our Technology Partner work — Fintech, E-Commerce and more.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {partnerWorkCategories.map((category) => {
+            const Icon = category.icon;
+            return (
+              <div key={category.title} className={`${t.productCard} flex h-full flex-col`}>
+                <button
+                  type="button"
+                  onClick={() => onNavigate(category.href, "products")}
+                  className="mb-3 flex w-full items-start gap-3 text-left"
+                >
+                  <span
+                    className={`${t.productIconBox} flex h-10 w-10 shrink-0 items-center justify-center`}
+                  >
+                    <Icon size={20} strokeWidth={1.8} />
+                  </span>
+                  <span className="min-w-0">
+                    <span
+                      className={`block text-[13px] font-bold uppercase tracking-[0.06em] ${t.accentText}`}
+                    >
+                      {category.title}
+                    </span>
+                    <span className="mt-1 block text-[12px] leading-snug text-slate-500">
+                      {category.subtitle}
+                    </span>
+                  </span>
+                </button>
+
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                  Partners
+                </p>
+                <div className="mb-3 flex flex-wrap gap-1.5">
+                  {category.partners.map((partner) => (
+                    <span
+                      key={partner}
+                      className="rounded-full bg-[#fff0eb] px-2 py-0.5 text-[10px] font-semibold text-[#d9471b] ring-1 ring-orange-100"
+                    >
+                      {partner}
+                    </span>
+                  ))}
+                </div>
+
+                <ul className="mt-auto space-y-0.5">
+                  {category.links.map((link) => (
+                    <li key={link.label}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          onNavigate(
+                            resolvePartnerWorkHref(link, category),
+                            "products"
+                          )
+                        }
+                        className={`group flex w-full items-center gap-2 rounded-md px-1 py-1.5 text-left ${t.hoverBg} transition-colors`}
+                      >
+                        <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${t.bullet}`} />
+                        <span
+                          className={`truncate text-[13px] font-medium text-slate-800 ${t.hoverText}`}
+                        >
+                          {link.label}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
 
   const renderTrailing = (link) => {
     if (link.trailing === "whatsapp") {
@@ -595,6 +757,50 @@ export function AboutMegaPanel({ onNavigate, variant = "default" }) {
 
 export function ProductsMobileMenu({ onNavigate, variant = "default" }) {
   const t = getMegaTheme(variant);
+
+  if (variant === "webdevelopment") {
+    return (
+      <div className="ml-2 mt-2 space-y-4 pb-2">
+        {partnerWorkCategories.map((category) => {
+          const Icon = category.icon;
+          return (
+            <div key={category.title}>
+              <button
+                type="button"
+                className={`mb-1.5 flex w-full items-center gap-2 ${t.accentText}`}
+                onClick={() => onNavigate(category.href, "products")}
+              >
+                <Icon size={14} />
+                <span
+                  className={`inline-block border-b pb-0.5 text-[12px] font-bold uppercase tracking-wide ${t.accentBorder}`}
+                >
+                  {category.title}
+                </span>
+              </button>
+              <p className="mb-1.5 ml-5 text-[11px] text-slate-400">
+                {category.partners.join(" · ")}
+              </p>
+              <div className="ml-5 space-y-1">
+                {category.links.map((link) => (
+                  <button
+                    key={link.label}
+                    type="button"
+                    className={`flex w-full items-center gap-2 py-1.5 text-left text-[15px] text-slate-700 ${t.linkHover} transition-colors`}
+                    onClick={() =>
+                      onNavigate(resolvePartnerWorkHref(link, category), "products")
+                    }
+                  >
+                    <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${t.bullet}`} />
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 
   return (
     <div className="ml-2 mt-2 space-y-4 pb-2">

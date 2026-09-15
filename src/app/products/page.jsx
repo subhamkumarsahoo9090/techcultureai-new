@@ -11,7 +11,6 @@ import {
   Fingerprint,
   Layers3,
   Search,
-  Sparkles,
   UserRoundPlus,
 } from "lucide-react";
 import { productPages } from "@/lib/webdevelopment/catalog";
@@ -184,84 +183,13 @@ export default function ProductsHubPage() {
               delay: 0.18,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="relative mx-auto w-full max-w-117.5"
+            className="relative mx-auto w-full max-w-xl sm:max-w-2xl"
           >
-            <div className="absolute -inset-5 -z-10 rounded-[2.25rem] bg-[#FE602F]/10 blur-2xl" />
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#2E3545] p-6 text-white shadow-[0_30px_80px_rgba(46,53,69,0.3)] sm:p-8">
-              <div className="absolute -right-16 -top-20 h-52 w-52 rounded-full bg-[#FE602F]/25 blur-3xl" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-size-[24px_24px] opacity-40" />
-
-              <div className="relative flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#FE602F]">
-                    Complete product suite
-                  </span>
-                  <h2 className="mt-2 text-2xl font-semibold text-white!">
-                    Built to work together.
-                  </h2>
-                </div>
-                <motion.span
-                  animate={
-                    reduceMotion
-                      ? undefined
-                      : { y: [0, -7, 0], rotate: [0, 6, 0] }
-                  }
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="flex h-13 w-13 items-center justify-center rounded-2xl bg-[#FE602F] shadow-[0_12px_28px_rgba(254,96,47,0.35)]"
-                >
-                  <Sparkles size={23} />
-                </motion.span>
-              </div>
-
-              <div className="relative mt-8 grid grid-cols-2 gap-3">
-                {Object.entries(categoryDetails)
-                  .slice(0, 4)
-                  .map(([category, details], index) => {
-                    const Icon = details.icon;
-                    const count = products.filter(
-                      (product) => product.productCategory === category
-                    ).length;
-
-                    return (
-                      <motion.div
-                        key={category}
-                        initial={
-                          reduceMotion
-                            ? false
-                            : { opacity: 0, scale: 0.92, y: 12 }
-                        }
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ delay: 0.48 + index * 0.1 }}
-                        whileHover={
-                          reduceMotion ? undefined : { y: -4, scale: 1.02 }
-                        }
-                        className="rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-sm"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FE602F]/20 text-[#FE602F]">
-                            <Icon size={17} />
-                          </span>
-                          <span className="text-lg font-semibold text-white">
-                            {count}
-                          </span>
-                        </div>
-                        <p className="mt-4 text-xs font-medium leading-5 text-slate-200">
-                          {category}
-                        </p>
-                      </motion.div>
-                    );
-                  })}
-              </div>
-
-              <div className="relative mt-4 flex items-center gap-3 rounded-2xl bg-[#FE602F] px-4 py-4 text-sm font-semibold">
-                <CheckCircle2 size={18} />
-                {products.length} products across the complete lifecycle
-              </div>
-            </div>
+            <img
+              src="/all.png"
+              alt="TechCulture digital ecosystem — Trading, HRMS, E-KYC, Re-KYC, Closer, GIS and IPO Master"
+              className="h-auto w-full object-contain object-center"
+            />
           </motion.div>
         </div>
       </section>

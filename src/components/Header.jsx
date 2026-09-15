@@ -35,14 +35,14 @@ const Header = () => {
     const menuVariant = isLightHeader ? "webdevelopment" : "default";
     const dropdownActiveClass =
         isLightHeader
-            ? "text-teal-600 opacity-100 font-semibold"
+            ? "text-[#FE602F] opacity-100 font-semibold"
             : "text-primary opacity-100 font-semibold";
     const router = useRouter();
     const { settingsData, setSettingsData } = useSite();
     const headerLogoSrc = isLightHeader ? WEBDEV_LOGO : settingsData?.logo || WEBDEV_LOGO;
     const homeHref = isLightHeader ? webdevHref("/") : "/";
     const navPaths = {
-      automation: isLightHeader ? webdevHref("/ai-automation") : "/automation",
+      automation: isLightHeader ? webdevHref("/products") : "/automation",
       products: isLightHeader ? webdevHref("/products") : "/products",
       careers: webdevHref("/careers"),
       blog: webdevHref("/blog"),
@@ -220,10 +220,10 @@ const Header = () => {
     const getLinkClasses = (path) => {
         const baseClasses = "text-[17px] transition-all duration-300 relative";
         const activeClasses = isLightHeader
-            ? "text-teal-600 opacity-100 font-semibold"
+            ? "text-[#FE602F] opacity-100 font-semibold"
             : "text-primary opacity-100 font-semibold";
         const inactiveClasses = isLightHeader
-            ? "text-slate-800 opacity-90 hover:opacity-100 hover:text-teal-600"
+            ? "text-slate-800 opacity-90 hover:opacity-100 hover:text-[#FE602F]"
             : "text-white opacity-90 hover:opacity-100 hover:text-primary";
         
         return `${baseClasses} ${isActiveLink(path) ? activeClasses : inactiveClasses}`;
@@ -405,76 +405,55 @@ const Header = () => {
                 Our Team
               </Link>
 
-              {/* Products Mega Menu - Desktop */}
+              {/* Product Mega Menu - Desktop */}
               <div
                 className="products-dropdown relative group hidden lg:block"
-                onMouseEnter={isLightHeader ? undefined : handleProductsMouseEnter}
-                onMouseLeave={isLightHeader ? undefined : handleProductsMouseLeave}
+                onMouseEnter={handleProductsMouseEnter}
+                onMouseLeave={handleProductsMouseLeave}
               >
                 <div
                   className={`${getLinkClasses(
                     navPaths.products
                   )} flex items-center gap-1 cursor-pointer ${
-                    isProductsDropdownOpen && !isLightHeader ? dropdownActiveClass : ""
+                    isProductsDropdownOpen ? dropdownActiveClass : ""
                   }`}
                   onClick={(e) => {
-                    if (isLightHeader) {
-                      e.preventDefault();
-                      handleNavigation(navPaths.products, "products");
-                      return;
-                    }
                     handleProductsClick(e);
                   }}
                 >
-                  Products
-                  {!isLightHeader && (
+                  Product
                   <IoChevronDown
                     className={`text-sm transition-transform duration-300 ${
                       isProductsDropdownOpen ? "rotate-180" : ""
                     }`}
                   />
-                  )}
                 </div>
 
-                {!isLightHeader && (
                 <div
-                  className={`absolute top-full left-1/2 -translate-x-[35%] pt-3 z-[120] transition-all duration-300 ${
+                  className={`absolute top-full left-1/2 z-[120] -translate-x-[42%] pt-3 transition-all duration-300 ${
                     isProductsDropdownOpen
-                      ? "opacity-100 visible translate-y-0"
-                      : "opacity-0 invisible translate-y-2 pointer-events-none"
+                      ? "visible translate-y-0 opacity-100"
+                      : "pointer-events-none invisible translate-y-2 opacity-0"
                   }`}
                 >
-                  <div className="w-[min(1080px,94vw)]">
+                  <div className="w-[min(1120px,94vw)]">
                     <ProductsMegaPanel
                       onNavigate={handleNavigation}
                       variant={menuVariant}
                     />
                   </div>
                 </div>
-                )}
               </div>
 
-              {/* Mobile Products Menu */}
+              {/* Mobile Product Menu */}
               <div className="w-full lg:hidden">
-                {isLightHeader ? (
-                  <Link
-                    href={navPaths.products}
-                    className={`${getLinkClasses(
-                      navPaths.products
-                    )} flex items-center w-full py-3 border-b border-gray-200`}
-                    onClick={() => handleNavigation(navPaths.products, "products")}
-                  >
-                    Products
-                  </Link>
-                ) : (
-                  <>
                 <div
                   className={`${getLinkClasses(
-                    "/products"
-                  )} flex items-center justify-between cursor-pointer w-full py-3 border-b border-gray-700`}
+                    navPaths.products
+                  )} flex w-full cursor-pointer items-center justify-between border-b border-gray-200 py-3`}
                   onClick={handleProductsClick}
                 >
-                  <span>Products</span>
+                  <span>Product</span>
                   <IoChevronDown
                     className={`text-sm transition-transform duration-300 ${
                       isMobileProductsOpen ? "rotate-180" : ""
@@ -486,8 +465,6 @@ const Header = () => {
                     onNavigate={handleNavigation}
                     variant={menuVariant}
                   />
-                )}
-                  </>
                 )}
               </div>
 

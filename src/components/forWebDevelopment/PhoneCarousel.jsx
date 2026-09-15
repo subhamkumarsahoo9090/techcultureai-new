@@ -1120,7 +1120,7 @@ const WebAppCarousel = () => {
           {/* Right Navigation Button */}
           <button 
             onClick={nextSlide}
-            className="brand-cta-outline absolute right-0 md:right-4 z-10 bg-white p-4 rounded-full transition-all shadow-lg hover:shadow-xl border"
+            className="brand-cta-outline absolute right-0 md:right-4 z-10 bg-white p-4 rounded-full transition-all shadow-lg hover:shadow-xl border "
             aria-label="Next module"
           >
             <ChevronRight size={28} />
@@ -1137,7 +1137,7 @@ const WebAppCarousel = () => {
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index + SLIDE_COUNT)}
-                className={`flex flex-col items-center transition-all duration-300 min-w-[52px] shrink-0 ${
+                className={`mt-2 flex flex-col items-center transition-all duration-300 min-w-[52px] shrink-0 ${
                   index === adjustedIndex ? 'opacity-100' : 'opacity-45 hover:opacity-70'
                 }`}
                 aria-label={`Go to ${slide.title}`}

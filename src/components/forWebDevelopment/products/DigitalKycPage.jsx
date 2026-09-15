@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -83,55 +83,6 @@ const performanceStats = [
 
 const HERO_IMAGE_SRC = "/digital-kyc-hero.png";
 
-function HeroVisualPlaceholder() {
-  return (
-    <div className="relative w-full max-w-[480px] mx-auto min-h-[420px] sm:min-h-[480px] flex items-center justify-center">
-      <div className="absolute bottom-[6%] left-1/2 -translate-x-1/2 w-[72%] h-10 rounded-[100%] bg-slate-200/70 blur-md" />
-      <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 w-[58%] h-3.5 rounded-[100%] bg-slate-300/50" />
-
-      <div className="relative z-10 w-[200px] sm:w-[230px] rounded-[2rem] border-[6px] border-slate-900 bg-slate-900 shadow-[0_28px_60px_rgba(15,23,42,0.28)] overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-900 rounded-b-2xl z-20" />
-        <div className="bg-white min-h-[380px] sm:min-h-[420px] p-4 pt-8 flex flex-col">
-          <p className="text-[11px] font-bold text-slate-800 text-center mb-3">
-            KYC Verification
-          </p>
-          <div className="flex-1 rounded-xl bg-slate-100 relative overflow-hidden flex items-center justify-center">
-            <div className="w-20 h-20 rounded-full bg-slate-300 relative">
-              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-28 h-16 rounded-t-full bg-slate-300" />
-            </div>
-            <span className="absolute bottom-4 right-4 w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-lg">
-              <ShieldCheck size={18} strokeWidth={2.5} />
-            </span>
-          </div>
-          <div className="mt-3 space-y-1.5">
-            <div className="h-2 rounded bg-slate-200 w-3/4 mx-auto" />
-            <div className="h-2 rounded bg-slate-100 w-1/2 mx-auto" />
-          </div>
-        </div>
-      </div>
-
-      {[
-        { label: "Document OCR", pos: "top-[6%] left-0" },
-        { label: "Data Extraction", pos: "top-[28%] right-0" },
-        { label: "Liveness Check", pos: "bottom-[28%] left-0" },
-        { label: "Verification Complete", pos: "bottom-[8%] right-0" },
-      ].map((card) => (
-        <div
-          key={card.label}
-          className={`absolute ${card.pos} z-20 bg-white rounded-xl border border-slate-200/90 shadow-[0_10px_28px_rgba(15,23,42,0.08)] px-3 py-2.5 max-w-[140px]`}
-        >
-          <span className="w-6 h-6 rounded-md bg-teal-50 text-teal-700 flex items-center justify-center mb-1.5">
-            <FileCheck2 size={12} />
-          </span>
-          <p className="text-[11px] font-semibold text-slate-800 leading-tight">
-            {card.label}
-          </p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 export default function DigitalKycPage() {
   return (
     <div className="bg-white text-slate-800 w-full min-w-0">
@@ -139,7 +90,7 @@ export default function DigitalKycPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#f7faf9] via-white to-white pointer-events-none" />
 
         <div className="container relative">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.2fr] gap-10 lg:gap-8 items-center">
             <div>
               <Link
                 href={webdevHref("/products")}
@@ -184,20 +135,18 @@ export default function DigitalKycPage() {
               </div>
             </div>
 
-            <div className="relative">
-              {HERO_IMAGE_SRC ? (
-                <Image
-                  src={HERO_IMAGE_SRC}
-                  alt="Digital KYC verification on mobile"
-                  width={1024}
-                  height={1024}
-                  quality={100}
-                  priority
-                  className="w-full h-auto max-w-[520px] mx-auto select-none pointer-events-none"
-                />
-              ) : (
-                <HeroVisualPlaceholder />
-              )}
+            <div className="relative mx-auto w-full max-w-md sm:max-w-lg lg:max-w-xl lg:min-w-0">
+              <Image
+                src={HERO_IMAGE_SRC}
+                alt="Digital KYC verification — document OCR, liveness check and instant verification"
+                width={612}
+                height={408}
+                quality={100}
+                priority
+                unoptimized
+                className="h-auto w-full object-contain object-center"
+                sizes="(max-width: 1024px) 90vw, 420px"
+              />
             </div>
           </div>
         </div>

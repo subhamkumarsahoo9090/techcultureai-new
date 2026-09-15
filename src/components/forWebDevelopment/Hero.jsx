@@ -1,17 +1,39 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
-import {
-  ArrowRight,
-  CalendarDays,
-  Mail,
-  MessageSquareText,
-  Phone,
-  UserRound,
-} from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import SpotlightCard, { TEAL_SPOTLIGHT, BRAND_SPOTLIGHT } from "@/components/SpotlightCard";
 import { useBookDemo } from "@/context/BookDemoContext";
+
+const HERO_FLOW_SLIDES = [
+  {
+    src: "/hero-flow-01-create-account.png",
+    alt: "Create your account — open demat account in minutes",
+  },
+  {
+    src: "/hero-flow-02-digilocker.png",
+    alt: "Connect with DigiLocker to fetch KYC documents",
+  },
+  {
+    src: "/hero-flow-03-liveness.png",
+    alt: "Selfie with liveness check and geo tagging",
+  },
+  {
+    src: "/hero-flow-04-bank-verification.png",
+    alt: "Bank verification with UPI Intent and Collect",
+  },
+  {
+    src: "/hero-flow-05-esign.png",
+    alt: "eSign application documents with Aadhaar eSign",
+  },
+  {
+    src: "/hero-flow-06-success.png",
+    alt: "Demat account opened successfully",
+  },
+];
+
+const FLOW_SLIDE_MS = 2800;
 
 const GradientText = dynamic(() => import("@/components/GradientText"), {
   ssr: false,
@@ -76,226 +98,115 @@ const features = [
   },
 ];
 
-const INITIAL_FORM = {
-  fullName: "",
-  workEmail: "",
-  phone: "",
-  company: "",
-  location: "",
-  message: "",
-};
+function HeroFlowShowcase({ reduceMotion }) {
+  const [step, setStep] = useState(0);
+  const [paused, setPaused] = useState(false);
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  useEffect(() => {
+    if (reduceMotion || paused) return undefined;
 
-function isValidEmail(email) {
-  return EMAIL_REGEX.test(String(email).trim());
-}
+    const timer = window.setTimeout(() => {
+      setStep((prev) => (prev + 1) % HERO_FLOW_SLIDES.length);
+    }, FLOW_SLIDE_MS);
 
-function isValidPhone(phone) {
-  return /^[6-9]\d{9}$/.test(String(phone).trim());
-}
+    return () => window.clearTimeout(timer);
+  }, [step, paused, reduceMotion]);
 
-const fieldClass =
-  "w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-10 pr-3.5 text-sm leading-5 text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-[#FE602F] focus:ring-2 focus:ring-[#FE602F]/20";
-
-const labelClass = "mb-1.5 block text-xs font-semibold text-[#2E3545]";
-
-function FieldIcon({ icon: Icon, align = "center" }) {
   return (
-    <span
-      className={`pointer-events-none absolute left-3.5 z-10 flex h-4 w-4 items-center justify-center text-[#FE602F] ${
-        align === "top" ? "top-3.5" : "top-1/2 -translate-y-1/2"
-      }`}
+    <div
+      className="relative mx-auto w-full max-w-lg lg:max-w-xl xl:max-w-2xl xl:translate-x-1"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
-      <Icon size={16} strokeWidth={2} className="shrink-0" />
-    </span>
-  );
-}
+      <div className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-[radial-gradient(ellipse_at_center,rgba(254,96,47,0.14),transparent_65%),radial-gradient(ellipse_at_70%_40%,rgba(46,53,69,0.08),transparent_55%)] blur-2xl" />
 
-function HeroBookDemoForm() {
-  const { openBookDemo } = useBookDemo();
-  const [form, setForm] = useState(INITIAL_FORM);
-  const [fieldErrors, setFieldErrors] = useState({ workEmail: "", phone: "" });
+      <div
+        className="relative flex min-h-[36rem] items-center justify-center overflow-visible sm:min-h-[38rem]"
+        style={{ perspective: "1400px" }}
+      >
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-[8%] rounded-[2rem] bg-[linear-gradient(160deg,#f7f5f2_0%,#eef2f6_45%,#f8f4ef_100%)] opacity-80 blur-[1px]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-[18%] rounded-full bg-white/50 blur-3xl"
+        />
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const nextValue =
-      name === "phone" ? value.replace(/\D/g, "").slice(0, 10) : value;
-    setForm((prev) => ({ ...prev, [name]: nextValue }));
-    if (name === "workEmail" || name === "phone") {
-      setFieldErrors((prev) => ({ ...prev, [name]: "" }));
-    }
-  };
+        <div className="relative h-full w-full" style={{ transformStyle: "preserve-3d" }}>
+          {HERO_FLOW_SLIDES.map((slide, index) => {
+            const offset = index - step;
+            const absOffset = Math.abs(offset);
+            if (absOffset > 2) return null;
 
-  const validateFormFields = () => {
-    const next = { workEmail: "", phone: "" };
+            const isCenter = offset === 0;
+            const shiftX = offset * (absOffset >= 2 ? 155 : 112);
 
-    if (!form.workEmail.trim()) {
-      next.workEmail = "Work email is required.";
-    } else if (!isValidEmail(form.workEmail)) {
-      next.workEmail = "Enter a valid work email address.";
-    }
-
-    if (!form.phone.trim()) {
-      next.phone = "Phone number is required.";
-    } else if (form.phone.length !== 10) {
-      next.phone = "Phone number must be exactly 10 digits.";
-    } else if (!isValidPhone(form.phone)) {
-      next.phone = "Enter a valid 10-digit mobile number.";
-    }
-
-    setFieldErrors(next);
-    return !next.workEmail && !next.phone;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateFormFields()) return;
-
-    openBookDemo({
-      step: "schedule",
-      form: {
-        ...form,
-        company: form.company || "N/A",
-        location: form.location || "N/A",
-      },
-    });
-  };
-
-  return (
-    <div className="relative mx-auto w-full max-w-md lg:max-w-lg xl:translate-x-1">
-      <div className="pointer-events-none absolute -inset-3 rounded-[1.75rem] bg-linear-to-br from-[#FE602F]/20 via-transparent to-[#2E3545]/15 blur-2xl" />
-
-      <div className="relative overflow-hidden rounded-2xl border border-orange-100/80 bg-white/95 shadow-[0_24px_60px_rgba(46,53,69,0.14)] backdrop-blur-sm">
-        <div className="border-b border-orange-50 bg-linear-to-br from-[#fff4ef] via-white to-[#f5f5f6] px-5 py-4 sm:px-6">
-          <div className="mb-3 flex items-start gap-3">
-            <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#fff0eb] text-[#FE602F] ring-1 ring-orange-100">
-              <CalendarDays size={18} strokeWidth={2} />
-            </span>
-            <div className="min-w-0 flex-1">
-              <h2 className="text-xl font-bold tracking-tight text-[#2E3545] sm:text-2xl">
-                Schedule a walkthrough
-              </h2>
-              <p className="mt-1 text-sm leading-5 text-slate-500">
-                Share a few details and pick a slot that works for you.
-              </p>
-            </div>
-          </div>
+            return (
+              <button
+                key={slide.src}
+                type="button"
+                aria-label={slide.alt}
+                aria-current={isCenter ? "true" : undefined}
+                onClick={() => setStep(index)}
+                className="absolute left-1/2 top-1/2 origin-center cursor-pointer border-0 bg-transparent p-0 outline-none transition-all duration-500 ease-out focus-visible:ring-2 focus-visible:ring-[#FE602F]/50 focus-visible:ring-offset-2"
+                style={{
+                  zIndex: 40 - absOffset,
+                  opacity: isCenter ? 1 : Math.max(0.38, 1 - absOffset * 0.3),
+                  filter: isCenter
+                    ? "none"
+                    : `blur(${absOffset * 1.25}px) brightness(${1 - absOffset * 0.1})`,
+                  transform: `
+                    translate(-50%, -50%)
+                    translateX(${shiftX}px)
+                    scale(${isCenter ? 1 : 1 - absOffset * 0.15})
+                    rotateY(${offset * -20}deg)
+                    translateZ(${-absOffset * 110}px)
+                  `,
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                <span
+                  className={`relative block overflow-hidden rounded-[1.35rem] transition-shadow duration-500 ${
+                    isCenter
+                      ? "shadow-[0_28px_60px_rgba(46,53,69,0.28)] ring-1 ring-white/80"
+                      : "shadow-[0_14px_36px_rgba(46,53,69,0.14)] ring-1 ring-black/5"
+                  }`}
+                >
+                  <img
+                    src={slide.src}
+                    alt=""
+                    className="pointer-events-none h-auto w-[13.25rem] max-w-none select-none object-contain sm:w-[15.25rem] lg:w-[16.25rem]"
+                    draggable={false}
+                  />
+                </span>
+              </button>
+            );
+          })}
         </div>
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-3.5 px-5 py-5 sm:px-6">
-          <div>
-            <label htmlFor="hero-fullName" className={labelClass}>
-              Full name <span className="text-[#FE602F]">*</span>
-            </label>
-            <div className="relative">
-              <FieldIcon icon={UserRound} />
-              <input
-                id="hero-fullName"
-                name="fullName"
-                type="text"
-                required
-                value={form.fullName}
-                onChange={handleChange}
-                placeholder="Enter your full name"
-                className={fieldClass}
-              />
-            </div>
-          </div>
-
-          <div className="space-y-3.5">
-            <div>
-              <label htmlFor="hero-workEmail" className={labelClass}>
-                Work email <span className="text-[#FE602F]">*</span>
-              </label>
-              <div className="relative">
-                <FieldIcon icon={Mail} />
-                <input
-                  id="hero-workEmail"
-                  name="workEmail"
-                  type="email"
-                  required
-                  value={form.workEmail}
-                  onChange={handleChange}
-                  placeholder="you@company.com"
-                  className={`${fieldClass} ${
-                    fieldErrors.workEmail
-                      ? "border-orange-400 focus:border-orange-500 focus:ring-orange-500/20"
-                      : ""
-                  }`}
-                  aria-invalid={Boolean(fieldErrors.workEmail)}
-                />
-              </div>
-              {fieldErrors.workEmail && (
-                <p className="mt-1 text-xs text-orange-600">{fieldErrors.workEmail}</p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="hero-phone" className={labelClass}>
-                Phone <span className="text-[#FE602F]">*</span>
-              </label>
-              <div className="relative">
-                <FieldIcon icon={Phone} />
-                <input
-                  id="hero-phone"
-                  name="phone"
-                  type="tel"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  maxLength={10}
-                  required
-                  value={form.phone}
-                  onChange={handleChange}
-                  placeholder="9876543210"
-                  className={`${fieldClass} ${
-                    fieldErrors.phone
-                      ? "border-orange-400 focus:border-orange-500 focus:ring-orange-500/20"
-                      : ""
-                  }`}
-                  aria-invalid={Boolean(fieldErrors.phone)}
-                />
-              </div>
-              {fieldErrors.phone && (
-                <p className="mt-1 text-xs text-orange-600">{fieldErrors.phone}</p>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="hero-message" className={labelClass}>
-              What are you looking to solve?{" "}
-              <span className="text-[#FE602F]">*</span>
-            </label>
-            <div className="relative">
-              <FieldIcon icon={MessageSquareText} align="top" />
-              <textarea
-                id="hero-message"
-                name="message"
-                required
-                rows={3}
-                value={form.message}
-                onChange={handleChange}
-                placeholder="Tell us about your requirements..."
-                className={`${fieldClass} min-h-24 resize-y`}
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="brand-cta-gradient group mt-1 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold text-white!"
-          >
-            Continue to Schedule
-            <ArrowRight
-              size={16}
-              className="transition-transform group-hover:translate-x-0.5"
+      <div
+        className="mt-4 flex items-center justify-center gap-1.5"
+        role="tablist"
+        aria-label="Hero product flow"
+      >
+        {HERO_FLOW_SLIDES.map((slide, index) => {
+          const isActive = index === step;
+          return (
+            <button
+              key={slide.src}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              aria-label={`Step ${index + 1}: ${slide.alt}`}
+              onClick={() => setStep(index)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                isActive ? "w-6 bg-[#FE602F]" : "w-1.5 bg-slate-300 hover:bg-slate-400"
+              }`}
             />
-          </button>
-          <p className="text-center text-[11px] text-slate-400">
-            * Required fields. Next: pick a demo slot.
-          </p>
-        </form>
+          );
+        })}
       </div>
     </div>
   );
@@ -303,13 +214,45 @@ function HeroBookDemoForm() {
 
 export default function Hero() {
   const { openBookDemo } = useBookDemo();
+  const reduceMotion = useReducedMotion();
+
+  const reveal = reduceMotion
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, y: 28 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+        },
+      };
+
+  const stagger = reduceMotion
+    ? { hidden: {}, visible: {} }
+    : {
+        hidden: {},
+        visible: {
+          transition: { staggerChildren: 0.1, delayChildren: 0.08 },
+        },
+      };
 
   return (
-    <section className="relative overflow-hidden bg-transparent">
+    <section className="relative overflow-x-clip overflow-y-visible bg-transparent">
       <div className="relative z-10 w-full px-4 pb-10 pt-6 sm:px-6 sm:pb-12 sm:pt-8 lg:px-10 lg:pt-10 xl:px-14">
-        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10 xl:gap-14" style={{marginLeft:"100px"}}>
-          <div className="text-center lg:text-left">
-            <h1 className="-mt-1 mb-4 text-4xl font-bold leading-[1.12] tracking-tight sm:mb-5 sm:text-5xl lg:-mt-2 lg:text-[3.4rem]">
+        <div
+          className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10 xl:gap-14"
+          style={{ marginLeft: "100px" }}
+        >
+          <motion.div
+            className="text-center lg:text-left"
+            initial="hidden"
+            animate="visible"
+            variants={stagger}
+          >
+            <motion.h1
+              variants={reveal}
+              className="-mt-1 mb-4 text-4xl font-bold leading-[1.12] tracking-tight sm:mb-5 sm:text-5xl lg:-mt-2 lg:text-[3.4rem]"
+            >
               <GradientText
                 colors={["#2E3545", "#FE602F", "#FF7A4D", "#FE602F", "#2E3545"]}
                 animationSpeed={4}
@@ -318,17 +261,23 @@ export default function Hero() {
               >
                 Digital Solutions Built for Financial Growth
               </GradientText>
-            </h1>
+            </motion.h1>
 
-            <p className="mx-auto mb-6 max-w-xl text-base leading-relaxed text-slate-600 sm:mb-7 sm:text-lg lg:mx-0">
+            <motion.p
+              variants={reveal}
+              className="mx-auto mb-6 max-w-xl text-base leading-relaxed text-slate-600 sm:mb-7 sm:text-lg lg:mx-0"
+            >
               We build secure, scalable, and intelligent digital platforms
               across the complete client lifecycle. With nine production-grade
               services spanning eKYC, onboarding, E-IPO, MFD, and closure, we
               empower financial institutions to grow, innovate, and lead with
               confidence — trusted by 25+ brokers.
-            </p>
+            </motion.p>
 
-            <div className="mb-6 flex flex-col items-center justify-center gap-3 sm:mb-7 sm:flex-row sm:gap-4 lg:justify-start">
+            <motion.div
+              variants={reveal}
+              className="mb-6 flex flex-col items-center justify-center gap-3 sm:mb-7 sm:flex-row sm:gap-4 lg:justify-start"
+            >
               <a
                 href="#overview"
                 className="hero-cta-gradient inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-semibold text-white shadow-lg shadow-[#2E3545]/20 transition hover:brightness-105"
@@ -350,9 +299,12 @@ export default function Hero() {
                 </span>
                 Book a Demo
               </button>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-1 gap-2.5 text-left sm:grid-cols-2 sm:gap-3">
+            <motion.div
+              variants={reveal}
+              className="grid grid-cols-1 gap-2.5 text-left sm:grid-cols-2 sm:gap-3"
+            >
               {features.map((f, i) => (
                 <SpotlightCard
                   key={f.title}
@@ -376,12 +328,17 @@ export default function Hero() {
                   </div>
                 </SpotlightCard>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <div className="relative">
-            <HeroBookDemoForm />
-          </div>
+          <motion.div
+            className="relative overflow-visible"
+            initial={reduceMotion ? false : { opacity: 0, x: 40, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.75, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <HeroFlowShowcase reduceMotion={reduceMotion} />
+          </motion.div>
         </div>
       </div>
     </section>

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { webdevHref } from "../../lib/webdevelopment/paths";
 import SpotlightCard, { BRAND_SPOTLIGHT } from "@/components/SpotlightCard";
+import ScrollReveal, { ScrollRevealItem } from "@/components/ScrollReveal";
 
 const flowSteps = [
   {
@@ -149,7 +150,7 @@ export default function MiddlewarePage() {
   return (
     <div className="bg-white text-slate-800 w-full min-w-0 overflow-x-hidden">
       {/* Hero */}
-      <section className="relative pt-10 md:pt-14 pb-12 md:pb-16 overflow-hidden">
+      <ScrollReveal as="section" direction="up" delay={0.02} duration={0.7} className="relative pt-10 md:pt-14 pb-12 md:pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-[#fff8f5] via-white to-[#f5f5f6] pointer-events-none" />
         <div className="absolute top-10 left-1/4 w-105 h-105 bg-[#FE602F]/12 rounded-full blur-[110px] pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-90 h-90 bg-[#2E3545]/8 rounded-full blur-[100px] pointer-events-none" />
@@ -173,62 +174,68 @@ export default function MiddlewarePage() {
             </p>
           </div>
         </div>
-      </section>
+      </ScrollReveal>
 
       {/* Animated flow steps */}
-      <section className="pb-10 md:pb-14">
+      <ScrollReveal as="section" direction="up" delay={0.05} duration={0.7} className="pb-10 md:pb-14">
         <div className="container">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ScrollReveal
+            direction="fade"
+            delay={0.04}
+            stagger={0.08}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          >
             {flowSteps.map((step, index) => {
               const Icon = step.icon;
               const isActive = activeStep === index;
               return (
-                <SpotlightCard
-                  key={step.id}
-                  spotlightColor={BRAND_SPOTLIGHT}
-                  className={`rounded-2xl border transition-all duration-500 ${
-                    isActive
-                      ? `ring-2 ${step.ring} shadow-lg shadow-slate-200/80 scale-[1.02] bg-white border-transparent`
-                      : "bg-white/70 border-slate-100 hover:border-slate-200"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setActiveStep(index)}
-                    className="w-full text-left p-5"
+                <ScrollRevealItem key={step.id}>
+                  <SpotlightCard
+                    spotlightColor={BRAND_SPOTLIGHT}
+                    className={`rounded-2xl border transition-all duration-500 h-full ${
+                      isActive
+                        ? `ring-2 ${step.ring} shadow-lg shadow-slate-200/80 scale-[1.02] bg-white border-transparent`
+                        : "bg-white/70 border-slate-100 hover:border-slate-200"
+                    }`}
                   >
-                    <div className="flex items-center gap-3 mb-3">
-                      <span
-                        className={`w-11 h-11 rounded-xl bg-linear-to-br ${step.color} text-white flex items-center justify-center shadow-md`}
-                      >
-                        <Icon size={20} />
-                      </span>
-                      <span
-                        className={`text-xs font-bold px-2 py-0.5 rounded-full ${step.bg} ${step.text}`}
-                      >
-                        Step {step.id}
-                      </span>
-                    </div>
-                    <h3 className="font-bold text-slate-900 mb-1">{step.title}</h3>
-                    <p className="text-sm text-slate-500 leading-snug">{step.desc}</p>
-                    {isActive && (
-                      <div className="mt-3 h-1 rounded-full bg-slate-100 overflow-hidden">
-                        <div
-                          key={activeStep}
-                          className={`h-full bg-linear-to-r ${step.color} animate-[middlewareProgress_2.2s_linear]`}
-                        />
+                    <button
+                      type="button"
+                      onClick={() => setActiveStep(index)}
+                      className="w-full text-left p-5"
+                    >
+                      <div className="flex items-center gap-3 mb-3">
+                        <span
+                          className={`w-11 h-11 rounded-xl bg-linear-to-br ${step.color} text-white flex items-center justify-center shadow-md`}
+                        >
+                          <Icon size={20} />
+                        </span>
+                        <span
+                          className={`text-xs font-bold px-2 py-0.5 rounded-full ${step.bg} ${step.text}`}
+                        >
+                          Step {step.id}
+                        </span>
                       </div>
-                    )}
-                  </button>
-                </SpotlightCard>
+                      <h3 className="font-bold text-slate-900 mb-1">{step.title}</h3>
+                      <p className="text-sm text-slate-500 leading-snug">{step.desc}</p>
+                      {isActive && (
+                        <div className="mt-3 h-1 rounded-full bg-slate-100 overflow-hidden">
+                          <div
+                            key={activeStep}
+                            className={`h-full bg-linear-to-r ${step.color} animate-[middlewareProgress_2.2s_linear]`}
+                          />
+                        </div>
+                      )}
+                    </button>
+                  </SpotlightCard>
+                </ScrollRevealItem>
               );
             })}
-          </div>
+          </ScrollReveal>
         </div>
-      </section>
+      </ScrollReveal>
 
       {/* Diagram */}
-      <section className="pb-14 md:pb-20">
+      <ScrollReveal as="section" direction="scale" delay={0.05} duration={0.75} className="pb-14 md:pb-20">
         <div className="container">
           <div className="text-center max-w-2xl mx-auto mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
@@ -271,10 +278,10 @@ export default function MiddlewarePage() {
             </span>
           </div>
         </div>
-      </section>
+      </ScrollReveal>
 
       {/* Engine + systems */}
-      <section className="py-14 md:py-20 bg-linear-to-b from-[#f7f7f8] via-white to-[#fff7f4]">
+      <ScrollReveal as="section" direction="up" delay={0.05} duration={0.75} className="py-14 md:py-20 bg-linear-to-b from-[#f7f7f8] via-white to-[#fff7f4]">
         <div className="container grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
           <div className="rounded-3xl border border-slate-700 bg-linear-to-br from-[#171b24] via-[#2E3545] to-[#434c5f] text-white p-7 sm:p-9 shadow-xl shadow-slate-500/20 relative overflow-hidden">
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#FE602F]/25 rounded-full blur-2xl pointer-events-none" />
@@ -362,10 +369,10 @@ export default function MiddlewarePage() {
             </div>
           </div>
         </div>
-      </section>
+      </ScrollReveal>
 
       {/* Value props */}
-      <section className="py-14 md:py-20">
+      <ScrollReveal as="section" direction="left" delay={0.05} duration={0.7} className="py-14 md:py-20">
         <div className="container">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
@@ -397,10 +404,10 @@ export default function MiddlewarePage() {
             })}
           </div>
         </div>
-      </section>
+      </ScrollReveal>
 
       {/* CTA */}
-      <section className="pb-16 md:pb-24">
+      <ScrollReveal as="section" direction="up" delay={0.06} duration={0.7} className="pb-16 md:pb-24">
         <div className="container">
           <div className="rounded-3xl bg-linear-to-r from-[#171b24] via-[#2E3545] to-[#434c5f] p-8 sm:p-12 text-white relative overflow-hidden shadow-xl shadow-slate-500/25">
             <div className="absolute -right-8 -top-8 w-48 h-48 bg-[#FE602F]/25 rounded-full blur-2xl pointer-events-none" />
@@ -434,7 +441,7 @@ export default function MiddlewarePage() {
             </div>
           </div>
         </div>
-      </section>
+      </ScrollReveal>
 
       <style jsx global>{`
         @keyframes middlewareProgress {
