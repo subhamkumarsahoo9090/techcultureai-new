@@ -7,6 +7,7 @@ import AadhaarVerificationPage from "@/components/forWebDevelopment/products/Aad
 import BusinessKycPage from "@/components/forWebDevelopment/products/BusinessKycPage";
 import DigitalKycPage from "@/components/forWebDevelopment/products/DigitalKycPage";
 import ReKycPage from "@/components/forWebDevelopment/products/ReKycPage";
+import OnlineIpoBiddingPage from "@/components/forWebDevelopment/products/OnlineIpoBiddingPage";
 import { getProductBySlug } from "@/lib/webdevelopment/catalog";
 import { webdevHref } from "@/lib/webdevelopment/paths";
 
@@ -16,6 +17,7 @@ const CUSTOM_PRODUCT_PAGES = {
   "business-kyc": BusinessKycPage,
   "account-closure": AccountClosurePage,
   "re-kyc": ReKycPage,
+  "online-ipo-bidding": OnlineIpoBiddingPage,
 };
 
 export default function ProductDetailPage() {
