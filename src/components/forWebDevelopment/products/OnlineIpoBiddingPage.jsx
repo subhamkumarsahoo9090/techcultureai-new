@@ -98,7 +98,7 @@ const keyBenefits = [
   },
 ];
 
-const HERO_IMAGE_SRC = "/online-ipo-bidding-hero.jpg";
+const HERO_IMAGE_SRC = "/Firefly.png";
 
 export default function OnlineIpoBiddingPage() {
   return (
@@ -280,11 +280,11 @@ export default function OnlineIpoBiddingPage() {
               </div>
             </div>
 
-            <div className="rounded-[24px] bg-[#2E3545] text-white p-6 sm:p-7">
-              <h2 className="text-[18px] sm:text-[20px] font-bold mb-2">
+            <div className="rounded-[24px] bg-[#fff8f5] border border-orange-100 p-6 sm:p-7">
+              <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 mb-2">
                 Key benefits
               </h2>
-              <p className="text-white/55 text-[12.5px] mb-6 leading-relaxed">
+              <p className="text-[#FE602F] text-[12.5px] font-semibold mb-6 leading-relaxed">
                 Trusted. Simple. Secure.
               </p>
 
@@ -293,14 +293,14 @@ export default function OnlineIpoBiddingPage() {
                   const Icon = item.icon;
                   return (
                     <li key={item.title} className="flex gap-3.5">
-                      <span className="w-9 h-9 rounded-full bg-white/10 text-[#FE602F] flex items-center justify-center shrink-0">
+                      <span className="w-9 h-9 rounded-full bg-white text-[#FE602F] ring-1 ring-orange-100 flex items-center justify-center shrink-0 shadow-sm">
                         <Icon size={16} strokeWidth={2} />
                       </span>
                       <div className="min-w-0 pt-0.5">
-                        <p className="text-[13.5px] font-bold mb-0.5">
+                        <p className="text-[13.5px] font-bold text-slate-900 mb-0.5">
                           {item.title}
                         </p>
-                        <p className="text-[12px] text-white/55 leading-relaxed">
+                        <p className="text-[12px] text-slate-600 leading-relaxed">
                           {item.desc}
                         </p>
                       </div>
@@ -316,19 +316,25 @@ export default function OnlineIpoBiddingPage() {
       {/* CTA */}
       <section className="pb-14 md:pb-16">
         <div className="container">
-          <div className="relative overflow-hidden rounded-[28px] bg-linear-to-br from-[#2E3545] via-[#3a4254] to-[#2E3545] px-6 py-10 sm:px-10 sm:py-12 text-center">
-            <div className="absolute -top-16 right-10 w-56 h-56 bg-[#FE602F]/25 rounded-full blur-[90px] pointer-events-none" />
+          <div className="relative overflow-hidden rounded-[28px] border border-orange-100 bg-[#fff8f5] px-6 py-10 sm:px-10 sm:py-12 text-center">
+            <div className="absolute -top-16 right-10 w-56 h-56 bg-[#FE602F]/12 rounded-full blur-[90px] pointer-events-none" />
             <div className="relative">
-              <h2 className="text-[24px] sm:text-[30px] font-bold text-white mb-3">
+              <h2
+                className="text-[24px] sm:text-[30px] font-bold mb-3"
+                style={{ color: "#0f172a" }}
+              >
                 Ready to launch Online IPO Bidding?
               </h2>
-              <p className="text-white/65 text-[14.5px] sm:text-[15px] max-w-xl mx-auto mb-7 leading-relaxed">
+              <p
+                className="text-[14.5px] sm:text-[15px] max-w-xl mx-auto mb-7 leading-relaxed"
+                style={{ color: "#475569" }}
+              >
                 Give your investors a modern apply experience — and give your
                 ops team the status and reconciliation hooks they need.
               </p>
               <Link
                 href={webdevHref("/contact")}
-                className="brand-cta-gradient group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold"
+                className="brand-cta-gradient group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-white"
               >
                 Get Started
                 <ArrowRight
