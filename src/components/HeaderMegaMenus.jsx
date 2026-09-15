@@ -1,10 +1,8 @@
 "use client";
 import {
-  BarChart3,
   Bot,
   Brain,
   Building2,
-  CalendarDays,
   ChartLine,
   Cloud,
   Cpu,
@@ -17,7 +15,6 @@ import {
   Landmark,
   Mail,
   Megaphone,
-  MessageCircle,
   MessageSquare,
   PenLine,
   Phone,
@@ -27,10 +24,8 @@ import {
   ShieldCheck,
   ShoppingCart,
   Sparkles,
-  Ticket,
   Truck,
   UserPlus,
-  UserRound,
   Users,
   Wrench,
   Workflow,
@@ -103,20 +98,8 @@ export const productColumns = [
       title: "DIGITAL ONBOARDING",
       icon: UserPlus,
       links: [
-        { label: "Partner Onboarding" },
-        { label: "Vendor Onboarding" },
         { label: "Supplier Onboarding" },
-        { label: "Employee Onboarding" },
         { label: "Gig Workforce Onboarding" },
-      ],
-    },
-    {
-      title: "AI COMMUNICATION",
-      icon: MessageSquare,
-      links: [
-        { label: "WhatsApp Automation", trailing: "whatsapp" },
-        { label: "AI Virtual Assistant", trailingIcon: Bot },
-        { label: "Live Chat Support", trailingIcon: MessageCircle },
       ],
     },
   ],
@@ -125,14 +108,9 @@ export const productColumns = [
       title: "CUSTOMER ENGAGEMENT",
       icon: ChartLine,
       links: [
-        { label: "Lead Management", trailingIcon: UserRound },
-        { label: "Sales Pipeline", trailingIcon: BarChart3 },
         { label: "Campaign Management", trailingIcon: Megaphone },
-        { label: "Appointment Scheduler", trailingIcon: CalendarDays },
-        { label: "Helpdesk", trailingIcon: Ticket },
         { label: "Field Service", trailingIcon: Wrench },
         { label: "Contact Center", trailingIcon: Phone },
-        { label: "Email Automation", trailingIcon: Mail },
         { label: "SMS & WhatsApp Campaigns", trailingIcon: MessageSquare },
       ],
     },
@@ -171,9 +149,6 @@ export const partnerWorkCategories = [
     href: webdevHref("/fintech"),
     links: [
       { label: "E-Commerce", type: "industry" },
-      { label: "Live Chat Support", type: "product" },
-      { label: "AI Virtual Assistant", type: "product" },
-      { label: "WhatsApp Automation", type: "product" },
       { label: "Campaign Management", type: "product" },
     ],
   },
@@ -185,9 +160,6 @@ export const partnerWorkCategories = [
     href: webdevHref("/fintech"),
     links: [
       { label: "Healthcare", type: "industry" },
-      { label: "Appointment Scheduler", type: "product" },
-      { label: "Employee Onboarding", type: "product" },
-      { label: "Helpdesk", type: "product" },
     ],
   },
   {
@@ -198,9 +170,6 @@ export const partnerWorkCategories = [
     href: webdevHref("/fintech"),
     links: [
       { label: "Travel & Hospitality", type: "industry" },
-      { label: "Lead Management", type: "product" },
-      { label: "Live Chat Support", type: "product" },
-      { label: "Partner Onboarding", type: "product" },
     ],
   },
   {
@@ -212,7 +181,6 @@ export const partnerWorkCategories = [
     links: [
       { label: "Manufacturing", type: "industry" },
       { label: "Supplier Onboarding", type: "product" },
-      { label: "Vendor Onboarding", type: "product" },
       { label: "Field Service", type: "product" },
     ],
   },

@@ -101,9 +101,7 @@ const keyBenefits = [
   },
 ];
 
-const brands = ["PayMe", "LoanQuick", "OnBoard", "eBanking", "KYCNow"];
-
-const HERO_IMAGE_SRC = "/account-closure-hero.png";
+const HERO_IMAGE_SRC = "/account-closure-hero.jpg";
 
 function HeroVisualPlaceholder() {
   const checklist = [
@@ -289,10 +287,10 @@ export default function AccountClosurePage() {
                     >
                       <div className="relative w-full text-center sm:text-left px-1">
                         <div className="relative inline-flex sm:flex flex-col items-center sm:items-start w-full">
-                          <span className="absolute -top-2 left-1/2 sm:left-7 -translate-x-1/2 sm:translate-x-0 w-5 h-5 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-[10px] font-bold flex items-center justify-center z-10 shadow-sm">
+                          <span className="absolute -top-2 left-1/2 sm:left-7 -translate-x-1/2 sm:translate-x-0 w-5 h-5 rounded-full bg-gradient-to-br from-[#FE602F] to-[#e94e20] text-white text-[10px] font-bold flex items-center justify-center z-10 shadow-sm">
                             {item.step}
                           </span>
-                          <span className="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center mx-auto sm:mx-0 mb-3 mt-1">
+                          <span className="w-14 h-14 rounded-2xl bg-[#fff0eb] text-[#FE602F] flex items-center justify-center mx-auto sm:mx-0 mb-3 mt-1">
                             <Icon size={22} strokeWidth={2} />
                           </span>
                           <h3 className="text-[13px] font-bold text-slate-900 mb-1.5 leading-snug">
@@ -306,8 +304,8 @@ export default function AccountClosurePage() {
 
                       {index < howItWorks.length - 1 && (
                         <div className="hidden sm:flex items-center justify-center self-start mt-8 px-1 shrink-0">
-                          <div className="w-6 border-t border-dashed border-teal-300" />
-                          <ArrowRight size={14} className="text-teal-400 -ml-0.5" />
+                          <div className="w-6 border-t border-dashed border-orange-200" />
+                          <ArrowRight size={14} className="text-[#FE602F]/70 -ml-0.5" />
                         </div>
                       )}
                     </div>
@@ -317,8 +315,8 @@ export default function AccountClosurePage() {
             </div>
 
             {/* Key benefits */}
-            <div className="rounded-[24px] bg-[#f4f7f6] border border-teal-100/50 p-6 sm:p-7">
-              <h2 className="text-[18px] sm:text-[20px] font-bold text-teal-700 mb-5">
+            <div className="rounded-[24px] bg-[#fff8f5] border border-orange-100/60 p-6 sm:p-7">
+              <h2 className="text-[18px] sm:text-[20px] font-bold text-[#2E3545] mb-5">
                 Key benefits
               </h2>
 
@@ -327,7 +325,7 @@ export default function AccountClosurePage() {
                   const Icon = item.icon;
                   return (
                     <li key={item.title} className="flex gap-3.5">
-                      <span className="w-9 h-9 rounded-full bg-white text-teal-600 flex items-center justify-center shrink-0 shadow-sm">
+                      <span className="w-9 h-9 rounded-full bg-white text-[#FE602F] ring-1 ring-orange-100 flex items-center justify-center shrink-0 shadow-sm">
                         <Icon size={16} strokeWidth={2} />
                       </span>
                       <div className="min-w-0 pt-0.5">
@@ -342,28 +340,6 @@ export default function AccountClosurePage() {
                   );
                 })}
               </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TRUSTED BY */}
-      <section className="pb-14 md:pb-16">
-        <div className="container">
-          <div className="rounded-2xl bg-[#f4f7f6] border border-teal-100/40 px-6 py-7 sm:py-8">
-            <p className="text-center text-[13px] text-slate-400 font-medium mb-6">
-              Trusted by leading businesses across industries
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-14">
-              {brands.map((brand) => (
-                <span
-                  key={brand}
-                  className="flex items-center gap-2 text-slate-300 font-semibold text-[15px] sm:text-[16px] tracking-tight"
-                >
-                  <ShieldCheck size={15} className="text-slate-200" />
-                  {brand}
-                </span>
-              ))}
             </div>
           </div>
         </div>
