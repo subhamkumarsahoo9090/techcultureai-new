@@ -1,25 +1,33 @@
 "use client";
 import {
+  ArrowRight,
   Bot,
   Brain,
   Building2,
+  CandlestickChart,
   ChartLine,
   Cloud,
   Cpu,
   Factory,
+  FileBarChart2,
+  FileCheck2,
   Gavel,
   GraduationCap,
   Headphones,
   HeartPulse,
   Info,
   Landmark,
+  LayoutGrid,
   Mail,
+  MapPin,
   Megaphone,
   MessageSquare,
+  Network,
   PenLine,
   Phone,
   Plane,
   Radio,
+  RefreshCw,
   ScanFace,
   ShieldCheck,
   ShoppingCart,
@@ -30,8 +38,7 @@ import {
   Wrench,
   Workflow,
   Zap,
-} from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
+} from "lucide-react";import { FaWhatsapp } from "react-icons/fa";
 import {
   getProductBySlug,
 } from "../lib/webdevelopment/catalog";
@@ -123,6 +130,81 @@ export const productColumns = [
 ];
 
 export const productCategories = productColumns.flat();
+
+/** Showcase products for the Product mega menu (matches design). */
+export const showcaseProducts = [
+  {
+    title: "Trading Applications",
+    description: "Powerful trading solutions inspired by Zerodha & Groww.",
+    tags: ["Web App", "Mobile App"],
+    icon: CandlestickChart,
+    iconTone: "bg-orange-50 text-[#FE602F]",
+    href: webdevHref("/products"),
+  },
+  {
+    title: "IPO Master",
+    description: "Track, analyze and never miss an opportunity.",
+    tags: ["Web Platform"],
+    icon: FileBarChart2,
+    iconTone: "bg-violet-50 text-violet-600",
+    href: resolveProductHref("Online IPO Bidding", "webdevelopment"),
+  },
+  {
+    title: "HRMS",
+    description: "Simplify HR operations and workforce management.",
+    tags: ["Web Platform"],
+    icon: Users,
+    iconTone: "bg-emerald-50 text-emerald-600",
+    href: webdevHref("/products"),
+  },
+  {
+    title: "E-KYC (Digilocker)",
+    description: "Secure & seamless identity verification.",
+    tags: ["Web & Mobile"],
+    icon: ShieldCheck,
+    iconTone: "bg-sky-50 text-sky-600",
+    href: resolveProductHref("Digital KYC", "webdevelopment"),
+  },
+  {
+    title: "Re-KYC",
+    description: "Stay compliant. Stay ahead.",
+    tags: ["Web & Mobile"],
+    icon: RefreshCw,
+    iconTone: "bg-purple-50 text-purple-600",
+    href: resolveProductHref("Re-KYC", "webdevelopment"),
+  },
+  {
+    title: "Closer",
+    description: "Simplifying account closure process.",
+    tags: ["Web Platform"],
+    icon: FileCheck2,
+    iconTone: "bg-rose-50 text-rose-600",
+    href: resolveProductHref("Account Closure", "webdevelopment"),
+  },
+  {
+    title: "GIS Application",
+    description: "Location intelligence for smarter decisions.",
+    tags: ["Web Platform"],
+    icon: MapPin,
+    iconTone: "bg-teal-50 text-teal-600",
+    href: webdevHref("/products"),
+  },
+  {
+    title: "Mutual Fund",
+    description: "Invest, track and manage mutual fund portfolios with ease.",
+    tags: ["Web & Mobile"],
+    icon: ChartLine,
+    iconTone: "bg-amber-50 text-amber-600",
+    href: webdevHref("/products"),
+  },
+];
+
+const showcaseHighlights = [
+  { label: "Secure & Compliant", icon: ShieldCheck },
+  { label: "Scalable Architecture", icon: Network },
+  { label: "Expert Support", icon: Headphones },
+  { label: "Customizable Solutions", icon: LayoutGrid },
+];
 
 /** Categories derived from Our Technology Partner work on the homepage. */
 export const partnerWorkCategories = [
@@ -423,82 +505,110 @@ export function ProductsMegaPanel({ onNavigate, variant = "default" }) {
 
   if (variant === "webdevelopment") {
     return (
-      <div className={`${t.productsShell} overflow-hidden`}>
-        <div className="border-b border-orange-100/80 px-5 py-4">
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#FE602F]">
-            Built across industries
-          </p>
-          <p className="mt-1 text-sm text-slate-500">
-            Categories from our Technology Partner work — Fintech, E-Commerce and more.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {partnerWorkCategories.map((category) => {
-            const Icon = category.icon;
-            return (
-              <div key={category.title} className={`${t.productCard} flex h-full flex-col`}>
-                <button
-                  type="button"
-                  onClick={() => onNavigate(category.href, "products")}
-                  className="mb-3 flex w-full items-start gap-3 text-left"
-                >
-                  <span
-                    className={`${t.productIconBox} flex h-10 w-10 shrink-0 items-center justify-center`}
-                  >
-                    <Icon size={20} strokeWidth={1.8} />
-                  </span>
-                  <span className="min-w-0">
-                    <span
-                      className={`block text-[13px] font-bold uppercase tracking-[0.06em] ${t.accentText}`}
-                    >
-                      {category.title}
-                    </span>
-                    <span className="mt-1 block text-[12px] leading-snug text-slate-500">
-                      {category.subtitle}
-                    </span>
-                  </span>
-                </button>
-
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
-                  Partners
+      <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_24px_70px_rgba(46,53,69,0.16)]">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr]">
+          {/* Left intro panel */}
+          <aside className="relative overflow-hidden border-b border-gray-100 bg-[#f7f7f8] px-7 py-8 lg:border-b-0 lg:border-r">
+            <div className="relative z-[1]">
+              <div className="mb-4 flex items-center gap-3">
+                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#FE602F]">
+                  Our Products
                 </p>
-                <div className="mb-3 flex flex-wrap gap-1.5">
-                  {category.partners.map((partner) => (
-                    <span
-                      key={partner}
-                      className="rounded-full bg-[#fff0eb] px-2 py-0.5 text-[10px] font-semibold text-[#d9471b] ring-1 ring-orange-100"
-                    >
-                      {partner}
-                    </span>
-                  ))}
-                </div>
-
-                <ul className="mt-auto space-y-0.5">
-                  {category.links.map((link) => (
-                    <li key={link.label}>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          onNavigate(
-                            resolvePartnerWorkHref(link, category),
-                            "products"
-                          )
-                        }
-                        className={`group flex w-full items-center gap-2 rounded-md px-1 py-1.5 text-left ${t.hoverBg} transition-colors`}
-                      >
-                        <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${t.bullet}`} />
-                        <span
-                          className={`truncate text-[13px] font-medium text-slate-800 ${t.hoverText}`}
-                        >
-                          {link.label}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                <span className="h-px w-10 bg-[#FE602F]/70" />
               </div>
-            );
-          })}
+
+              <h3 className="text-[26px] font-bold leading-[1.2] tracking-tight text-[#1f2937]">
+                Innovative Solutions for a{" "}
+                <span className="text-[#FE602F]">Smarter Tomorrow</span>
+              </h3>
+
+              <p className="mt-3 text-[13px] leading-relaxed text-slate-500">
+                Explore our range of digital products built to simplify, automate
+                and accelerate your business.
+              </p>
+
+              <ul className="mt-7 space-y-3.5">
+                {showcaseHighlights.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <li
+                      key={item.label}
+                      className="flex items-center gap-3 text-[13.5px] font-medium text-[#2E3545]"
+                    >
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#FE602F] shadow-sm ring-1 ring-orange-100">
+                        <Icon size={15} strokeWidth={2.2} />
+                      </span>
+                      {item.label}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {/* Soft wave decoration */}
+            <svg
+              aria-hidden
+              className="pointer-events-none absolute -bottom-6 -left-8 h-40 w-56 text-[#FE602F]/15"
+              viewBox="0 0 220 160"
+              fill="currentColor"
+            >
+              <path d="M0 90c28-28 52-18 78-8s54 18 80-6c18-16 34-42 62-36v120H0V90z" />
+              <path
+                d="M0 118c34-22 58-10 86 2s52 20 78 4c20-12 38-34 56-28v64H0v-42z"
+                className="text-[#FE602F]/25"
+                fill="currentColor"
+              />
+            </svg>
+          </aside>
+
+          {/* Product cards */}
+          <div className="bg-white p-5 sm:p-6">
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+              {showcaseProducts.map((product) => {
+                const Icon = product.icon;
+                return (
+                  <button
+                    key={product.title}
+                    type="button"
+                    onClick={() => onNavigate(product.href, "products")}
+                    className="group flex h-full flex-col rounded-2xl border border-gray-100 bg-[#fafafa] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-200 hover:bg-white hover:shadow-[0_12px_28px_rgba(254,96,47,0.1)]"
+                  >
+                    <span
+                      className={`mb-3 flex h-11 w-11 items-center justify-center rounded-xl ${product.iconTone}`}
+                    >
+                      <Icon size={22} strokeWidth={1.9} />
+                    </span>
+
+                    <h4 className="text-[15px] font-bold text-[#1f2937] transition-colors group-hover:text-[#FE602F]">
+                      {product.title}
+                    </h4>
+                    <p className="mt-1.5 line-clamp-2 flex-1 text-[12.5px] leading-snug text-slate-500">
+                      {product.description}
+                    </p>
+
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {product.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full bg-[#fff0eb] px-2.5 py-0.5 text-[10px] font-semibold text-[#d9471b] ring-1 ring-orange-100"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <span className="mt-3 inline-flex items-center gap-1 text-[12.5px] font-semibold text-[#FE602F]">
+                      Explore More
+                      <ArrowRight
+                        size={13}
+                        className="transition-transform duration-200 group-hover:translate-x-0.5"
+                      />
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -728,42 +838,50 @@ export function ProductsMobileMenu({ onNavigate, variant = "default" }) {
 
   if (variant === "webdevelopment") {
     return (
-      <div className="ml-2 mt-2 space-y-4 pb-2">
-        {partnerWorkCategories.map((category) => {
-          const Icon = category.icon;
+      <div className="ml-1 mt-2 space-y-2.5 pb-2">
+        <div className="rounded-xl bg-[#f7f7f8] px-3 py-3">
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#FE602F]">
+            Our Products
+          </p>
+          <p className="mt-1 text-[13px] font-semibold text-[#1f2937]">
+            Innovative Solutions for a{" "}
+            <span className="text-[#FE602F]">Smarter Tomorrow</span>
+          </p>
+        </div>
+
+        {showcaseProducts.map((product) => {
+          const Icon = product.icon;
           return (
-            <div key={category.title}>
-              <button
-                type="button"
-                className={`mb-1.5 flex w-full items-center gap-2 ${t.accentText}`}
-                onClick={() => onNavigate(category.href, "products")}
+            <button
+              key={product.title}
+              type="button"
+              onClick={() => onNavigate(product.href, "products")}
+              className="flex w-full items-start gap-3 rounded-xl border border-gray-100 bg-[#fafafa] p-3 text-left"
+            >
+              <span
+                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${product.iconTone}`}
               >
-                <Icon size={14} />
-                <span
-                  className={`inline-block border-b pb-0.5 text-[12px] font-bold uppercase tracking-wide ${t.accentBorder}`}
-                >
-                  {category.title}
+                <Icon size={18} strokeWidth={1.9} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-[14px] font-bold text-[#1f2937]">
+                  {product.title}
                 </span>
-              </button>
-              <p className="mb-1.5 ml-5 text-[11px] text-slate-400">
-                {category.partners.join(" · ")}
-              </p>
-              <div className="ml-5 space-y-1">
-                {category.links.map((link) => (
-                  <button
-                    key={link.label}
-                    type="button"
-                    className={`flex w-full items-center gap-2 py-1.5 text-left text-[15px] text-slate-700 ${t.linkHover} transition-colors`}
-                    onClick={() =>
-                      onNavigate(resolvePartnerWorkHref(link, category), "products")
-                    }
-                  >
-                    <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${t.bullet}`} />
-                    {link.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+                <span className="mt-0.5 block text-[12px] leading-snug text-slate-500">
+                  {product.description}
+                </span>
+                <span className="mt-2 flex flex-wrap gap-1">
+                  {product.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-[#fff0eb] px-2 py-0.5 text-[10px] font-semibold text-[#d9471b]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </span>
+              </span>
+            </button>
           );
         })}
       </div>

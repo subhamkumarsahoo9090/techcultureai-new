@@ -133,7 +133,7 @@ export default function AboutInfoPage() {
             className="relative mx-auto w-full max-w-[47.92rem] sm:max-w-[55.9rem] lg:max-w-[45.25rem]"
           >
             <img
-              src="/about-hero.jpg"
+              src="/careers-hero.png"
               alt="Join our team — Build your future with TechCulture AI"
               className="h-auto w-full object-contain object-center"
             />
