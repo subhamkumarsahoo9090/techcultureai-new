@@ -142,12 +142,12 @@ export const showcaseProducts = [
     href: webdevHref("/products"),
   },
   {
-    title: "IPO",
-    description: "Track, analyze and never miss an opportunity.",
-    tags: ["Web Platform"],
-    icon: FileBarChart2,
-    iconTone: "bg-violet-50 text-violet-600",
-    href: resolveProductHref("Online IPO Bidding", "webdevelopment"),
+    title: "Mutual Fund",
+    description: "Invest, track and manage mutual fund portfolios with ease.",
+    tags: ["Web & Mobile"],
+    icon: ChartLine,
+    iconTone: "bg-amber-50 text-amber-600",
+    href: webdevHref("/products"),
   },
   {
     title: "HRMS",
@@ -189,13 +189,14 @@ export const showcaseProducts = [
     iconTone: "bg-teal-50 text-teal-600",
     href: webdevHref("/products"),
   },
+
   {
-    title: "Mutual Fund",
-    description: "Invest, track and manage mutual fund portfolios with ease.",
-    tags: ["Web & Mobile"],
-    icon: ChartLine,
-    iconTone: "bg-amber-50 text-amber-600",
-    href: webdevHref("/products"),
+    title: "IPO",
+    description: "Track, analyze and never miss an opportunity.",
+    tags: ["Web Platform"],
+    icon: FileBarChart2,
+    iconTone: "bg-violet-50 text-violet-600",
+    href: resolveProductHref("Online IPO Bidding", "webdevelopment"),
   },
 ];
 

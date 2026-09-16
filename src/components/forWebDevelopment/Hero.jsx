@@ -139,21 +139,10 @@ function HeroFlowShowcase({ reduceMotion }) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-[radial-gradient(ellipse_at_center,rgba(254,96,47,0.14),transparent_65%),radial-gradient(ellipse_at_70%_40%,rgba(46,53,69,0.08),transparent_55%)] blur-2xl lg:-inset-3" />
-
       <div
-        className="relative flex min-h-[28rem] items-center justify-center overflow-hidden sm:min-h-[32rem] lg:min-h-[30rem] xl:min-h-[36rem]"
+        className="relative flex min-h-[28rem] items-center justify-center overflow-visible sm:min-h-[32rem] lg:min-h-[30rem] xl:min-h-[36rem]"
         style={{ perspective: "1400px" }}
       >
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-[8%] rounded-[2rem] bg-[linear-gradient(160deg,#f7f5f2_0%,#eef2f6_45%,#f8f4ef_100%)] opacity-80 blur-[1px]"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-[18%] rounded-full bg-white/50 blur-3xl"
-        />
-
         <div className="relative h-full w-full" style={{ transformStyle: "preserve-3d" }}>
           {HERO_FLOW_SLIDES.map((slide, index) => {
             const offset = index - step;
@@ -173,10 +162,10 @@ function HeroFlowShowcase({ reduceMotion }) {
                 className="absolute left-1/2 top-1/2 origin-center cursor-pointer border-0 bg-transparent p-0 outline-none transition-all duration-500 ease-out focus-visible:ring-2 focus-visible:ring-[#FE602F]/50 focus-visible:ring-offset-2"
                 style={{
                   zIndex: 40 - absOffset,
-                  opacity: isCenter ? 1 : Math.max(0.38, 1 - absOffset * 0.3),
+                  opacity: isCenter ? 1 : Math.max(0.42, 1 - absOffset * 0.28),
                   filter: isCenter
                     ? "none"
-                    : `blur(${absOffset * 1.25}px) brightness(${1 - absOffset * 0.1})`,
+                    : `brightness(${1 - absOffset * 0.08})`,
                   transform: `
                     translate(-50%, -50%)
                     translateX(${shiftX}px)
@@ -188,16 +177,16 @@ function HeroFlowShowcase({ reduceMotion }) {
                 }}
               >
                 <span
-                  className={`relative block overflow-hidden rounded-[1.35rem] transition-shadow duration-500 ${
+                  className={`relative block bg-transparent transition-shadow duration-500 ${
                     isCenter
-                      ? "shadow-[0_28px_60px_rgba(46,53,69,0.28)] ring-1 ring-white/80"
-                      : "shadow-[0_14px_36px_rgba(46,53,69,0.14)] ring-1 ring-black/5"
+                      ? "drop-shadow-[0_22px_40px_rgba(46,53,69,0.22)]"
+                      : "drop-shadow-[0_10px_24px_rgba(46,53,69,0.12)]"
                   }`}
                 >
                   <img
                     src={slide.src}
                     alt=""
-                    className="pointer-events-none h-auto w-[11.5rem] max-w-none select-none object-contain sm:w-[13rem] lg:w-[12.25rem] xl:w-[14.5rem] 2xl:w-[16.25rem]"
+                    className="pointer-events-none h-auto w-[11.5rem] max-w-none select-none bg-transparent object-contain sm:w-[13rem] lg:w-[12.25rem] xl:w-[14.5rem] 2xl:w-[16.25rem]"
                     draggable={false}
                   />
                 </span>
