@@ -49,8 +49,30 @@ function renderInline(text) {
   });
 }
 
+function looksLikeHtml(content = "") {
+  return /<\/?[a-z][\s\S]*>/i.test(String(content).trim());
+}
+
+function HtmlArticle({ content }) {
+  return (
+    <div
+      className="blog-html-content space-y-4 text-[15px] leading-7 text-slate-600 sm:text-base sm:leading-8 [&_a]:font-semibold [&_a]:text-[#FE602F] [&_a]:underline [&_blockquote]:rounded-r-2xl [&_blockquote]:border-l-4 [&_blockquote]:border-[#FE602F] [&_blockquote]:bg-[#fff7f4] [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:italic [&_blockquote]:text-[#2E3545] [&_h1]:text-3xl [&_h1]:font-semibold [&_h1]:text-[#2E3545] [&_h2]:pt-4 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-[#2E3545] [&_h3]:pt-2 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-[#2E3545] [&_img]:my-4 [&_img]:max-w-full [&_img]:rounded-2xl [&_li]:ml-5 [&_ol]:list-decimal [&_p]:mb-3 [&_ul]:list-disc"
+      dangerouslySetInnerHTML={{ __html: content || "" }}
+    />
+  );
+}
+
+function ArticleBody({ content, contentFormat }) {
+  const html =
+    contentFormat === "html" ||
+    (contentFormat !== "markdown" && looksLikeHtml(content));
+
+  if (html) return <HtmlArticle content={content} />;
+  return <MarkdownArticle content={content || ""} />;
+}
+
 function MarkdownArticle({ content }) {
-  const lines = content.split("\n");
+  const lines = String(content || "").split("\n");
 
   return (
     <div className="space-y-5 text-[15px] leading-7 text-slate-600 sm:text-base sm:leading-8">
@@ -274,7 +296,10 @@ export default function BlogArticlePage() {
 
         <div className="mx-auto grid max-w-6xl gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_240px] lg:py-20">
           <main className="min-w-0">
-            <MarkdownArticle content={article.content} />
+            <ArticleBody
+              content={article.content}
+              contentFormat={article.contentFormat}
+            />
           </main>
 
           <aside className="hidden lg:block">

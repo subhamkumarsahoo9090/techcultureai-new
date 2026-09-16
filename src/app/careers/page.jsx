@@ -111,8 +111,8 @@ export default function CareersPage() {
   };
 
   return (
-    <div className="overflow-hidden bg-white text-[#2E3545]">
-      <section className="relative isolate min-h-162.5 overflow-hidden">
+    <div className="overflow-hidden bg-white text-[#2E3545]" data-manual-reveal>
+      <section className="relative isolate min-h-162.5 overflow-hidden" data-no-auto-reveal>
         <div className="absolute inset-0 -z-30 bg-[#fdfcfb]" />
         <div className="absolute -right-32 -top-24 -z-20 h-150 w-150 rounded-full bg-[#FE602F]/14 blur-[120px]" />
         <div className="absolute -bottom-40 left-[8%] -z-20 h-96 w-96 rounded-full bg-[#2E3545]/8 blur-[110px]" />
@@ -169,20 +169,18 @@ export default function CareersPage() {
             initial={reduceMotion ? false : { opacity: 0, x: 36, rotate: 2 }}
             animate={{ opacity: 1, x: 0, rotate: 0 }}
             transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto w-full max-w-2xl"
+            className="relative mx-auto w-full max-w-3xl overflow-visible lg:max-w-none lg:justify-self-end"
           >
-            <div className="relative overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white shadow-[0_30px_80px_rgba(46,53,69,0.18)] ring-1 ring-slate-100">
-              <img
-                src="/careers-hero.jpg"
-                alt="Join our team — Build your future with TechCulture AI"
-                className="h-auto w-full object-contain object-center"
-              />
-            </div>
+            <img
+              src="/careers-hero.png"
+              alt="Build your future with TechCulture AI — join our passionate team"
+              className="h-auto w-full -translate-x-[20%] scale-[1.2] object-contain object-center drop-shadow-[0_24px_60px_rgba(46,53,69,0.12)]"
+            />
           </motion.div>
         </div>
       </section>
 
-      <section className="bg-[#f7f7f8] py-20 sm:py-24">
+      <section className="bg-[#f7f7f8] py-20 sm:py-24" data-no-auto-reveal>
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <div className="mx-auto mb-12 max-w-2xl text-center">
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#FE602F]">
@@ -225,7 +223,7 @@ export default function CareersPage() {
         </div>
       </section>
 
-      <section id="open-roles" className="scroll-mt-24 bg-white py-20 sm:py-24">
+      <section id="open-roles" className="scroll-mt-24 bg-white py-20 sm:py-24" data-no-auto-reveal>
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
             <div>
@@ -318,7 +316,7 @@ export default function CareersPage() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-[#fffaf8] py-20 sm:py-24">
+      <section className="relative isolate overflow-hidden bg-[#fffaf8] py-20 sm:py-24" data-no-auto-reveal>
         <div className="absolute -right-32 -top-32 -z-10 h-96 w-96 rounded-full bg-[#FE602F]/10 blur-[100px]" />
         <div className="absolute -bottom-48 -left-24 -z-10 h-96 w-96 rounded-full bg-[#2E3545]/6 blur-[110px]" />
         <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_center,rgba(46,53,69,0.05)_1px,transparent_1px)] bg-size-[26px_26px] opacity-45" />

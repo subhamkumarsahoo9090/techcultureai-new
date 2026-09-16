@@ -35,6 +35,26 @@ const HERO_FLOW_SLIDES = [
 
 const FLOW_SLIDE_MS = 2800;
 
+function useCarouselSpread() {
+  const [spread, setSpread] = useState({ near: 72, far: 100 });
+
+  useEffect(() => {
+    function update() {
+      const w = window.innerWidth;
+      if (w < 640) setSpread({ near: 64, far: 88 });
+      else if (w < 1024) setSpread({ near: 68, far: 94 });
+      else if (w < 1280) setSpread({ near: 52, far: 76 });
+      else if (w < 1536) setSpread({ near: 64, far: 90 });
+      else setSpread({ near: 72, far: 104 });
+    }
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  return spread;
+}
+
 const GradientText = dynamic(() => import("@/components/GradientText"), {
   ssr: false,
   loading: () => (
@@ -101,6 +121,7 @@ const features = [
 function HeroFlowShowcase({ reduceMotion }) {
   const [step, setStep] = useState(0);
   const [paused, setPaused] = useState(false);
+  const spread = useCarouselSpread();
 
   useEffect(() => {
     if (reduceMotion || paused) return undefined;
@@ -114,14 +135,14 @@ function HeroFlowShowcase({ reduceMotion }) {
 
   return (
     <div
-      className="relative mx-auto w-full max-w-lg lg:max-w-xl xl:max-w-2xl xl:translate-x-1"
+      className="relative mx-auto w-full max-w-[17rem] sm:max-w-xs lg:max-w-[15.5rem] xl:max-w-md 2xl:max-w-lg"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-[radial-gradient(ellipse_at_center,rgba(254,96,47,0.14),transparent_65%),radial-gradient(ellipse_at_70%_40%,rgba(46,53,69,0.08),transparent_55%)] blur-2xl" />
+      <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-[radial-gradient(ellipse_at_center,rgba(254,96,47,0.14),transparent_65%),radial-gradient(ellipse_at_70%_40%,rgba(46,53,69,0.08),transparent_55%)] blur-2xl lg:-inset-3" />
 
       <div
-        className="relative flex min-h-[36rem] items-center justify-center overflow-visible sm:min-h-[38rem]"
+        className="relative flex min-h-[28rem] items-center justify-center overflow-hidden sm:min-h-[32rem] lg:min-h-[30rem] xl:min-h-[36rem]"
         style={{ perspective: "1400px" }}
       >
         <div
@@ -140,7 +161,7 @@ function HeroFlowShowcase({ reduceMotion }) {
             if (absOffset > 2) return null;
 
             const isCenter = offset === 0;
-            const shiftX = offset * (absOffset >= 2 ? 155 : 112);
+            const shiftX = offset * (absOffset >= 2 ? spread.far : spread.near);
 
             return (
               <button
@@ -176,7 +197,7 @@ function HeroFlowShowcase({ reduceMotion }) {
                   <img
                     src={slide.src}
                     alt=""
-                    className="pointer-events-none h-auto w-[13.25rem] max-w-none select-none object-contain sm:w-[15.25rem] lg:w-[16.25rem]"
+                    className="pointer-events-none h-auto w-[11.5rem] max-w-none select-none object-contain sm:w-[13rem] lg:w-[12.25rem] xl:w-[14.5rem] 2xl:w-[16.25rem]"
                     draggable={false}
                   />
                 </span>
@@ -237,14 +258,11 @@ export default function Hero() {
       };
 
   return (
-    <section className="relative overflow-x-clip overflow-y-visible bg-transparent">
-      <div className="relative z-10 w-full px-4 pb-10 pt-6 sm:px-6 sm:pb-12 sm:pt-8 lg:px-10 lg:pt-10 xl:px-14">
-        <div
-          className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10 xl:gap-14"
-          style={{ marginLeft: "100px" }}
-        >
+    <section className="hero-flow-section relative overflow-x-clip overflow-y-visible bg-transparent">
+      <div className="relative z-10 mx-auto w-[min(100%,1800px)] px-5 pb-10 pt-6 sm:px-8 sm:pb-12 sm:pt-8 md:px-10 lg:px-14 lg:pt-10 xl:px-20 2xl:px-24">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10 xl:grid-cols-2 xl:gap-14">
           <motion.div
-            className="text-center lg:text-left"
+            className="relative z-10 min-w-0 text-center lg:pr-6 lg:text-left xl:pr-10"
             initial="hidden"
             animate="visible"
             variants={stagger}
@@ -332,7 +350,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            className="relative overflow-visible"
+            className="relative z-0 min-w-0 overflow-hidden xl:overflow-visible xl:pl-4"
             initial={reduceMotion ? false : { opacity: 0, x: 40, scale: 0.96 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.75, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}

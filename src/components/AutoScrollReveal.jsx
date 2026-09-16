@@ -84,12 +84,9 @@ export default function AutoScrollReveal() {
     // Safety: never leave content permanently invisible
     const t3 = window.setTimeout(() => {
       document.querySelectorAll(".auto-reveal:not(.auto-reveal--in)").forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 1.25) {
-          el.classList.add("auto-reveal--in");
-        }
+        el.classList.add("auto-reveal--in");
       });
-    }, 900);
+    }, 1200);
 
     let scheduled = false;
     const mo = new MutationObserver(() => {
