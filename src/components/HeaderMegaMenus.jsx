@@ -142,7 +142,7 @@ export const showcaseProducts = [
     href: webdevHref("/products"),
   },
   {
-    title: "IPO Master",
+    title: "IPO",
     description: "Track, analyze and never miss an opportunity.",
     tags: ["Web Platform"],
     icon: FileBarChart2,

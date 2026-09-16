@@ -261,7 +261,6 @@ function SuccessStep({ form, selectedDate, selectedTime, booking, onClose }) {
 }
 
 function ScheduleStep({
-  form,
   selectedDate,
   selectedTime,
   onSelectDate,
@@ -271,7 +270,6 @@ function ScheduleStep({
   scheduleError,
   contactPhone,
   contactEmail,
-  isConfirming,
 }) {
   const today = useMemo(() => startOfDay(new Date()), []);
   const [viewDate, setViewDate] = useState(() => {
@@ -411,17 +409,13 @@ function ScheduleStep({
                 className="mt-0.5 shrink-0 text-teal-700"
                 size={18}
               />
-              <span>
-                Google Meet details sent to{" "}
-                <span className="font-medium text-slate-800">
-                  {form.workEmail}
-                </span>
-              </span>
+              <span>Google Meet invite sent after you share your details</span>
             </li>
           </ul>
 
           <p className="mt-5 text-sm leading-relaxed text-slate-500">
-            Pick a working day and time. Invite goes to you and{" "}
+            Pick a working day and time first. Next we&apos;ll ask for your
+            details, then send the invite to you and{" "}
             <span className="font-medium text-teal-700">{TEAM_EMAIL}</span>.
           </p>
 
@@ -591,26 +585,15 @@ function ScheduleStep({
             <button
               type="button"
               onClick={onConfirm}
-              disabled={isConfirming}
-              className="brand-cta-gradient inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold !text-white disabled:cursor-not-allowed disabled:opacity-70"
+              className="brand-cta-gradient inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold !text-white"
             >
-              {isConfirming ? (
-                <>
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                  Scheduling...
-                </>
-              ) : (
-                <>
-                  Confirm &amp; Send Meet Invite
-                  <span aria-hidden>→</span>
-                </>
-              )}
+              Continue to Details
+              <span aria-hidden>→</span>
             </button>
             <button
               type="button"
               onClick={onClose}
-              disabled={isConfirming}
-              className="brand-cta-outline rounded-full border bg-white px-5 py-3.5 text-sm font-semibold transition disabled:opacity-60 sm:min-w-[140px]"
+              className="brand-cta-outline rounded-full border bg-white px-5 py-3.5 text-sm font-semibold transition sm:min-w-[140px]"
             >
               Close for now
             </button>
@@ -624,7 +607,7 @@ function ScheduleStep({
 export default function BookDemoPopup() {
   const { isOpen, draft, closeBookDemo, clearDraft } = useBookDemo();
   const { settingsData } = useSite();
-  const [step, setStep] = useState("form");
+  const [step, setStep] = useState("schedule");
   const [form, setForm] = useState(INITIAL_FORM);
   const [fieldErrors, setFieldErrors] = useState({ workEmail: "", phone: "" });
   const [selectedDate, setSelectedDate] = useState("");
@@ -635,6 +618,7 @@ export default function BookDemoPopup() {
 
   const contactPhone = settingsData?.phone || "+91 74282 38091";
   const contactEmail = settingsData?.email || TEAM_EMAIL;
+  const whenLabel = formatWhenLabel(selectedDate, selectedTime);
 
   useEffect(() => {
     if (!isOpen || !draft) return;
@@ -644,6 +628,8 @@ export default function BookDemoPopup() {
     }
     if (draft.step) {
       setStep(draft.step);
+    } else {
+      setStep("schedule");
     }
 
     clearDraft();
@@ -668,7 +654,7 @@ export default function BookDemoPopup() {
   }, [isOpen]);
 
   const resetAll = () => {
-    setStep("form");
+    setStep("schedule");
     setForm(INITIAL_FORM);
     setFieldErrors({ workEmail: "", phone: "" });
     setSelectedDate("");
@@ -714,18 +700,30 @@ export default function BookDemoPopup() {
     return !next.workEmail && !next.phone;
   };
 
+  const handleContinueFromSchedule = () => {
+    if (!selectedDate || !selectedTime) {
+      setScheduleError("Please pick a working day and a time slot.");
+      return;
+    }
+    setScheduleError("");
+    setStep("form");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!selectedDate || !selectedTime) {
+      setScheduleError("Please pick a working day and a time slot.");
+      setStep("schedule");
+      return;
+    }
     if (!validateFormFields()) return;
-
-    // API integration later
-    console.log("Book demo form (UI only):", form);
-    setStep("schedule");
+    handleConfirmSchedule();
   };
 
   const handleConfirmSchedule = async () => {
     if (!selectedDate || !selectedTime) {
       setScheduleError("Please pick a working day and a time slot.");
+      setStep("schedule");
       return;
     }
 
@@ -808,7 +806,6 @@ export default function BookDemoPopup() {
           />
         ) : step === "schedule" ? (
           <ScheduleStep
-            form={form}
             selectedDate={selectedDate}
             selectedTime={selectedTime}
             onSelectDate={(v) => {
@@ -820,12 +817,11 @@ export default function BookDemoPopup() {
               setScheduleError("");
               setSelectedTime(v);
             }}
-            onConfirm={handleConfirmSchedule}
+            onConfirm={handleContinueFromSchedule}
             onClose={handleClose}
             scheduleError={scheduleError}
             contactPhone={contactPhone}
             contactEmail={contactEmail}
-            isConfirming={isConfirming}
           />
         ) : (
           <div
@@ -841,19 +837,36 @@ export default function BookDemoPopup() {
               >
                 <IoClose size={18} className="text-white" />
               </button>
+              <button
+                type="button"
+                onClick={() => setStep("schedule")}
+                className="mb-3 inline-flex items-center gap-1 text-sm font-semibold text-teal-700 transition hover:text-teal-800"
+              >
+                <IoChevronBack size={16} />
+                Back to calendar
+              </button>
               <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-teal-700">
-                Step 1 · Details
+                Step 2 · Your details
               </p>
               <h2
                 id="book-demo-title"
                 className="pr-10 text-2xl font-bold tracking-tight text-slate-900"
               >
-                Book a Demo
+                Almost there
               </h2>
               <p className="mt-1.5 text-sm text-slate-600">
-                Share a few details and we&apos;ll schedule a personalized
-                walkthrough.
+                Share your details so we can send the Meet invite for your slot.
               </p>
+              {whenLabel ? (
+                <div className="mt-4 rounded-xl border border-teal-100 bg-white/80 px-4 py-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Selected slot
+                  </p>
+                  <p className="mt-1 text-sm font-bold text-[#1c2b2a]">
+                    {whenLabel}
+                  </p>
+                </div>
+              ) : null}
             </div>
 
             <form
@@ -966,15 +979,29 @@ export default function BookDemoPopup() {
                 </div>
               </div>
 
+              {scheduleError && (
+                <p className="text-sm font-medium text-orange-600">
+                  {scheduleError}
+                </p>
+              )}
+
               <div className="sticky bottom-0 -mx-6 border-t border-slate-100 bg-white px-6 pb-1 pt-4">
                 <button
                   type="submit"
-                  className="brand-cta-gradient inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-bold !text-white"
+                  disabled={isConfirming}
+                  className="brand-cta-gradient inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold !text-white disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  Continue to Schedule
+                  {isConfirming ? (
+                    <>
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      Scheduling...
+                    </>
+                  ) : (
+                    "Confirm & Send Meet Invite"
+                  )}
                 </button>
                 <p className="mt-2.5 text-center text-xs text-slate-400">
-                  * Required fields. Next: pick a demo slot.
+                  * Required fields. We&apos;ll email the Google Meet link.
                 </p>
               </div>
             </form>

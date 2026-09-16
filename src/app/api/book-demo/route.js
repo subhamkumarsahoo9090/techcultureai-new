@@ -3,6 +3,7 @@ import {
   createDemoCalendarEvent,
   isGoogleCalendarConfigured,
 } from "@/lib/googleCalendar";
+import { BACKOFFICE_API_URL } from "@/lib/blogApi";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^[6-9]\d{9}$/;
@@ -11,6 +12,25 @@ const TIME_REGEX = /^\d{1,2}:\d{2}\s*(AM|PM)$/i;
 
 function badRequest(message) {
   return NextResponse.json({ success: false, message }, { status: 400 });
+}
+
+async function saveBookingToBackoffice(payload) {
+  try {
+    const res = await fetch(`${BACKOFFICE_API_URL}/api/demos/public`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      console.error(
+        "Failed to save demo booking to backoffice:",
+        data.message || res.status
+      );
+    }
+  } catch (error) {
+    console.error("Failed to save demo booking to backoffice:", error);
+  }
 }
 
 export async function POST(request) {
@@ -63,7 +83,7 @@ export async function POST(request) {
       return badRequest("Please choose a weekday (Mon–Fri).");
     }
 
-    const result = await createDemoCalendarEvent({
+    const guest = {
       fullName: fullName.trim(),
       workEmail: workEmail.trim().toLowerCase(),
       phone: String(phone).replace(/\D/g, ""),
@@ -72,6 +92,15 @@ export async function POST(request) {
       message: message?.trim() || "",
       demoDate,
       demoTime: demoTime.trim(),
+    };
+
+    const result = await createDemoCalendarEvent(guest);
+
+    await saveBookingToBackoffice({
+      ...guest,
+      eventId: result.eventId || "",
+      meetLink: result.meetLink || "",
+      calendarLink: result.htmlLink || "",
     });
 
     return NextResponse.json({
@@ -100,9 +129,6 @@ export async function POST(request) {
       error?.message ||
       "Failed to schedule demo. Please try again.";
 
-    return NextResponse.json(
-      { success: false, message },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, message }, { status: 500 });
   }
 }
