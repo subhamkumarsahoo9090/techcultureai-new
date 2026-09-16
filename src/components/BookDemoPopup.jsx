@@ -50,6 +50,12 @@ const INITIAL_FORM = {
 
 const TEAM_EMAIL = "info@techculture.ai";
 const LOGO_SRC = "/tc-new-logo-2.png";
+const DEMO_HOST = {
+  name: "Manoj Rawat",
+  role: "Chief Operating Officer (COO)",
+  imageUrl:
+    "https://res.cloudinary.com/dakf05m4x/image/upload/v1782307274/ourTeams/manojrphoto-589bb0c3-9f3a-48cb-8467-0d5125a3fc53.png",
+};
 const PROJECT_FONT =
   "var(--font-app), var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
 const popupFontClass = "font-sans antialiased";
@@ -261,15 +267,23 @@ function SuccessStep({ form, selectedDate, selectedTime, booking, onClose }) {
 }
 
 function ScheduleStep({
+  panel = "schedule",
   selectedDate,
   selectedTime,
+  whenLabel,
+  form,
+  fieldErrors,
   onSelectDate,
   onSelectTime,
-  onConfirm,
+  onConfirmSchedule,
+  onChangeForm,
+  onSubmitDetails,
+  onBackToCalendar,
   onClose,
   scheduleError,
   contactPhone,
   contactEmail,
+  isConfirming,
 }) {
   const today = useMemo(() => startOfDay(new Date()), []);
   const [viewDate, setViewDate] = useState(() => {
@@ -306,10 +320,12 @@ function ScheduleStep({
   }, [viewYear, viewMonth, today]);
 
   useEffect(() => {
-    if (!selectedDate) {
-      setBookedSlots([]);
-      setSlotsError("");
-      setSlotsLoading(false);
+    if (panel !== "schedule" || !selectedDate) {
+      if (!selectedDate) {
+        setBookedSlots([]);
+        setSlotsError("");
+        setSlotsLoading(false);
+      }
       return;
     }
 
@@ -355,7 +371,7 @@ function ScheduleStep({
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDate]);
+  }, [selectedDate, panel]);
 
   const goPrev = () => {
     if (!canGoPrev) return;
@@ -365,6 +381,8 @@ function ScheduleStep({
   const goNext = () => {
     setViewDate(new Date(viewYear, viewMonth + 1, 1));
   };
+
+  const showForm = panel === "form";
 
   return (
     <div
@@ -390,7 +408,26 @@ function ScheduleStep({
             className="h-10 w-auto object-contain object-left"
           />
 
-          
+          <div className="mt-6 flex items-center gap-3.5 rounded-2xl border border-white/80 bg-white/70 p-3 shadow-sm shadow-teal-900/5">
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#FE602F]/30 ring-offset-2 ring-offset-white">
+              <Image
+                src={DEMO_HOST.imageUrl}
+                alt={DEMO_HOST.name}
+                fill
+                sizes="64px"
+                className="object-cover object-top"
+              />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#FE602F]">
+                Meeting with
+              </p>
+              <p className="mt-0.5 truncate text-base font-bold text-[#1c2b2a]">
+                {DEMO_HOST.name}
+              </p>
+              <p className="truncate text-xs text-slate-500">{DEMO_HOST.role}</p>
+            </div>
+          </div>
 
           <h2 className="mt-5 text-2xl font-bold tracking-tight text-[#1c2b2a]">
             30 Minute Demo
@@ -413,11 +450,20 @@ function ScheduleStep({
             </li>
           </ul>
 
-          <p className="mt-5 text-sm leading-relaxed text-slate-500">
-            Pick a working day and time first. Next we&apos;ll ask for your
-            details, then send the invite to you and{" "}
-            <span className="font-medium text-teal-700">{TEAM_EMAIL}</span>.
-          </p>
+          {whenLabel ? (
+            <div className="mt-5 rounded-xl border border-teal-100 bg-white/80 px-3.5 py-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-teal-700">
+                Selected slot
+              </p>
+              <p className="mt-1 text-sm font-bold text-[#1c2b2a]">{whenLabel}</p>
+            </div>
+          ) : (
+            <p className="mt-5 text-sm leading-relaxed text-slate-500">
+              Pick a working day and time first. Next we&apos;ll ask for your
+              details, then send the invite to you and{" "}
+              <span className="font-medium text-teal-700">{TEAM_EMAIL}</span>.
+            </p>
+          )}
 
           <div className="mt-auto hidden space-y-2 pt-8 lg:block">
             <a
@@ -441,163 +487,371 @@ function ScheduleStep({
           className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8"
           style={{ scrollbarWidth: "thin" }}
         >
-          <h3 className="pr-10 text-xl font-bold tracking-tight text-[#1c2b2a]">
-            Select a Date &amp; Time
-          </h3>
-
-          <div
-            className={`mt-5 grid gap-6 ${
-              selectedDate ? "lg:grid-cols-[1fr_200px]" : ""
-            }`}
-          >
-            <div>
-              <div className="mb-4 flex items-center justify-between">
-                <p className="text-base font-semibold text-[#1c2b2a]">
-                  {monthLabel}
-                </p>
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={goPrev}
-                    disabled={!canGoPrev}
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-orange-600 transition hover:bg-orange-50 disabled:cursor-not-allowed disabled:opacity-30"
-                    aria-label="Previous month"
-                  >
-                    <IoChevronBack size={18} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={goNext}
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-orange-600 transition hover:bg-orange-50"
-                    aria-label="Next month"
-                  >
-                    <IoChevronForward size={18} />
-                  </button>
+          {showForm ? (
+            <>
+              <div className="pr-10">
+                <button
+                  type="button"
+                  onClick={onBackToCalendar}
+                  className="mb-3 inline-flex items-center gap-1 text-sm font-semibold text-teal-700 transition hover:text-teal-800"
+                >
+                  <IoChevronBack size={16} />
+                  Back to calendar
+                </button>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-teal-700">
+                      Step 2 · Your details
+                    </p>
+                    <h3
+                      id="book-demo-title"
+                      className="text-xl font-bold tracking-tight text-[#1c2b2a]"
+                    >
+                      Almost there
+                    </h3>
+                    <p className="mt-1.5 text-sm text-slate-600">
+                      Share your details so we can send the Meet invite.
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-slate-50 py-1 pl-1 pr-3">
+                    <span className="relative h-8 w-8 overflow-hidden rounded-full ring-1 ring-orange-200">
+                      <Image
+                        src={DEMO_HOST.imageUrl}
+                        alt={DEMO_HOST.name}
+                        fill
+                        sizes="32px"
+                        className="object-cover object-top"
+                      />
+                    </span>
+                    <span className="hidden text-xs font-semibold text-slate-600 sm:inline">
+                      {DEMO_HOST.name.split(" ")[0]}
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-7 gap-y-2 text-center">
-                {WEEKDAYS.map((d) => (
-                  <div
-                    key={d}
-                    className="pb-1 text-xs font-semibold uppercase tracking-wide text-slate-400"
-                  >
-                    {d}
+              <form onSubmit={onSubmitDetails} className="mt-5 space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="sm:col-span-2">
+                    <label htmlFor="fullName" className={labelClass}>
+                      Full name <span className="text-orange-500">*</span>
+                    </label>
+                    <input
+                      id="fullName"
+                      name="fullName"
+                      type="text"
+                      required
+                      value={form.fullName}
+                      onChange={onChangeForm}
+                      placeholder="Enter your full name"
+                      className={fieldClass}
+                    />
                   </div>
-                ))}
 
-                {cells.map((date, idx) => {
-                  if (!date) {
-                    return <div key={`empty-${idx}`} className="h-11" />;
-                  }
+                  <div>
+                    <label htmlFor="workEmail" className={labelClass}>
+                      Work email <span className="text-orange-500">*</span>
+                    </label>
+                    <input
+                      id="workEmail"
+                      name="workEmail"
+                      type="email"
+                      required
+                      value={form.workEmail}
+                      onChange={onChangeForm}
+                      placeholder="you@company.com"
+                      className={`${fieldClass} ${
+                        fieldErrors.workEmail
+                          ? "border-orange-400 focus:border-orange-500 focus:ring-orange-500/20"
+                          : ""
+                      }`}
+                      aria-invalid={Boolean(fieldErrors.workEmail)}
+                    />
+                    {fieldErrors.workEmail && (
+                      <p className="mt-1.5 text-xs text-orange-600">
+                        {fieldErrors.workEmail}
+                      </p>
+                    )}
+                  </div>
 
-                  const value = toDateValue(date);
-                  const selectable = isSelectableDate(date, today);
-                  const active = selectedDate === value;
-                  const isToday = toDateValue(today) === value;
+                  <div>
+                    <label htmlFor="phone" className={labelClass}>
+                      Phone <span className="text-orange-500">*</span>
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      maxLength={10}
+                      required
+                      value={form.phone}
+                      onChange={onChangeForm}
+                      placeholder="9876543210"
+                      className={`${fieldClass} ${
+                        fieldErrors.phone
+                          ? "border-orange-400 focus:border-orange-500 focus:ring-orange-500/20"
+                          : ""
+                      }`}
+                      aria-invalid={Boolean(fieldErrors.phone)}
+                    />
+                    {fieldErrors.phone && (
+                      <p className="mt-1.5 text-xs text-orange-600">
+                        {fieldErrors.phone}
+                      </p>
+                    )}
+                  </div>
 
-                  return (
-                    <div key={value} className="flex justify-center py-0.5">
+                  <div>
+                    <label htmlFor="company" className={labelClass}>
+                      Company <span className="text-orange-500">*</span>
+                    </label>
+                    <input
+                      id="company"
+                      name="company"
+                      type="text"
+                      required
+                      value={form.company}
+                      onChange={onChangeForm}
+                      placeholder="Company name"
+                      className={fieldClass}
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="location" className={labelClass}>
+                      Location <span className="text-orange-500">*</span>
+                    </label>
+                    <input
+                      id="location"
+                      name="location"
+                      type="text"
+                      required
+                      value={form.location}
+                      onChange={onChangeForm}
+                      placeholder="City, Country"
+                      className={fieldClass}
+                    />
+                  </div>
+                </div>
+
+                {scheduleError && (
+                  <p className="text-sm font-medium text-orange-600">
+                    {scheduleError}
+                  </p>
+                )}
+
+                <div className="flex flex-col gap-2 pt-1 sm:flex-row sm:items-center">
+                  <button
+                    type="submit"
+                    disabled={isConfirming}
+                    className="brand-cta-gradient inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold !text-white disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    {isConfirming ? (
+                      <>
+                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        Scheduling...
+                      </>
+                    ) : (
+                      "Confirm & Send Meet Invite"
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onBackToCalendar}
+                    disabled={isConfirming}
+                    className="brand-cta-outline rounded-full border bg-white px-5 py-3.5 text-sm font-semibold transition disabled:opacity-60 sm:min-w-[140px]"
+                  >
+                    Change slot
+                  </button>
+                </div>
+              </form>
+            </>
+          ) : (
+            <>
+              <div className="flex items-start justify-between gap-3 pr-10">
+                <h3
+                  id="book-demo-title"
+                  className="text-xl font-bold tracking-tight text-[#1c2b2a]"
+                >
+                  Select a Date &amp; Time
+                </h3>
+                <div className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-slate-50 py-1 pl-1 pr-3">
+                  <span className="relative h-8 w-8 overflow-hidden rounded-full ring-1 ring-orange-200">
+                    <Image
+                      src={DEMO_HOST.imageUrl}
+                      alt={DEMO_HOST.name}
+                      fill
+                      sizes="32px"
+                      className="object-cover object-top"
+                    />
+                  </span>
+                  <span className="hidden text-xs font-semibold text-slate-600 sm:inline">
+                    {DEMO_HOST.name.split(" ")[0]}
+                  </span>
+                </div>
+              </div>
+
+              <div
+                className={`mt-5 grid gap-6 ${
+                  selectedDate ? "lg:grid-cols-[1fr_200px]" : ""
+                }`}
+              >
+                <div>
+                  <div className="mb-4 flex items-center justify-between">
+                    <p className="text-base font-semibold text-[#1c2b2a]">
+                      {monthLabel}
+                    </p>
+                    <div className="flex items-center gap-1">
                       <button
                         type="button"
-                        disabled={!selectable}
-                        onClick={() => {
-                          onSelectDate(value);
-                          onSelectTime("");
-                        }}
-                        className={`relative flex h-11 w-11 items-center justify-center rounded-full text-sm font-semibold transition ${
-                          active
-                            ? "bg-[#FE602F] !text-white shadow-md shadow-orange-500/30"
-                            : selectable
-                              ? "bg-orange-50 text-orange-800 hover:bg-orange-100"
-                              : "cursor-default text-slate-300"
-                        }`}
+                        onClick={goPrev}
+                        disabled={!canGoPrev}
+                        className="flex h-8 w-8 items-center justify-center rounded-full text-orange-600 transition hover:bg-orange-50 disabled:cursor-not-allowed disabled:opacity-30"
+                        aria-label="Previous month"
                       >
-                        {date.getDate()}
-                        {isToday && !active && (
-                          <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[#FE602F]" />
-                        )}
+                        <IoChevronBack size={18} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={goNext}
+                        className="flex h-8 w-8 items-center justify-center rounded-full text-orange-600 transition hover:bg-orange-50"
+                        aria-label="Next month"
+                      >
+                        <IoChevronForward size={18} />
                       </button>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
 
-              <div className="mt-5 flex items-center gap-2 text-sm text-slate-600">
-                <IoGlobeOutline className="shrink-0 text-teal-700" size={16} />
-                <span className="font-medium text-[#1c2b2a]">
-                  India Standard Time (IST)
-                </span>
-              </div>
-              <p className="mt-1.5 text-xs text-slate-400">
-                Available Mon–Fri · 10:00 AM – 6:00 PM · 30-minute slots
-              </p>
-            </div>
+                  <div className="grid grid-cols-7 gap-y-2 text-center">
+                    {WEEKDAYS.map((d) => (
+                      <div
+                        key={d}
+                        className="pb-1 text-xs font-semibold uppercase tracking-wide text-slate-400"
+                      >
+                        {d}
+                      </div>
+                    ))}
 
-            {selectedDate && (
-              <div className="border-t border-slate-100 pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
-                <p className="mb-3 text-sm font-semibold text-[#1c2b2a]">
-                  {selectedLabel}
-                </p>
-                {slotsLoading ? (
-                  <p className="text-sm text-slate-500">Checking availability…</p>
-                ) : slotsError ? (
-                  <p className="text-sm font-medium text-orange-600">{slotsError}</p>
-                ) : (
-                  <div className="flex max-h-80 flex-col gap-2 overflow-y-auto pr-1">
-                    {TIME_SLOTS.map((slot) => {
-                      const active = selectedTime === slot;
-                      const booked = bookedSlots.includes(slot);
+                    {cells.map((date, idx) => {
+                      if (!date) {
+                        return <div key={`empty-${idx}`} className="h-11" />;
+                      }
+
+                      const value = toDateValue(date);
+                      const selectable = isSelectableDate(date, today);
+                      const active = selectedDate === value;
+                      const isToday = toDateValue(today) === value;
+
                       return (
-                        <button
-                          key={slot}
-                          type="button"
-                          disabled={booked}
-                          onClick={() => {
-                            if (!booked) onSelectTime(slot);
-                          }}
-                          className={`rounded-lg border px-3 py-2.5 text-sm font-semibold transition ${
-                            booked
-                              ? "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 line-through"
-                              : active
-                                ? "border-[#FE602F] bg-[#FE602F] text-white! shadow-sm shadow-orange-500/25"
-                                : "border-orange-200 bg-white text-orange-700 hover:border-orange-400 hover:bg-orange-50"
-                          }`}
-                          title={booked ? "Already booked" : undefined}
-                        >
-                          {booked ? `${slot} · Booked` : slot}
-                        </button>
+                        <div key={value} className="flex justify-center py-0.5">
+                          <button
+                            type="button"
+                            disabled={!selectable}
+                            onClick={() => {
+                              onSelectDate(value);
+                              onSelectTime("");
+                            }}
+                            className={`relative flex h-11 w-11 items-center justify-center rounded-full text-sm font-semibold transition ${
+                              active
+                                ? "bg-[#FE602F] !text-white shadow-md shadow-orange-500/30"
+                                : selectable
+                                  ? "bg-orange-50 text-orange-800 hover:bg-orange-100"
+                                  : "cursor-default text-slate-300"
+                            }`}
+                          >
+                            {date.getDate()}
+                            {isToday && !active && (
+                              <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[#FE602F]" />
+                            )}
+                          </button>
+                        </div>
                       );
                     })}
                   </div>
+
+                  <div className="mt-5 flex items-center gap-2 text-sm text-slate-600">
+                    <IoGlobeOutline className="shrink-0 text-teal-700" size={16} />
+                    <span className="font-medium text-[#1c2b2a]">
+                      India Standard Time (IST)
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-xs text-slate-400">
+                    Available Mon–Fri · 10:00 AM – 6:00 PM · 30-minute slots
+                  </p>
+                </div>
+
+                {selectedDate && (
+                  <div className="border-t border-slate-100 pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
+                    <p className="mb-3 text-sm font-semibold text-[#1c2b2a]">
+                      {selectedLabel}
+                    </p>
+                    {slotsLoading ? (
+                      <p className="text-sm text-slate-500">
+                        Checking availability…
+                      </p>
+                    ) : slotsError ? (
+                      <p className="text-sm font-medium text-orange-600">
+                        {slotsError}
+                      </p>
+                    ) : (
+                      <div className="flex max-h-80 flex-col gap-2 overflow-y-auto pr-1">
+                        {TIME_SLOTS.map((slot) => {
+                          const active = selectedTime === slot;
+                          const booked = bookedSlots.includes(slot);
+                          return (
+                            <button
+                              key={slot}
+                              type="button"
+                              disabled={booked}
+                              onClick={() => {
+                                if (!booked) onSelectTime(slot);
+                              }}
+                              className={`rounded-lg border px-3 py-2.5 text-sm font-semibold transition ${
+                                booked
+                                  ? "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 line-through"
+                                  : active
+                                    ? "border-[#FE602F] bg-[#FE602F] text-white! shadow-sm shadow-orange-500/25"
+                                    : "border-orange-200 bg-white text-orange-700 hover:border-orange-400 hover:bg-orange-50"
+                              }`}
+                              title={booked ? "Already booked" : undefined}
+                            >
+                              {booked ? `${slot} · Booked` : slot}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
-            )}
-          </div>
 
-          {scheduleError && (
-            <p className="mt-4 text-sm font-medium text-orange-600">
-              {scheduleError}
-            </p>
+              {scheduleError && (
+                <p className="mt-4 text-sm font-medium text-orange-600">
+                  {scheduleError}
+                </p>
+              )}
+
+              <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:items-center">
+                <button
+                  type="button"
+                  onClick={onConfirmSchedule}
+                  className="brand-cta-gradient inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold !text-white"
+                >
+                  Continue to Details
+                  <span aria-hidden>→</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="brand-cta-outline rounded-full border bg-white px-5 py-3.5 text-sm font-semibold transition sm:min-w-[140px]"
+                >
+                  Close for now
+                </button>
+              </div>
+            </>
           )}
-
-          <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:items-center">
-            <button
-              type="button"
-              onClick={onConfirm}
-              className="brand-cta-gradient inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold !text-white"
-            >
-              Continue to Details
-              <span aria-hidden>→</span>
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="brand-cta-outline rounded-full border bg-white px-5 py-3.5 text-sm font-semibold transition sm:min-w-[140px]"
-            >
-              Close for now
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -789,11 +1043,7 @@ export default function BookDemoPopup() {
 
       <div
         className={`relative w-full ${
-          step === "schedule"
-            ? "max-w-5xl"
-            : step === "success"
-              ? "max-w-md"
-              : "max-w-2xl"
+          step === "success" ? "max-w-md" : "max-w-5xl"
         }`}
       >
         {step === "success" ? (
@@ -804,10 +1054,14 @@ export default function BookDemoPopup() {
             booking={booking}
             onClose={handleClose}
           />
-        ) : step === "schedule" ? (
+        ) : (
           <ScheduleStep
+            panel={step === "form" ? "form" : "schedule"}
             selectedDate={selectedDate}
             selectedTime={selectedTime}
+            whenLabel={whenLabel}
+            form={form}
+            fieldErrors={fieldErrors}
             onSelectDate={(v) => {
               setScheduleError("");
               setSelectedDate(v);
@@ -817,195 +1071,19 @@ export default function BookDemoPopup() {
               setScheduleError("");
               setSelectedTime(v);
             }}
-            onConfirm={handleContinueFromSchedule}
+            onConfirmSchedule={handleContinueFromSchedule}
+            onChangeForm={handleChange}
+            onSubmitDetails={handleSubmit}
+            onBackToCalendar={() => {
+              setScheduleError("");
+              setStep("schedule");
+            }}
             onClose={handleClose}
             scheduleError={scheduleError}
             contactPhone={contactPhone}
             contactEmail={contactEmail}
+            isConfirming={isConfirming}
           />
-        ) : (
-          <div
-            className={`relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-2xl bg-white shadow-2xl shadow-slate-900/20 ${popupFontClass}`}
-            style={popupFontStyle}
-          >
-            <div className="relative shrink-0 border-b border-slate-100 bg-gradient-to-br from-teal-50 via-white to-orange-50 px-6 pb-5 pt-6">
-              <button
-                type="button"
-                onClick={handleClose}
-                className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 !text-white transition hover:bg-slate-700"
-                aria-label="Close"
-              >
-                <IoClose size={18} className="text-white" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setStep("schedule")}
-                className="mb-3 inline-flex items-center gap-1 text-sm font-semibold text-teal-700 transition hover:text-teal-800"
-              >
-                <IoChevronBack size={16} />
-                Back to calendar
-              </button>
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-teal-700">
-                Step 2 · Your details
-              </p>
-              <h2
-                id="book-demo-title"
-                className="pr-10 text-2xl font-bold tracking-tight text-slate-900"
-              >
-                Almost there
-              </h2>
-              <p className="mt-1.5 text-sm text-slate-600">
-                Share your details so we can send the Meet invite for your slot.
-              </p>
-              {whenLabel ? (
-                <div className="mt-4 rounded-xl border border-teal-100 bg-white/80 px-4 py-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-                    Selected slot
-                  </p>
-                  <p className="mt-1 text-sm font-bold text-[#1c2b2a]">
-                    {whenLabel}
-                  </p>
-                </div>
-              ) : null}
-            </div>
-
-            <form
-              onSubmit={handleSubmit}
-              className="flex-1 space-y-4 overflow-y-auto px-6 py-5"
-              style={{ scrollbarWidth: "thin" }}
-            >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="sm:col-span-2">
-                  <label htmlFor="fullName" className={labelClass}>
-                    Full name <span className="text-orange-500">*</span>
-                  </label>
-                  <input
-                    id="fullName"
-                    name="fullName"
-                    type="text"
-                    required
-                    value={form.fullName}
-                    onChange={handleChange}
-                    placeholder="Enter your full name"
-                    className={fieldClass}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="workEmail" className={labelClass}>
-                    Work email <span className="text-orange-500">*</span>
-                  </label>
-                  <input
-                    id="workEmail"
-                    name="workEmail"
-                    type="email"
-                    required
-                    value={form.workEmail}
-                    onChange={handleChange}
-                    placeholder="you@company.com"
-                    className={`${fieldClass} ${
-                      fieldErrors.workEmail
-                        ? "border-orange-400 focus:border-orange-500 focus:ring-orange-500/20"
-                        : ""
-                    }`}
-                    aria-invalid={Boolean(fieldErrors.workEmail)}
-                  />
-                  {fieldErrors.workEmail && (
-                    <p className="mt-1.5 text-xs text-orange-600">
-                      {fieldErrors.workEmail}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className={labelClass}>
-                    Phone <span className="text-orange-500">*</span>
-                  </label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    maxLength={10}
-                    required
-                    value={form.phone}
-                    onChange={handleChange}
-                    placeholder="9876543210"
-                    className={`${fieldClass} ${
-                      fieldErrors.phone
-                        ? "border-orange-400 focus:border-orange-500 focus:ring-orange-500/20"
-                        : ""
-                    }`}
-                    aria-invalid={Boolean(fieldErrors.phone)}
-                  />
-                  {fieldErrors.phone && (
-                    <p className="mt-1.5 text-xs text-orange-600">
-                      {fieldErrors.phone}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="company" className={labelClass}>
-                    Company <span className="text-orange-500">*</span>
-                  </label>
-                  <input
-                    id="company"
-                    name="company"
-                    type="text"
-                    required
-                    value={form.company}
-                    onChange={handleChange}
-                    placeholder="Company name"
-                    className={fieldClass}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="location" className={labelClass}>
-                    Location <span className="text-orange-500">*</span>
-                  </label>
-                  <input
-                    id="location"
-                    name="location"
-                    type="text"
-                    required
-                    value={form.location}
-                    onChange={handleChange}
-                    placeholder="City, Country"
-                    className={fieldClass}
-                  />
-                </div>
-              </div>
-
-              {scheduleError && (
-                <p className="text-sm font-medium text-orange-600">
-                  {scheduleError}
-                </p>
-              )}
-
-              <div className="sticky bottom-0 -mx-6 border-t border-slate-100 bg-white px-6 pb-1 pt-4">
-                <button
-                  type="submit"
-                  disabled={isConfirming}
-                  className="brand-cta-gradient inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold !text-white disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {isConfirming ? (
-                    <>
-                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                      Scheduling...
-                    </>
-                  ) : (
-                    "Confirm & Send Meet Invite"
-                  )}
-                </button>
-                <p className="mt-2.5 text-center text-xs text-slate-400">
-                  * Required fields. We&apos;ll email the Google Meet link.
-                </p>
-              </div>
-            </form>
-          </div>
         )}
       </div>
     </div>
