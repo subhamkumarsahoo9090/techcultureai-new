@@ -10,7 +10,7 @@ import {
   ArrowRight,
   ArrowUpRight,
 } from "lucide-react";
-import { fetchTeamMembers } from "@/lib/teamApi";
+import { fetchTeamMembers, BACKOFFICE_API_URL } from "@/lib/teamApi";
 
 const FEATURED_LEADERS = ["Manoj Rawat", "Mukesh Chaudhari"];
 const EXCLUDED_MEMBERS = ["Shubham Agarwal", "Mukul Yadav"];
@@ -70,8 +70,21 @@ function mapTeamMembers(raw = []) {
         .slice(0, 2)
         .toUpperCase(),
       image: (() => {
-        const raw = String(member.imageUrl || "");
-        if (raw.startsWith("http://localhost") || raw.startsWith("http://127.")) return raw;
+        const raw = String(member.imageUrl || "").trim();
+        if (!raw) return "";
+        if (raw.startsWith("/uploads/")) return `${BACKOFFICE_API_URL}${raw}`;
+        if (raw.startsWith("/")) return raw;
+        try {
+          const parsed = new URL(raw);
+          if (parsed.pathname.startsWith("/uploads/")) {
+            return `${BACKOFFICE_API_URL}${parsed.pathname}`;
+          }
+        } catch {
+          /* ignore */
+        }
+        if (raw.startsWith("http://localhost") || raw.startsWith("http://127.")) {
+          return raw;
+        }
         return raw.replace(/^http:/, "https:");
       })(),
       designation: member.roleId?.name || member.role || "Team Member",
