@@ -4,62 +4,26 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Building2,
   CheckCircle2,
   Fingerprint,
   Layers,
   Link2,
-  PenLine,
+  Share2,
   ShieldCheck,
   SlidersHorizontal,
+  Timer,
   UserRound,
   Zap,
 } from "lucide-react";
 import { webdevHref } from "../../lib/webdevelopment/paths";
 import SpotlightCard, { BRAND_SPOTLIGHT } from "@/components/SpotlightCard";
-import ScrollReveal, { ScrollRevealItem } from "@/components/ScrollReveal";
+import ScrollReveal from "@/components/ScrollReveal";
 
-const flowSteps = [
-  {
-    id: 1,
-    title: "Customer eSign",
-    desc: "Customer initiates e-sign request.",
-    color: "from-[#FE602F] to-[#ff8a62]",
-    ring: "ring-orange-200",
-    bg: "bg-[#fff0eb]",
-    text: "text-[#d9471b]",
-    icon: PenLine,
-  },
-  {
-    id: 2,
-    title: "Verifier",
-    desc: "Verifies the request and validates details.",
-    color: "from-[#2E3545] to-[#525d72]",
-    ring: "ring-slate-300",
-    bg: "bg-slate-100",
-    text: "text-[#2E3545]",
-    icon: ShieldCheck,
-  },
-  {
-    id: 3,
-    title: "Middleware",
-    desc: "Central engine routes, transforms & aggregates.",
-    color: "from-[#FE602F] to-[#e94e20]",
-    ring: "ring-orange-200",
-    bg: "bg-[#fff0eb]",
-    text: "text-[#d9471b]",
-    icon: Layers,
-  },
-  {
-    id: 4,
-    title: "Back Office",
-    desc: "Receives processed response / final status.",
-    color: "from-[#2E3545] to-[#525d72]",
-    ring: "ring-slate-300",
-    bg: "bg-slate-100",
-    text: "text-[#2E3545]",
-    icon: Building2,
-  },
+const heroHighlights = [
+  { line1: "Faster", line2: "Processing", icon: Zap },
+  { line1: "Smarter", line2: "Routing", icon: ShieldCheck },
+  { line1: "Unified", line2: "Integration", icon: Share2 },
+  { line1: "Real-time", line2: "Status", icon: Timer },
 ];
 
 const engineFeatures = [
@@ -130,15 +94,7 @@ const values = [
 ];
 
 export default function MiddlewarePage() {
-  const [activeStep, setActiveStep] = useState(0);
   const [activeSystem, setActiveSystem] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % flowSteps.length);
-    }, 2200);
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -156,126 +112,60 @@ export default function MiddlewarePage() {
         <div className="absolute bottom-0 right-0 w-90 h-90 bg-[#2E3545]/8 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="container relative">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#fff0eb] text-[#d9471b] text-xs font-bold tracking-wider uppercase ring-1 ring-orange-100 mb-4">
-              <Layers size={14} />
-              Middleware · Central Engine
-            </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-4">
-              One engine. Every request.{" "}
-              <span className="bg-linear-to-r from-[#FE602F] via-[#e94e20] to-[#2E3545] bg-clip-text text-transparent">
-                Unified responses.
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10">
+            <div>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#fff0eb] text-[#d9471b] text-xs font-bold tracking-wider uppercase ring-1 ring-orange-100 mb-4">
+                <Layers size={14} />
+                Middleware · Central Engine
               </span>
-            </h1>
-            <p className="text-slate-500 text-base sm:text-lg leading-relaxed max-w-2xl">
-              Our middleware sits between customer eSign, verification, and
-              market systems — routing requests, aggregating responses, and
-              delivering a single final status to back office.
-            </p>
-          </div>
-        </div>
-      </ScrollReveal>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-4">
+                One engine. Every request.{" "}
+                <span className="bg-linear-to-r from-[#FE602F] via-[#e94e20] to-[#2E3545] bg-clip-text text-transparent">
+                  Unified responses.
+                </span>
+              </h1>
+              <p className="text-slate-500 text-base sm:text-lg leading-relaxed">
+                Our middleware sits between customer eSign, verification, and
+                market systems — routing requests, aggregating responses, and
+                delivering a single final status to back office.
+              </p>
 
-      {/* Animated flow steps */}
-      <ScrollReveal as="section" direction="up" delay={0.05} duration={0.7} className="pb-10 md:pb-14">
-        <div className="container">
-          <ScrollReveal
-            direction="fade"
-            delay={0.04}
-            stagger={0.08}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-          >
-            {flowSteps.map((step, index) => {
-              const Icon = step.icon;
-              const isActive = activeStep === index;
-              return (
-                <ScrollRevealItem key={step.id}>
-                  <SpotlightCard
-                    spotlightColor={BRAND_SPOTLIGHT}
-                    className={`rounded-2xl border transition-all duration-500 h-full ${
-                      isActive
-                        ? `ring-2 ${step.ring} shadow-lg shadow-slate-200/80 scale-[1.02] bg-white border-transparent`
-                        : "bg-white/70 border-slate-100 hover:border-slate-200"
-                    }`}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setActiveStep(index)}
-                      className="w-full text-left p-5"
-                    >
-                      <div className="flex items-center gap-3 mb-3">
-                        <span
-                          className={`w-11 h-11 rounded-xl bg-linear-to-br ${step.color} text-white flex items-center justify-center shadow-md`}
-                        >
-                          <Icon size={20} />
-                        </span>
-                        <span
-                          className={`text-xs font-bold px-2 py-0.5 rounded-full ${step.bg} ${step.text}`}
-                        >
-                          Step {step.id}
-                        </span>
-                      </div>
-                      <h3 className="font-bold text-slate-900 mb-1">{step.title}</h3>
-                      <p className="text-sm text-slate-500 leading-snug">{step.desc}</p>
-                      {isActive && (
-                        <div className="mt-3 h-1 rounded-full bg-slate-100 overflow-hidden">
-                          <div
-                            key={activeStep}
-                            className={`h-full bg-linear-to-r ${step.color} animate-[middlewareProgress_2.2s_linear]`}
-                          />
-                        </div>
-                      )}
-                    </button>
-                  </SpotlightCard>
-                </ScrollRevealItem>
-              );
-            })}
-          </ScrollReveal>
-        </div>
-      </ScrollReveal>
-
-      {/* Diagram */}
-      <ScrollReveal as="section" direction="scale" delay={0.05} duration={0.75} className="pb-14 md:pb-20">
-        <div className="container">
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
-              Architecture at a glance
-            </h2>
-            <p className="text-slate-500">
-              Middleware Central Engine flow — request down, responses back up.
-            </p>
-          </div>
-
-          <div className="relative w-full rounded-3xl overflow-hidden border border-slate-200 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.08)] ring-1 ring-slate-100">
-            <div className="w-full bg-white p-2 sm:p-4 md:p-6">
-              <Image
-                src="/middleware-central-engine.png"
-                alt="Middleware Central Engine architecture diagram"
-                width={2048}
-                height={1364}
-                quality={100}
-                unoptimized
-                priority
-                className="w-full h-auto object-contain"
-                sizes="100vw"
-              />
+              <div className="mt-7 grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-4 sm:gap-x-5">
+                {heroHighlights.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={`${item.line1}-${item.line2}`} className="flex items-center gap-2.5">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FE602F]/12 text-[#FE602F]">
+                        <Icon size={20} strokeWidth={2.2} />
+                      </span>
+                      <p className="text-sm font-semibold leading-snug text-[#2E3545]">
+                        {item.line1}
+                        <br />
+                        {item.line2}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
 
-          {/* Legend */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-slate-600">
-            <span className="inline-flex items-center gap-2">
-              <span className="w-8 h-0.5 bg-[#2E3545] rounded" />
-              Request Flow
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <span className="w-8 border-t-2 border-dashed border-[#FE602F]" />
-              Response Flow
-            </span>
-            <span className="inline-flex items-center gap-2 text-[#d9471b] font-medium">
-              <CheckCircle2 size={16} />
-              All responses return to Middleware
-            </span>
+            <div>
+              <div className="relative w-full rounded-3xl overflow-hidden border border-slate-200 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.08)] ring-1 ring-slate-100">
+                <div className="w-full bg-white p-2 sm:p-3">
+                  <Image
+                    src="/middleware-central-engine.png"
+                    alt="Middleware Central Engine architecture diagram"
+                    width={2048}
+                    height={1364}
+                    quality={100}
+                    unoptimized
+                    priority
+                    className="w-full h-auto object-contain"
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </ScrollReveal>
@@ -442,17 +332,6 @@ export default function MiddlewarePage() {
           </div>
         </div>
       </ScrollReveal>
-
-      <style jsx global>{`
-        @keyframes middlewareProgress {
-          from {
-            width: 0%;
-          }
-          to {
-            width: 100%;
-          }
-        }
-      `}</style>
     </div>
   );
 }

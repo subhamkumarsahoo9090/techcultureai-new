@@ -37,8 +37,18 @@ export default function Contact() {
     setSubmitMessage("");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setSubmitMessage("Thank you! Your message has been sent successfully.");
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to send message.");
+      }
+      setSubmitMessage(
+        data.message || "Thank you! Your message has been sent successfully."
+      );
       setFormData({
         name: "",
         email: "",
@@ -46,8 +56,10 @@ export default function Contact() {
         subject: "",
         message: "",
       });
-    } catch {
-      setSubmitMessage("Something went wrong. Please try again.");
+    } catch (err) {
+      setSubmitMessage(
+        err.message || "Something went wrong. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -57,22 +69,22 @@ export default function Contact() {
     {
       icon: <MdEmail className="text-lg" />,
       label: "Email us",
-      value: "info@gomilestone.com",
-      href: "mailto:info@gomilestone.com",
+      value: "info@techculture.ai",
+      href: "mailto:info@techculture.ai",
       tint: "from-orange-50 to-amber-50 text-[#FE602F] ring-orange-100",
     },
     {
       icon: <MdPhone className="text-lg" />,
       label: "Call us",
-      value: "+91 (84479) 66431",
-      href: "tel:+918447966431",
+      value: "+91 74282 38091",
+      href: "tel:+917428238091",
       tint: "from-teal-50 to-emerald-50 text-[#0F766E] ring-teal-100",
     },
     {
       icon: <MdLocationOn className="text-lg" />,
       label: "Visit us",
       value:
-        "Gomilestone Private Limited, 519 BPTP, Park Centra, Gurugram, Haryana",
+        "TechCulture AI, 519 BPTP, Park Centra, Gurugram, Haryana",
       href: null,
       tint: "from-slate-50 to-slate-100 text-[#2E3545] ring-slate-200",
     },

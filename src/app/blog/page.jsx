@@ -10,7 +10,6 @@ import {
   CalendarDays,
   Clock3,
   Search,
-  Sparkles,
 } from "lucide-react";
 import { fetchPublishedBlogs } from "@/lib/blogApi";
 
@@ -175,10 +174,7 @@ export default function BlogPage() {
     });
   }, [activeFilter, publishedPosts, query]);
 
-  const featuredPost = publishedPosts[0];
-  const visiblePosts = filteredPosts
-    .filter((article) => article.slug !== featuredPost?.slug)
-    .slice(0, visibleCount);
+  const visiblePosts = filteredPosts.slice(0, visibleCount);
 
   const updateFilter = (value) => {
     setActiveFilter(value);
@@ -258,95 +254,6 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {featuredPost && !query && activeFilter === "all" && (
-        <section className="relative overflow-hidden bg-[#fffaf8] py-16 sm:py-20">
-          <div className="absolute -right-28 -top-40 h-96 w-96 rounded-full bg-[#FE602F]/9 blur-[110px]" />
-          <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-            <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#FE602F]">
-                  <Sparkles size={14} />
-                  Featured insight
-                </span>
-                <h2 className="mt-2 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
-                  A perspective worth exploring.
-                </h2>
-              </div>
-              <p className="max-w-sm text-sm leading-6 text-slate-500">
-                A focused read selected by the TechCulture AI editorial team.
-              </p>
-            </div>
-
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 28, scale: 0.98 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <Link
-                href={`/blog/${featuredPost.slug}`}
-                className="group relative grid overflow-hidden rounded-4xl border border-[#FE602F]/15 bg-white shadow-[0_24px_70px_rgba(46,53,69,0.12)] transition-shadow duration-500 hover:shadow-[0_30px_85px_rgba(254,96,47,0.16)] lg:grid-cols-[0.88fr_1.12fr]"
-              >
-                <span className="absolute inset-x-0 top-0 z-20 h-1 bg-linear-to-r from-[#FE602F] via-[#ff9877] to-[#2E3545]" />
-
-                <div className="relative order-2 flex flex-col justify-center overflow-hidden p-7 sm:p-10 lg:order-1 lg:p-12">
-                  <div className="absolute -bottom-24 -left-20 h-48 w-48 rounded-full bg-[#FE602F]/8 blur-3xl" />
-                  <div className="relative">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center gap-2 rounded-full bg-[#fff0eb] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#d9471b]">
-                        <BookOpen size={13} />
-                        Editor&apos;s choice
-                      </span>
-                      {(featuredPost.tags || []).slice(0, 2).map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-slate-200 px-3 py-1.5 text-[10px] font-semibold text-slate-500"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <h2 className="mt-6 text-2xl font-semibold leading-[1.18] tracking-tight text-[#2E3545] transition-colors group-hover:text-[#d9471b] sm:text-3xl lg:text-[2.15rem]">
-                      {featuredPost.title}
-                    </h2>
-                    <p className="mt-4 line-clamp-4 text-sm leading-6 text-slate-500 sm:text-[15px]">
-                      {featuredPost.excerpt}
-                    </p>
-
-                    <div className="mt-7 flex flex-wrap items-center gap-4 border-t border-slate-100 pt-6 text-xs text-slate-500">
-                      <span className="inline-flex items-center gap-2">
-                        <CalendarDays size={14} className="text-[#FE602F]" />
-                        {formatDate(featuredPost.publishedAt)}
-                      </span>
-                      <span className="inline-flex items-center gap-2">
-                        <Clock3 size={14} className="text-[#FE602F]" />
-                        {featuredPost.readMinutes || 5} min read
-                      </span>
-                    </div>
-
-                    <span className="mt-7 inline-flex items-center gap-3 font-semibold text-[#2E3545] transition group-hover:text-[#FE602F]">
-                      Read full article
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FE602F] text-white shadow-lg shadow-orange-500/20 transition-transform duration-300 group-hover:translate-x-1">
-                        <ArrowRight size={16} />
-                      </span>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="relative order-1 min-h-72 overflow-hidden bg-slate-100 lg:order-2 lg:min-h-110">
-                  <ArticleImage
-                    article={featuredPost}
-                    className="transition duration-1000 group-hover:scale-[1.06]"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-[#252b38]/45 via-transparent to-transparent" />
-                </div>
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-      )}
-
       <section className="bg-[#f7f7f8] py-16 sm:py-20">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 border-b border-slate-200 pb-8 md:flex-row md:items-end md:justify-between">
@@ -401,10 +308,7 @@ export default function BlogPage() {
                 ))}
               </div>
 
-              {visibleCount <
-                filteredPosts.filter(
-                  (article) => article.slug !== featuredPost?.slug
-                ).length && (
+              {visibleCount < filteredPosts.length && (
                 <div className="mt-12 text-center">
                   <button
                     type="button"

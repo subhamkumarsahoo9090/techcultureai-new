@@ -71,10 +71,22 @@ const Footer = () => {
   ];
 
   const socials = [
-    { href: settingsData?.facebook, icon: FaFacebookF, label: "Facebook" },
-    { href: settingsData?.instagram, icon: FaInstagram, label: "Instagram" },
-    { href: settingsData?.linkedin, icon: LiaLinkedinIn, label: "LinkedIn" },
-  ].filter((item) => Boolean(item.href));
+    {
+      href: "https://www.facebook.com/people/Tech-Culture/61581408442619/",
+      icon: FaFacebookF,
+      label: "Facebook",
+    },
+    {
+      href: "https://www.instagram.com/techculture_technologies",
+      icon: FaInstagram,
+      label: "Instagram",
+    },
+    {
+      href: "https://www.linkedin.com/company/techculture-technologies-private-limited/",
+      icon: LiaLinkedinIn,
+      label: "LinkedIn",
+    },
+  ];
 
   return (
     <footer
