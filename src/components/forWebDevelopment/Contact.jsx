@@ -8,6 +8,7 @@ import SpotlightCard, {
   BRAND_SPOTLIGHT,
 } from "@/components/SpotlightCard";
 import ScrollReveal, { ScrollRevealItem } from "@/components/ScrollReveal";
+import { COMPANY } from "@/lib/company";
 
 const inputClass =
   "w-full rounded-xl border border-slate-200 bg-[#fafbfc] px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-[#FE602F]/60 focus:bg-white focus:ring-2 focus:ring-[#FE602F]/15";
@@ -69,22 +70,21 @@ export default function Contact() {
     {
       icon: <MdEmail className="text-lg" />,
       label: "Email us",
-      value: "info@techculture.ai",
-      href: "mailto:info@techculture.ai",
+      value: COMPANY.email,
+      href: `mailto:${COMPANY.email}`,
       tint: "from-orange-50 to-amber-50 text-[#FE602F] ring-orange-100",
     },
     {
       icon: <MdPhone className="text-lg" />,
       label: "Call us",
-      value: "+91 74282 38091",
-      href: "tel:+917428238091",
+      value: COMPANY.phone,
+      href: `tel:${COMPANY.phoneTel}`,
       tint: "from-teal-50 to-emerald-50 text-[#0F766E] ring-teal-100",
     },
     {
       icon: <MdLocationOn className="text-lg" />,
-      label: "Visit us",
-      value:
-        "TechCulture AI, 519 BPTP, Park Centra, Gurugram, Haryana",
+      label: "Corporate office",
+      value: COMPANY.corporateAddress.singleLine,
       href: null,
       tint: "from-slate-50 to-slate-100 text-[#2E3545] ring-slate-200",
     },

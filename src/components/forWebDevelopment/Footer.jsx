@@ -15,6 +15,7 @@ import {
   productPages,
 } from "../../lib/webdevelopment/catalog";
 import { webdevHref } from "../../lib/webdevelopment/paths";
+import { COMPANY } from "../../lib/company";
 
 const FOOTER_LOGO = "/tc-app-logo.png";
 
@@ -123,55 +124,66 @@ const Footer = () => {
               We build intelligent, scalable digital products using modern
               technologies to drive sustainable growth.
             </p>
-
-            <div className="mt-6 space-y-3">
-              {settingsData?.email && (
-                <a
-                  href={`mailto:${settingsData.email}`}
-                  className="site-footer__contact group flex items-center gap-3 text-sm text-white/75"
-                  style={{ "--j": 0 }}
-                >
-                  <span className="site-footer__icon-wrap">
-                    <MdOutlineMail size={16} />
-                  </span>
-                  <span className="truncate transition-colors group-hover:text-white">
-                    {settingsData.email}
-                  </span>
-                </a>
-              )}
-              {settingsData?.contactNo && (
-                <a
-                  href={`tel:${settingsData.contactNo}`}
-                  className="site-footer__contact group flex items-center gap-3 text-sm text-white/75"
-                  style={{ "--j": 1 }}
-                >
-                  <span className="site-footer__icon-wrap">
-                    <MdOutlinePhone size={16} />
-                  </span>
-                  <span className="transition-colors group-hover:text-white">
-                    {settingsData.contactNo}
-                  </span>
-                </a>
-              )}
+            <div className="mt-5 space-y-3 text-xs leading-relaxed text-white/55">
+              <p>
+                <span className="font-semibold text-white/75">Corporate:</span>{" "}
+                {COMPANY.corporateAddress.singleLine}
+              </p>
+              <p>
+                <span className="font-semibold text-white/75">Registered:</span>{" "}
+                {COMPANY.registeredAddress.singleLine}
+              </p>
+              <p>
+                <span className="font-semibold text-white/75">CIN:</span>{" "}
+                {COMPANY.cin}
+              </p>
             </div>
 
-            {socials.length > 0 && (
-              <div className="mt-7 flex items-center gap-3">
-                {socials.map(({ href, icon: Icon, label }, idx) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="site-footer__social"
-                    style={{ "--j": idx }}
-                  >
-                    <Icon size={15} />
-                  </a>
-                ))}
-              </div>
-            )}
+            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
+              <a
+                href={`mailto:${settingsData?.email || COMPANY.email}`}
+                className="site-footer__contact group inline-flex items-center gap-2 text-sm text-white/75"
+                style={{ "--j": 0 }}
+              >
+                <span className="site-footer__icon-wrap">
+                  <MdOutlineMail size={16} />
+                </span>
+                <span className="transition-colors group-hover:text-white">
+                  {settingsData?.email || COMPANY.email}
+                </span>
+              </a>
+
+              <a
+                href={`tel:${settingsData?.contactNo || COMPANY.phoneTel}`}
+                className="site-footer__contact group inline-flex items-center gap-2 text-sm text-white/75"
+                style={{ "--j": 1 }}
+              >
+                <span className="site-footer__icon-wrap">
+                  <MdOutlinePhone size={16} />
+                </span>
+                <span className="transition-colors group-hover:text-white">
+                  {settingsData?.contactNo || COMPANY.phone}
+                </span>
+              </a>
+
+              {socials.length > 0 && (
+                <div className="flex items-center gap-2.5 sm:ml-1">
+                  {socials.map(({ href, icon: Icon, label }, idx) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      className="site-footer__social"
+                      style={{ "--j": idx + 2 }}
+                    >
+                      <Icon size={15} />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Navigation */}
@@ -230,8 +242,7 @@ const Footer = () => {
       <div className="site-footer__bottom border-t border-white/10">
         <div className="container mx-auto flex flex-col items-center justify-between gap-3 px-5 py-6 text-center sm:flex-row sm:px-6 sm:py-7 sm:text-left lg:px-8">
           <p className="site-footer__copy text-sm text-white/50">
-            © {currentYear} TechCulture Technologies Pvt. Ltd. All rights
-            reserved.
+            © {currentYear} {COMPANY.legalName}. All rights reserved.
           </p>
         </div>
       </div>
