@@ -429,7 +429,7 @@ const Header = () => {
                       : "pointer-events-none invisible translate-y-2 opacity-0"
                   }`}
                 >
-                  <div className="w-[min(1280px,96vw)]">
+                  <div className="w-[min(980px,94vw)]">
                     <ProductsMegaPanel
                       onNavigate={handleNavigation}
                       variant={menuVariant}

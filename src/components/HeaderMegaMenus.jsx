@@ -13,16 +13,13 @@ import {
   FileCheck2,
   Gavel,
   GraduationCap,
-  Headphones,
   HeartPulse,
   Info,
   Landmark,
-  LayoutGrid,
   Mail,
   MapPin,
   Megaphone,
   MessageSquare,
-  Network,
   PenLine,
   Phone,
   Plane,
@@ -55,7 +52,11 @@ function resolveProductHref(label, variant) {
 
 function resolveIndustryHref(item, variant) {
   if (variant === "webdevelopment") {
-    // Industries pages removed — send category traffic to Fintech hub.
+    const title = (item?.title || "").toLowerCase();
+    if (title.includes("banking") || title.includes("fintech")) {
+      return webdevHref("/banking-fintech");
+    }
+    // Industries pages removed — send remaining category traffic to Fintech hub.
     return webdevHref("/fintech");
   }
   return item.href || "/services";
@@ -134,6 +135,14 @@ export const productCategories = productColumns.flat();
 /** Showcase products for the Product mega menu (matches design). */
 export const showcaseProducts = [
   {
+    title: "Banking & Fintech",
+    description: "End-to-end digital banking and fintech platforms.",
+    tags: ["Web & Mobile"],
+    icon: Landmark,
+    iconTone: "bg-orange-50 text-[#FE602F]",
+    href: webdevHref("/banking-fintech"),
+  },
+  {
     title: "Trading Applications",
     description: "Powerful trading solutions inspired by Zerodha & Groww.",
     tags: ["Web App", "Mobile App"],
@@ -198,13 +207,6 @@ export const showcaseProducts = [
     iconTone: "bg-violet-50 text-violet-600",
     href: resolveProductHref("Online IPO Bidding", "webdevelopment"),
   },
-];
-
-const showcaseHighlights = [
-  { label: "Secure & Compliant", icon: ShieldCheck },
-  { label: "Scalable Architecture", icon: Network },
-  { label: "Expert Support", icon: Headphones },
-  { label: "Customizable Solutions", icon: LayoutGrid },
 ];
 
 /** Categories derived from Our Technology Partner work on the homepage. */
@@ -284,7 +286,7 @@ export const industryItems = [
   {
     title: "Banking & FinTech",
     subtitle: "Secure automation for modern finance",
-    href: "/services",
+    href: webdevHref("/banking-fintech"),
     icon: Landmark,
   },
   {
@@ -367,7 +369,7 @@ export const aboutItems = [
   },
 ];
 
-const automationIcons = [Bot, Brain, Cpu, Sparkles, Workflow, Zap, Cloud, Headphones];
+const automationIcons = [Bot, Brain, Cpu, Sparkles, Workflow, Zap, Cloud, Users];
 
 function sanitizeSubtitle(input) {
   if (!input || typeof input !== "string") return "";
@@ -467,32 +469,42 @@ function MegaShell({ children, cols = "grid-cols-[240px_1fr]", theme }) {
   const t = theme || megaThemes.default;
   return (
     <div
-      className={`bg-white rounded-2xl ${t.shellShadow} border border-gray-100 overflow-hidden`}
+      className={`overflow-hidden rounded-[1.75rem] border border-gray-100 bg-white ${t.shellShadow}`}
     >
       <div className={`grid ${cols}`}>{children}</div>
     </div>
   );
 }
 
-function MegaItem({ icon: Icon, title, subtitle, onClick, theme }) {
+function MegaItem({ icon: Icon, title, subtitle, onClick, theme, solidIcon = false }) {
   const t = theme || megaThemes.default;
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`flex items-start gap-3 text-left p-3 rounded-xl ${t.hoverBg} transition-colors duration-200 group`}
+      className={`flex items-start gap-3.5 text-left p-3 rounded-xl ${t.hoverBg} transition-colors duration-200 group`}
     >
       <span
-        className={`w-10 h-10 rounded-full border ${t.accentBorder} ${t.accentBg} ${t.accentText} flex items-center justify-center shrink-0 ${t.iconHover} transition-colors duration-200`}
+        className={
+          solidIcon
+            ? "flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FE602F] text-white shadow-sm shadow-orange-500/25 transition-transform duration-200 group-hover:scale-105"
+            : `w-10 h-10 rounded-full border ${t.accentBorder} ${t.accentBg} ${t.accentText} flex items-center justify-center shrink-0 ${t.iconHover} transition-colors duration-200`
+        }
       >
-        <Icon size={18} strokeWidth={2} />
+        <Icon size={solidIcon ? 18 : 18} strokeWidth={2} />
       </span>
       <span className="min-w-0 pt-0.5">
-        <span className={`block text-[14px] font-bold text-gray-900 ${t.hoverText} transition-colors`}>
+        <span
+          className={`block text-[14px] font-bold transition-colors ${
+            solidIcon
+              ? "text-[#FE602F] group-hover:text-[#d9471b]"
+              : `text-gray-900 ${t.hoverText}`
+          }`}
+        >
           {title}
         </span>
         {subtitle && (
-          <span className="block text-[12px] text-gray-500 mt-0.5 leading-snug">
+          <span className="mt-0.5 block text-[12px] leading-snug text-gray-500">
             {subtitle}
           </span>
         )}
@@ -506,112 +518,41 @@ export function ProductsMegaPanel({ onNavigate, variant = "default" }) {
 
   if (variant === "webdevelopment") {
     return (
-      <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_24px_70px_rgba(46,53,69,0.16)]">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr]">
-          {/* Left intro panel */}
-          <aside className="relative overflow-hidden border-b border-gray-100 bg-[#f7f7f8] px-7 py-8 lg:border-b-0 lg:border-r">
-            <div className="relative z-[1]">
-              <div className="mb-4 flex items-center gap-3">
-                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#FE602F]">
-                  Our Products
-                </p>
-                <span className="h-px w-10 bg-[#FE602F]/70" />
-              </div>
-
-              <h3 className="text-[26px] font-bold leading-[1.2] tracking-tight text-[#1f2937]">
-                Innovative Solutions for a{" "}
-                <span className="text-[#FE602F]">Smarter Tomorrow</span>
-              </h3>
-
-              <p className="mt-3 text-[13px] leading-relaxed text-slate-500">
-                Explore our range of digital products built to simplify, automate
-                and accelerate your business.
-              </p>
-
-              <ul className="mt-7 space-y-3.5">
-                {showcaseHighlights.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <li
-                      key={item.label}
-                      className="flex items-center gap-3 text-[13.5px] font-medium text-[#2E3545]"
-                    >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#FE602F] shadow-sm ring-1 ring-orange-100">
-                        <Icon size={15} strokeWidth={2.2} />
-                      </span>
-                      {item.label}
-                    </li>
-                  );
-                })}
-              </ul>
+      <MegaShell cols="grid-cols-[260px_1fr]" theme={t}>
+        <MegaSidebar
+          title="Products"
+          description="Explore our range of digital products built to simplify, automate and accelerate your business — from KYC and compliance to trading, HRMS and more."
+        >
+          <div
+            className={`relative flex h-28 w-full items-end justify-center overflow-hidden rounded-xl bg-gradient-to-br ${t.sidebarGradient}`}
+          >
+            <div className="flex w-full items-end justify-center gap-1.5 px-4 pb-3">
+              <span className={`h-10 w-6 rounded-t-md ${t.bar1}`} />
+              <span className={`h-16 w-7 rounded-t-md ${t.bar2}`} />
+              <span className={`h-12 w-8 rounded-t-md ${t.bar5}`} />
+              <span className={`h-20 w-6 rounded-t-md ${t.bar3}`} />
+              <span className={`h-14 w-7 rounded-t-md ${t.bar4}`} />
+              <span className={`h-9 w-5 rounded-t-md ${t.bar6}`} />
             </div>
-
-            {/* Soft wave decoration */}
-            <svg
-              aria-hidden
-              className="pointer-events-none absolute -bottom-6 -left-8 h-40 w-56 text-[#FE602F]/15"
-              viewBox="0 0 220 160"
-              fill="currentColor"
-            >
-              <path d="M0 90c28-28 52-18 78-8s54 18 80-6c18-16 34-42 62-36v120H0V90z" />
-              <path
-                d="M0 118c34-22 58-10 86 2s52 20 78 4c20-12 38-34 56-28v64H0v-42z"
-                className="text-[#FE602F]/25"
-                fill="currentColor"
-              />
-            </svg>
-          </aside>
-
-          {/* Product cards */}
-          <div className="bg-white p-5 sm:p-6">
-            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-              {showcaseProducts.map((product) => {
-                const Icon = product.icon;
-                return (
-                  <button
-                    key={product.title}
-                    type="button"
-                    onClick={() => onNavigate(product.href, "products")}
-                    className="group flex h-full flex-col rounded-2xl border border-gray-100 bg-[#fafafa] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-200 hover:bg-white hover:shadow-[0_12px_28px_rgba(254,96,47,0.1)]"
-                  >
-                    <span
-                      className={`mb-3 flex h-11 w-11 items-center justify-center rounded-xl ${product.iconTone}`}
-                    >
-                      <Icon size={22} strokeWidth={1.9} />
-                    </span>
-
-                    <h4 className="text-[15px] font-bold text-[#1f2937] transition-colors group-hover:text-[#FE602F]">
-                      {product.title}
-                    </h4>
-                    <p className="mt-1.5 line-clamp-2 flex-1 text-[12.5px] leading-snug text-slate-500">
-                      {product.description}
-                    </p>
-
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {product.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full bg-[#fff0eb] px-2.5 py-0.5 text-[10px] font-semibold text-[#d9471b] ring-1 ring-orange-100"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <span className="mt-3 inline-flex items-center gap-1 text-[12.5px] font-semibold text-[#FE602F]">
-                      Explore More
-                      <ArrowRight
-                        size={13}
-                        className="transition-transform duration-200 group-hover:translate-x-0.5"
-                      />
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+            <Sparkles size={18} className={`absolute top-3 right-4 ${t.accentText}`} />
+            <Bot size={20} className={`absolute top-4 left-4 ${t.decor}`} />
           </div>
+        </MegaSidebar>
+
+        <div className="grid grid-cols-1 content-start gap-x-2 gap-y-1 p-5 sm:grid-cols-2 lg:grid-cols-3">
+          {showcaseProducts.map((product) => (
+            <MegaItem
+              key={product.title}
+              icon={product.icon}
+              title={product.title}
+              subtitle={product.description}
+              theme={t}
+              solidIcon
+              onClick={() => onNavigate(product.href, "products")}
+            />
+          ))}
         </div>
-      </div>
+      </MegaShell>
     );
   }
 
