@@ -28,14 +28,20 @@ import {
   ScanFace,
   ShieldCheck,
   ShoppingCart,
+  Smartphone,
   Sparkles,
+  Store,
   Truck,
   UserPlus,
   Users,
   Wrench,
   Workflow,
   Zap,
-} from "lucide-react";import { FaWhatsapp } from "react-icons/fa";
+  Globe2,
+  LayoutDashboard,
+} from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
+import { motion, useReducedMotion } from "motion/react";
 import {
   getProductBySlug,
 } from "../lib/webdevelopment/catalog";
@@ -206,6 +212,38 @@ export const showcaseProducts = [
     icon: FileBarChart2,
     iconTone: "bg-violet-50 text-violet-600",
     href: resolveProductHref("Online IPO Bidding", "webdevelopment"),
+  },
+  {
+    title: "E-Commerce",
+    description: "Online stores, marketplaces and shopping apps for any business.",
+    tags: ["Web & Mobile"],
+    icon: Store,
+    iconTone: "bg-orange-50 text-[#FE602F]",
+    href: webdevHref("/ecommerce"),
+  },
+  {
+    title: "Corporate Websites",
+    description: "Brand sites, landing pages and business portals that convert.",
+    tags: ["Web"],
+    icon: Globe2,
+    iconTone: "bg-slate-50 text-[#2E3545]",
+    href: webdevHref("/corporate-websites"),
+  },
+  {
+    title: "Mobile Applications",
+    description: "Native & cross-platform iOS and Android apps built for scale.",
+    tags: ["Mobile"],
+    icon: Smartphone,
+    iconTone: "bg-orange-50 text-[#FE602F]",
+    href: webdevHref("/mobile-applications"),
+  },
+  {
+    title: "Custom SaaS & Portals",
+    description: "Dashboards, admin panels and multi-tenant web platforms.",
+    tags: ["Web Platform"],
+    icon: LayoutDashboard,
+    iconTone: "bg-sky-50 text-sky-600",
+    href: webdevHref("/custom-saas"),
   },
 ];
 
@@ -476,23 +514,119 @@ function MegaShell({ children, cols = "grid-cols-[240px_1fr]", theme }) {
   );
 }
 
-function MegaItem({ icon: Icon, title, subtitle, onClick, theme, solidIcon = false }) {
+function getIconMotion(title = "") {
+  const t = title.toLowerCase();
+  if (t.includes("re-kyc") || t.includes("refresh")) return "spin";
+  if (t.includes("website") || t.includes("globe")) return "spin-slow";
+  if (t.includes("commerce") || t.includes("store")) return "wiggle";
+  if (t.includes("gis") || t.includes("map")) return "pin";
+  if (t.includes("kyc") || t.includes("closer") || t.includes("shield")) return "pop";
+  if (t.includes("trading") || t.includes("ipo") || t.includes("mobile") || t.includes("mutual"))
+    return "bob";
+  return "pulse";
+}
+
+function AnimatedMegaIcon({ icon: Icon, title, size = 18 }) {
+  const reduce = useReducedMotion();
+  const kind = getIconMotion(title);
+
+  const motionProps = reduce
+    ? {}
+    : {
+        pulse: {
+          animate: { scale: [1, 1.14, 1] },
+          transition: { duration: 1.8, repeat: Infinity, ease: "easeInOut" },
+        },
+        bob: {
+          animate: { y: [0, -2.5, 0] },
+          transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+        },
+        spin: {
+          animate: { rotate: 360 },
+          transition: { duration: 2.4, repeat: Infinity, ease: "linear" },
+        },
+        "spin-slow": {
+          animate: { rotate: 360 },
+          transition: { duration: 8, repeat: Infinity, ease: "linear" },
+        },
+        wiggle: {
+          animate: { rotate: [0, -10, 10, -6, 0] },
+          transition: { duration: 2.2, repeat: Infinity, ease: "easeInOut" },
+        },
+        pin: {
+          animate: { y: [0, -3, 0], scale: [1, 1.08, 1] },
+          transition: { duration: 1.6, repeat: Infinity, ease: "easeInOut" },
+        },
+        pop: {
+          animate: { scale: [1, 1.16, 1] },
+          transition: { duration: 1.4, repeat: Infinity, ease: "easeInOut" },
+        },
+      }[kind] || {};
+
+  return (
+    <motion.span className="relative z-10 inline-flex" {...motionProps}>
+      <Icon size={size} strokeWidth={2.25} />
+    </motion.span>
+  );
+}
+
+function MegaItem({
+  icon: Icon,
+  title,
+  subtitle,
+  onClick,
+  theme,
+  solidIcon = false,
+}) {
   const t = theme || megaThemes.default;
+  const reduce = useReducedMotion();
+
   return (
     <button
       type="button"
       onClick={onClick}
       className={`flex items-start gap-3.5 text-left p-3 rounded-xl ${t.hoverBg} transition-colors duration-200 group`}
     >
-      <span
+      <motion.span
         className={
           solidIcon
-            ? "flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FE602F] text-white shadow-sm shadow-orange-500/25 transition-transform duration-200 group-hover:scale-105"
+            ? "relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FE602F]/70 text-white shadow-[0_8px_18px_rgba(254,96,47,0.2)]"
             : `w-10 h-10 rounded-full border ${t.accentBorder} ${t.accentBg} ${t.accentText} flex items-center justify-center shrink-0 ${t.iconHover} transition-colors duration-200`
         }
+        animate={
+          solidIcon && !reduce
+            ? { boxShadow: [
+                "0 8px 18px rgba(254,96,47,0.28)",
+                "0 8px 24px rgba(254,96,47,0.48)",
+                "0 8px 18px rgba(254,96,47,0.28)",
+              ] }
+            : undefined
+        }
+        transition={
+          solidIcon && !reduce
+            ? { duration: 2.2, repeat: Infinity, ease: "easeInOut" }
+            : undefined
+        }
+        whileHover={reduce ? undefined : { scale: 1.1 }}
       >
-        <Icon size={solidIcon ? 18 : 18} strokeWidth={2} />
-      </span>
+        {solidIcon && (
+          <motion.span
+            aria-hidden
+            className="absolute inset-0 rounded-full border-2 border-white/40"
+            animate={
+              reduce
+                ? undefined
+                : { scale: [1, 1.35, 1], opacity: [0.55, 0, 0.55] }
+            }
+            transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+          />
+        )}
+        {solidIcon ? (
+          <AnimatedMegaIcon icon={Icon} title={title} />
+        ) : (
+          <Icon size={18} strokeWidth={2} className="relative z-10" />
+        )}
+      </motion.span>
       <span className="min-w-0 pt-0.5">
         <span
           className={`block text-[14px] font-bold transition-colors ${
@@ -521,7 +655,7 @@ export function ProductsMegaPanel({ onNavigate, variant = "default" }) {
       <MegaShell cols="grid-cols-[260px_1fr]" theme={t}>
         <MegaSidebar
           title="Products"
-          description="Explore our range of digital products built to simplify, automate and accelerate your business — from KYC and compliance to trading, HRMS and more."
+          description="From banking and fintech to e-commerce, websites, mobile apps and custom SaaS — we build digital products for every business need."
         >
           <div
             className={`relative flex h-28 w-full items-end justify-center overflow-hidden rounded-xl bg-gradient-to-br ${t.sidebarGradient}`}
@@ -800,10 +934,8 @@ export function ProductsMobileMenu({ onNavigate, variant = "default" }) {
               onClick={() => onNavigate(product.href, "products")}
               className="flex w-full items-start gap-3 rounded-xl border border-gray-100 bg-[#fafafa] p-3 text-left"
             >
-              <span
-                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${product.iconTone}`}
-              >
-                <Icon size={18} strokeWidth={1.9} />
+              <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FE602F]/70 text-white shadow-[0_8px_18px_rgba(254,96,47,0.2)]">
+                <AnimatedMegaIcon icon={Icon} title={product.title} />
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[14px] font-bold text-[#1f2937]">
