@@ -17,6 +17,7 @@ export default function CustomSaasPage() {
       title="Custom SaaS & Portals"
       summary="Dashboards, admin panels and multi-tenant web platforms."
       about="We engineer SaaS products and internal portals around your workflows — role-based access, multi-tenant data models, analytics dashboards and admin tools that keep operations running smoothly."
+      heroImage="/saas.gif"
       heroFeatures={[
         { title: "Dashboards", subtitle: "Live metrics & views", icon: LayoutDashboard },
         { title: "Multi-Tenant", subtitle: "Org-ready isolation", icon: Building2 },

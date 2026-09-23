@@ -55,6 +55,16 @@ const PARTNER_LOGOS = [
     website: "https://www.burgerking.com/",
     logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Burger_King_2020.svg",
   },
+  {
+    name: "Bharat Demographic Research",
+    website: "https://bharatdemographic.com/",
+    logo: "https://bharatdemographic.com/images/logo%20bdr.jpg",
+  },
+  {
+    name: "EZ Wealth",
+    website: "https://www.ezwealth.in/",
+    logo: "https://www.ezwealth.in/logo.svg",
+  },
 ];
 
 function getPartner(client) {
@@ -94,11 +104,9 @@ export default function Partners() {
       <div className="container relative mx-auto px-6">
         <ScrollReveal direction="up" delay={0.03} duration={0.6}>
           <h2 className="mb-10 text-center text-2xl font-bold tracking-tight text-slate-700 sm:text-3xl">
-            Our{" "}
-            <span className="section-heading-accent">
-              Technology
-            </span>{" "}
-            Partner
+            Trusted by{" "}
+            <span className="section-heading-accent">100+</span> brands
+            worldwide
           </h2>
         </ScrollReveal>
 

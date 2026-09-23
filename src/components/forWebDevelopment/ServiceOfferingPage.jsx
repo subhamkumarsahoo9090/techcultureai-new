@@ -87,11 +87,14 @@ export default function ServiceOfferingPage({
 
   return (
     <div className="min-w-0 w-full bg-white text-slate-800">
-      <section className="relative overflow-hidden pt-8 pb-12 md:pt-10 md:pb-16">
-        <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-[#fff7f3] via-white to-white" />
+      <section className="relative overflow-hidden bg-[#FDFCFB] pt-8 pb-12 md:pt-10 md:pb-16">
+        {/* Matches hero GIF cream + soft peach washes */}
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-[#fff7f3] via-[#FDFCFB] to-[#FDFCFB]" />
+        <div className="pointer-events-none absolute top-1/4 right-[8%] h-[420px] w-[420px] rounded-full bg-[#FDECE2]/90 blur-3xl" />
+        <div className="pointer-events-none absolute bottom-0 left-[35%] h-64 w-64 rounded-full bg-[#FDECE2]/70 blur-3xl" />
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute -left-20 top-10 h-72 w-72 rounded-full bg-[#FE602F]/12 blur-3xl"
+          className="pointer-events-none absolute -left-20 top-10 h-72 w-72 rounded-full bg-[#FE602F]/10 blur-3xl"
           animate={reduce ? undefined : { x: [0, 40, 0], y: [0, 24, 0] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -157,16 +160,20 @@ export default function ServiceOfferingPage({
 
             <div className="relative mx-auto w-full max-w-md overflow-visible sm:max-w-lg lg:max-w-xl">
               {heroImage ? (
-                <Image
-                  src={heroImage}
-                  alt={heroAlt || title}
-                  width={720}
-                  height={594}
-                  priority
-                  unoptimized={/\.gif($|\?)/i.test(heroImage)}
-                  className="h-auto w-full origin-center scale-[1.1] rounded-[28px] object-contain object-center"
-                  sizes="(max-width: 1024px) 90vw, 480px"
-                />
+                <div
+                  className="origin-center scale-[1.1] [mask-image:linear-gradient(to_right,transparent_0%,#000_10%,#000_90%,transparent_100%),linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,#000_10%,#000_90%,transparent_100%),linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)] [mask-composite:intersect] [-webkit-mask-composite:source-in] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] [mask-size:100%_100%] [-webkit-mask-size:100%_100%]"
+                >
+                  <Image
+                    src={heroImage}
+                    alt={heroAlt || title}
+                    width={720}
+                    height={594}
+                    priority
+                    unoptimized={/\.gif($|\?)/i.test(heroImage)}
+                    className="h-auto w-full object-contain object-center mix-blend-multiply"
+                    sizes="(max-width: 1024px) 90vw, 480px"
+                  />
+                </div>
               ) : (
                 <HeroPlaceholder Icon={Icon} title={title} />
               )}

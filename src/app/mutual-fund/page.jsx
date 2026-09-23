@@ -17,6 +17,7 @@ export default function MutualFundPage() {
       title="Mutual Fund"
       summary="Invest, track and manage mutual fund portfolios with ease."
       about="We build mutual fund platforms for AMCs, distributors and fintech apps — scheme discovery, KYC-ready onboarding, SIP/lumpsum flows, portfolio tracking and statements that keep investors informed and compliant."
+      heroImage="/mutual-fund.jpg"
       heroFeatures={[
         { title: "Schemes", subtitle: "Discover & compare", icon: PieChart },
         { title: "SIP & Invest", subtitle: "Lumpsum or systematic", icon: Wallet },

@@ -423,13 +423,13 @@ const Header = () => {
                 </div>
 
                 <div
-                  className={`absolute top-full left-1/2 z-[120] -translate-x-[42%] pt-3 transition-all duration-300 ${
+                  className={`absolute top-full left-1/2 z-[120] -translate-x-1/2 pt-3 transition-all duration-300 xl:-translate-x-[42%] ${
                     isProductsDropdownOpen
                       ? "visible translate-y-0 opacity-100"
                       : "pointer-events-none invisible translate-y-2 opacity-0"
                   }`}
                 >
-                  <div className="w-[min(980px,94vw)]">
+                  <div className="max-h-[min(78vh,640px)] w-[min(640px,92vw)] overflow-y-auto overscroll-contain xl:max-h-[min(82vh,720px)] xl:w-[min(800px,90vw)] 2xl:max-h-none 2xl:w-[min(940px,88vw)] 2xl:overflow-visible">
                     <ProductsMegaPanel
                       onNavigate={handleNavigation}
                       variant={menuVariant}

@@ -17,6 +17,7 @@ export default function LmsPage() {
       title="LMS"
       summary="Learning platforms for courses, assessments and progress tracking."
       about="We build Learning Management Systems for schools, enterprises and training providers — course catalogs, video lessons, quizzes, certificates and admin controls that make learning easy to deliver and measure."
+      heroImage="/lms.png"
       heroFeatures={[
         { title: "Courses", subtitle: "Structured learning paths", icon: BookOpen },
         { title: "Assessments", subtitle: "Quizzes & assignments", icon: ClipboardCheck },

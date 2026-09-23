@@ -21,6 +21,8 @@ import {
   AiShieldIcon,
   AiSparkCluster,
 } from "@/components/forWebDevelopment/AnimatedAiIcons";
+import Partners from "@/components/forWebDevelopment/Partners";
+import Testimonials from "@/components/forWebDevelopment/Testimonials";
 
 const HERO_VIDEOS = ["/heroVideo1.mp4", "/heroVideo2.mp4"];
 
@@ -584,6 +586,18 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <ScrollReveal direction="up" delay={0.05} duration={0.75}>
+        <section id="testimonials" className="scroll-mt-24">
+          <Testimonials />
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal direction="fade" delay={0.04} duration={0.7}>
+        <section id="clients" className="scroll-mt-24">
+          <Partners />
+        </section>
+      </ScrollReveal>
 
       {/* CTA */}
       <section className="relative z-10 overflow-hidden bg-white px-5 py-16 sm:px-8 lg:px-12 lg:py-20">

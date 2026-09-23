@@ -17,6 +17,7 @@ export default function CorporateWebsitesPage() {
       title="Corporate Websites"
       summary="Brand sites, landing pages and business portals that convert."
       about="We craft corporate websites that look sharp and work hard — clear messaging, fast performance, SEO-ready structure and CMS-friendly content so your marketing team can ship updates without waiting on engineering."
+      heroImage="/corporate.gif"
       heroFeatures={[
         { title: "Brand First", subtitle: "Visual identity online", icon: Sparkles },
         { title: "Landing Pages", subtitle: "Campaign-ready", icon: Megaphone },

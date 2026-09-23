@@ -52,6 +52,16 @@ const nextConfig = {
         port: "",
       },
       {
+        protocol: "https",
+        hostname: "bharatdemographic.com",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "www.ezwealth.in",
+        port: "",
+      },
+      {
         protocol: "http",
         hostname: "localhost",
         port: "5050",

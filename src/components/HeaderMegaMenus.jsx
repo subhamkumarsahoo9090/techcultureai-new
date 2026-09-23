@@ -509,12 +509,16 @@ function getMegaTheme(variant = "default") {
 
 function MegaSidebar({ title, description, children }) {
   return (
-    <div className="bg-[#f8f8f8] p-7 flex flex-col justify-between border-r border-gray-100">
+    <div className="flex flex-col justify-between border-r border-gray-100 bg-[#f8f8f8] p-4 xl:p-6 2xl:p-7">
       <div>
-        <h3 className="text-[22px] font-bold text-gray-900 mb-3">{title}</h3>
-        <p className="text-[13px] text-gray-500 leading-relaxed">{description}</p>
+        <h3 className="mb-2 text-[17px] font-bold text-gray-900 xl:mb-3 xl:text-[20px] 2xl:text-[22px]">
+          {title}
+        </h3>
+        <p className="text-[12px] leading-relaxed text-gray-500 xl:text-[13px]">
+          {description}
+        </p>
       </div>
-      <div className="mt-8 relative">{children}</div>
+      <div className="relative mt-5 xl:mt-8">{children}</div>
     </div>
   );
 }
@@ -601,13 +605,13 @@ function MegaItem({
     <button
       type="button"
       onClick={onClick}
-      className={`flex items-start gap-3.5 text-left p-3 rounded-xl ${t.hoverBg} transition-colors duration-200 group`}
+      className={`group flex items-start gap-2.5 rounded-xl p-2 text-left transition-colors duration-200 xl:gap-3.5 xl:p-3 ${t.hoverBg}`}
     >
       <motion.span
         className={
           solidIcon
-            ? "relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FE602F]/70 text-white shadow-[0_8px_18px_rgba(254,96,47,0.2)]"
-            : `w-10 h-10 rounded-full border ${t.accentBorder} ${t.accentBg} ${t.accentText} flex items-center justify-center shrink-0 ${t.iconHover} transition-colors duration-200`
+            ? "relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FE602F]/70 text-white shadow-[0_8px_18px_rgba(254,96,47,0.2)] xl:h-11 xl:w-11"
+            : `flex h-9 w-9 shrink-0 items-center justify-center rounded-full border ${t.accentBorder} ${t.accentBg} ${t.accentText} transition-colors duration-200 xl:h-10 xl:w-10 ${t.iconHover}`
         }
         animate={
           solidIcon && !reduce
@@ -645,7 +649,7 @@ function MegaItem({
       </motion.span>
       <span className="min-w-0 pt-0.5">
         <span
-          className={`block text-[14px] font-bold transition-colors ${
+          className={`block text-[13px] font-bold transition-colors xl:text-[14px] ${
             solidIcon
               ? "text-[#FE602F] group-hover:text-[#d9471b]"
               : `text-gray-900 ${t.hoverText}`
@@ -654,7 +658,7 @@ function MegaItem({
           {title}
         </span>
         {subtitle && (
-          <span className="mt-0.5 block text-[12px] leading-snug text-gray-500">
+          <span className="mt-0.5 block text-[11px] leading-snug text-gray-500 xl:text-[12px]">
             {subtitle}
           </span>
         )}
@@ -668,28 +672,31 @@ export function ProductsMegaPanel({ onNavigate, variant = "default" }) {
 
   if (variant === "webdevelopment") {
     return (
-      <MegaShell cols="grid-cols-[260px_1fr]" theme={t}>
+      <MegaShell
+        cols="grid-cols-[180px_1fr] xl:grid-cols-[220px_1fr] 2xl:grid-cols-[260px_1fr]"
+        theme={t}
+      >
         <MegaSidebar
           title="Products"
           description="From banking and fintech to e-commerce, websites, mobile apps and custom SaaS — we build digital products for every business need."
         >
           <div
-            className={`relative flex h-28 w-full items-end justify-center overflow-hidden rounded-xl bg-gradient-to-br ${t.sidebarGradient}`}
+            className={`relative flex h-20 w-full items-end justify-center overflow-hidden rounded-xl bg-gradient-to-br xl:h-24 2xl:h-28 ${t.sidebarGradient}`}
           >
-            <div className="flex w-full items-end justify-center gap-1.5 px-4 pb-3">
-              <span className={`h-10 w-6 rounded-t-md ${t.bar1}`} />
-              <span className={`h-16 w-7 rounded-t-md ${t.bar2}`} />
-              <span className={`h-12 w-8 rounded-t-md ${t.bar5}`} />
-              <span className={`h-20 w-6 rounded-t-md ${t.bar3}`} />
-              <span className={`h-14 w-7 rounded-t-md ${t.bar4}`} />
-              <span className={`h-9 w-5 rounded-t-md ${t.bar6}`} />
+            <div className="flex w-full items-end justify-center gap-1 px-3 pb-2.5 xl:gap-1.5 xl:px-4 xl:pb-3">
+              <span className={`h-8 w-5 rounded-t-md xl:h-10 xl:w-6 ${t.bar1}`} />
+              <span className={`h-12 w-5 rounded-t-md xl:h-16 xl:w-7 ${t.bar2}`} />
+              <span className={`h-10 w-6 rounded-t-md xl:h-12 xl:w-8 ${t.bar5}`} />
+              <span className={`h-14 w-5 rounded-t-md xl:h-20 xl:w-6 ${t.bar3}`} />
+              <span className={`h-11 w-5 rounded-t-md xl:h-14 xl:w-7 ${t.bar4}`} />
+              <span className={`h-7 w-4 rounded-t-md xl:h-9 xl:w-5 ${t.bar6}`} />
             </div>
-            <Sparkles size={18} className={`absolute top-3 right-4 ${t.accentText}`} />
-            <Bot size={20} className={`absolute top-4 left-4 ${t.decor}`} />
+            <Sparkles size={16} className={`absolute top-2.5 right-3 xl:top-3 xl:right-4 ${t.accentText}`} />
+            <Bot size={18} className={`absolute top-3 left-3 xl:top-4 xl:left-4 ${t.decor}`} />
           </div>
         </MegaSidebar>
 
-        <div className="grid grid-cols-1 content-start gap-x-2 gap-y-1 p-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 content-start gap-x-1 gap-y-0.5 p-3 xl:grid-cols-3 xl:gap-x-2 xl:gap-y-1 xl:p-4 2xl:p-5">
           {showcaseProducts.map((product) => (
             <MegaItem
               key={product.title}
