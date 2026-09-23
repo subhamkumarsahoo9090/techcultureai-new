@@ -154,7 +154,7 @@ export const showcaseProducts = [
     tags: ["Web App", "Mobile App"],
     icon: CandlestickChart,
     iconTone: "bg-orange-50 text-[#FE602F]",
-    href: webdevHref("/products"),
+    href: webdevHref("/trading-applications"),
   },
   {
     title: "Mutual Fund",
@@ -658,7 +658,7 @@ function MegaItem({
           {title}
         </span>
         {subtitle && (
-          <span className="mt-0.5 block text-[11px] leading-snug text-gray-500 xl:text-[12px]">
+          <span className="mt-0.5 line-clamp-2 block text-[10px] leading-snug text-gray-500 xl:text-[11px]">
             {subtitle}
           </span>
         )}
@@ -673,7 +673,7 @@ export function ProductsMegaPanel({ onNavigate, variant = "default" }) {
   if (variant === "webdevelopment") {
     return (
       <MegaShell
-        cols="grid-cols-[180px_1fr] xl:grid-cols-[220px_1fr] 2xl:grid-cols-[260px_1fr]"
+        cols="grid-cols-[160px_1fr] xl:grid-cols-[200px_1fr] 2xl:grid-cols-[240px_1fr]"
         theme={t}
       >
         <MegaSidebar
@@ -696,7 +696,7 @@ export function ProductsMegaPanel({ onNavigate, variant = "default" }) {
           </div>
         </MegaSidebar>
 
-        <div className="grid grid-cols-2 content-start gap-x-1 gap-y-0.5 p-3 xl:grid-cols-3 xl:gap-x-2 xl:gap-y-1 xl:p-4 2xl:p-5">
+        <div className="grid grid-cols-5 content-start gap-x-1 gap-y-0.5 p-2.5 xl:gap-x-1.5 xl:p-3 2xl:p-4">
           {showcaseProducts.map((product) => (
             <MegaItem
               key={product.title}

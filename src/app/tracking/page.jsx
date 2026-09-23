@@ -17,6 +17,7 @@ export default function TrackingPage() {
       title="Tracking System"
       summary="Real-time tracking for logistics, assets, field teams and deliveries."
       about="We design tracking platforms that show where things are — vehicles, shipments, assets or field staff — with live maps, status updates, alerts and admin dashboards your operations team can trust."
+      heroImage="/tracking.jpg"
       heroFeatures={[
         { title: "Live Maps", subtitle: "Real-time positions", icon: MapPin },
         { title: "Fleet & Assets", subtitle: "Vehicles & inventory", icon: Truck },

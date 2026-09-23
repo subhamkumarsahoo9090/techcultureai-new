@@ -17,6 +17,7 @@ export default function HrmsPage() {
       title="HRMS"
       summary="Simplify HR operations and workforce management."
       about="Our HRMS platforms help companies run hiring to exit in one place — employee records, attendance, leave, payroll-ready data and self-service portals that reduce paperwork for HR and managers alike."
+      heroImage="/hrms.jpg"
       heroFeatures={[
         { title: "Employees", subtitle: "Central people data", icon: Users },
         { title: "Attendance", subtitle: "Shifts & check-ins", icon: Clock3 },

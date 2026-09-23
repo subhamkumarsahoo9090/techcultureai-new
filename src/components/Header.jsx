@@ -429,7 +429,7 @@ const Header = () => {
                       : "pointer-events-none invisible translate-y-2 opacity-0"
                   }`}
                 >
-                  <div className="max-h-[min(78vh,640px)] w-[min(640px,92vw)] overflow-y-auto overscroll-contain xl:max-h-[min(82vh,720px)] xl:w-[min(800px,90vw)] 2xl:max-h-none 2xl:w-[min(940px,88vw)] 2xl:overflow-visible">
+                  <div className="max-h-[min(78vh,560px)] w-[min(860px,94vw)] overflow-y-auto overscroll-contain xl:max-h-[min(82vh,620px)] xl:w-[min(1080px,94vw)] 2xl:max-h-none 2xl:w-[min(1180px,92vw)] 2xl:overflow-visible">
                     <ProductsMegaPanel
                       onNavigate={handleNavigation}
                       variant={menuVariant}
