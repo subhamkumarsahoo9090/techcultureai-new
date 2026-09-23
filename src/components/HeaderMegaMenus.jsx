@@ -162,7 +162,7 @@ export const showcaseProducts = [
     tags: ["Web & Mobile"],
     icon: ChartLine,
     iconTone: "bg-amber-50 text-amber-600",
-    href: webdevHref("/products"),
+    href: webdevHref("/mutual-fund"),
   },
   {
     title: "HRMS",
@@ -170,7 +170,7 @@ export const showcaseProducts = [
     tags: ["Web Platform"],
     icon: Users,
     iconTone: "bg-emerald-50 text-emerald-600",
-    href: webdevHref("/products"),
+    href: webdevHref("/hrms"),
   },
   {
     title: "E-KYC (Digilocker)",
@@ -202,7 +202,7 @@ export const showcaseProducts = [
     tags: ["Web Platform"],
     icon: MapPin,
     iconTone: "bg-teal-50 text-teal-600",
-    href: webdevHref("/products"),
+    href: webdevHref("/gis"),
   },
 
   {
@@ -244,6 +244,22 @@ export const showcaseProducts = [
     icon: LayoutDashboard,
     iconTone: "bg-sky-50 text-sky-600",
     href: webdevHref("/custom-saas"),
+  },
+  {
+    title: "LMS",
+    description: "Learning platforms for courses, assessments and progress tracking.",
+    tags: ["Web & Mobile"],
+    icon: GraduationCap,
+    iconTone: "bg-orange-50 text-[#FE602F]",
+    href: webdevHref("/lms"),
+  },
+  {
+    title: "Tracking System",
+    description: "Real-time tracking for logistics, assets, field teams and deliveries.",
+    tags: ["Web & Mobile"],
+    icon: MapPin,
+    iconTone: "bg-slate-50 text-[#2E3545]",
+    href: webdevHref("/tracking"),
   },
 ];
 

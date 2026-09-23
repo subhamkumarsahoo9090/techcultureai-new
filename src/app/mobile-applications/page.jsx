@@ -17,6 +17,7 @@ export default function MobileApplicationsPage() {
       title="Mobile Applications"
       summary="Native & cross-platform iOS and Android apps built for scale."
       about="From consumer apps to field-force tools, we build mobile products that feel fast and reliable — clean UX, secure auth, offline-aware flows and store-ready releases for iOS and Android."
+      heroImage="/mobile.gif"
       heroFeatures={[
         { title: "iOS & Android", subtitle: "Both platforms", icon: Smartphone },
         { title: "Cross-Platform", subtitle: "One codebase option", icon: TabletSmartphone },

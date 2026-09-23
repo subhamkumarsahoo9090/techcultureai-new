@@ -75,6 +75,11 @@ const nextConfig = {
         destination: "/:path*",
         permanent: true,
       },
+      {
+        source: "/tracking-system",
+        destination: "/tracking",
+        permanent: false,
+      },
     ];
   },
 };

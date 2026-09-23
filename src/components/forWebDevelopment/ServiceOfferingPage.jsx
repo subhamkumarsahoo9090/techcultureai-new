@@ -155,15 +155,16 @@ export default function ServiceOfferingPage({
               </div>
             </div>
 
-            <div className="relative mx-auto w-full max-w-md sm:max-w-lg lg:max-w-xl">
+            <div className="relative mx-auto w-full max-w-md overflow-visible sm:max-w-lg lg:max-w-xl">
               {heroImage ? (
                 <Image
                   src={heroImage}
                   alt={heroAlt || title}
                   width={720}
-                  height={540}
+                  height={594}
                   priority
-                  className="h-auto w-full rounded-[28px] object-cover object-center"
+                  unoptimized={/\.gif($|\?)/i.test(heroImage)}
+                  className="h-auto w-full origin-center scale-[1.1] rounded-[28px] object-contain object-center"
                   sizes="(max-width: 1024px) 90vw, 480px"
                 />
               ) : (

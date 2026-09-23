@@ -17,6 +17,8 @@ export default function EcommercePage() {
       title="E-Commerce"
       summary="Online stores, marketplaces and shopping apps for any business."
       about="We design and build conversion-focused e-commerce experiences — from catalog and cart to payments, inventory and order tracking — on web and mobile, tailored to your brand and operations."
+      heroImage="/e-com.gif"
+      heroAlt="E-Commerce — online stores, marketplaces and shopping apps"
       heroFeatures={[
         { title: "Storefronts", subtitle: "Brand-ready catalogs", icon: Store },
         { title: "Checkout", subtitle: "Fast payment flows", icon: CreditCard },
