@@ -13,7 +13,7 @@ import HeaderGooeyBubbles from "./HeaderGooeyBubbles";
 import FontSwitcher from "./FontSwitcher";
 import { webdevHref } from "../lib/webdevelopment/paths";
 
-const WEBDEV_LOGO = "/tc-new-logo-2.png";
+const WEBDEV_LOGO = "/techculturelive.gif";
 import {
   ProductsMegaPanel,
   ProductsMobileMenu,
@@ -33,6 +33,7 @@ const Header = () => {
     const router = useRouter();
     const { settingsData, setSettingsData } = useSite();
     const headerLogoSrc = isLightHeader ? WEBDEV_LOGO : settingsData?.logo || WEBDEV_LOGO;
+    const isGifLogo = /\.gif($|\?)/i.test(headerLogoSrc || "");
     const homeHref = isLightHeader ? webdevHref("/") : "/";
     const navPaths = {
       automation: isLightHeader ? webdevHref("/products") : "/automation",
@@ -340,7 +341,7 @@ const Header = () => {
               }}
             >
               <div
-                className={`relative ${
+                className={`relative overflow-visible ${
                   isLightHeader ? "w-[150px] h-[80px]" : "w-[150px] h-14"
                 }`}
               >
@@ -348,7 +349,16 @@ const Header = () => {
                   src={headerLogoSrc}
                   alt="logo"
                   fill
-                  className={isLightHeader ? "object-contain" : "object-contain object-left"}
+                  unoptimized={isGifLogo}
+                  className={
+                    isLightHeader
+                      ? `object-contain ${
+                          isGifLogo
+                            ? "mix-blend-multiply brightness-[1.18] contrast-[1.05]"
+                            : ""
+                        }`
+                      : "object-contain object-left"
+                  }
                   priority
                 />
               </div>
