@@ -17,6 +17,7 @@ export default function GisApplicationPage() {
       title="GIS Application"
       summary="Location intelligence for smarter decisions."
       about="We build GIS applications that turn maps into business tools — layers, spatial search, field data capture and dashboards so teams can plan routes, monitor assets and analyse geography with clarity."
+      heroImage="/gis.jpg"
       heroFeatures={[
         { title: "Interactive Maps", subtitle: "Pan, zoom, explore", icon: Map },
         { title: "Layers", subtitle: "Overlay your data", icon: Layers3 },
