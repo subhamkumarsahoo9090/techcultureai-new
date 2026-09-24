@@ -26,6 +26,7 @@ import {
 } from "@/components/forWebDevelopment/AnimatedAiIcons";
 import Partners from "@/components/forWebDevelopment/Partners";
 import Testimonials from "@/components/forWebDevelopment/Testimonials";
+import TechnologyStackSection from "@/components/forWebDevelopment/TechnologyStackSection";
 
 const HERO_VIDEOS = ["/heroVideo1.mp4", "/heroVideo2.mp4"];
 
@@ -112,6 +113,65 @@ const buildOfferings = [
 
 const ease = [0.22, 1, 0.36, 1];
 
+const HERO_HEADLINE = "A software company building intelligent products that scale";
+const HERO_HIGHLIGHT = "intelligent products";
+const HERO_HIGHLIGHT_START = HERO_HEADLINE.indexOf(HERO_HIGHLIGHT);
+const HERO_HIGHLIGHT_END = HERO_HIGHLIGHT_START + HERO_HIGHLIGHT.length;
+
+function TypedHeroHeadline({ className }) {
+  const reduceMotion = useReducedMotion();
+  const [charCount, setCharCount] = useState(
+    reduceMotion ? HERO_HEADLINE.length : 0,
+  );
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setCharCount(HERO_HEADLINE.length);
+      return;
+    }
+
+    setCharCount(0);
+    let i = 0;
+    const id = setInterval(() => {
+      i += 1;
+      setCharCount(i);
+      if (i >= HERO_HEADLINE.length) clearInterval(id);
+    }, 38);
+
+    return () => clearInterval(id);
+  }, [reduceMotion]);
+
+  const before = HERO_HEADLINE.slice(
+    0,
+    Math.min(charCount, HERO_HIGHLIGHT_START),
+  );
+  const highlight = HERO_HEADLINE.slice(
+    HERO_HIGHLIGHT_START,
+    Math.min(charCount, HERO_HIGHLIGHT_END),
+  );
+  const after =
+    charCount > HERO_HIGHLIGHT_END
+      ? HERO_HEADLINE.slice(HERO_HIGHLIGHT_END, charCount)
+      : "";
+  const done = charCount >= HERO_HEADLINE.length;
+
+  return (
+    <h1 className={className} aria-label={HERO_HEADLINE}>
+      {before}
+      {highlight ? (
+        <span className="text-[#FE602F]!">{highlight}</span>
+      ) : null}
+      {after}
+      <span
+        aria-hidden
+        className={`ml-0.5 inline-block h-[0.9em] w-[3px] translate-y-[0.08em] bg-[#FE602F] align-baseline ${
+          done ? "animate-pulse opacity-70" : "opacity-100"
+        }`}
+      />
+    </h1>
+  );
+}
+
 function HeroVideoBackground() {
   const [active, setActive] = useState(0);
   const videoRefs = useRef([]);
@@ -189,16 +249,7 @@ export default function HomePage() {
             </motion.p>
           </div>
 
-          <motion.h1
-            initial={reduceMotion ? false : { opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.08, ease }}
-            className="mt-5 max-w-3xl text-3xl font-semibold leading-[1.15] tracking-tight text-white! sm:text-4xl lg:text-5xl"
-          >
-            A software company building{" "}
-            <span className="text-[#FE602F]!">intelligent products</span> that
-            scale
-          </motion.h1>
+          <TypedHeroHeadline className="mt-5 max-w-3xl text-3xl font-semibold leading-[1.15] tracking-tight text-white! sm:text-4xl lg:text-5xl" />
 
           <motion.p
             initial={reduceMotion ? false : { opacity: 0, y: 20 }}
@@ -316,6 +367,8 @@ export default function HomePage() {
           </ScrollReveal>
         </div>
       </section>
+
+      <TechnologyStackSection />
 
       {/* What we build */}
       <section className="relative z-10 w-full overflow-hidden bg-white px-4 py-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-20">

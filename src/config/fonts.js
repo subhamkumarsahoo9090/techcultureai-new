@@ -1,5 +1,5 @@
 export const FONT_STORAGE_KEY = "techculture-font";
-export const DEFAULT_FONT_ID = "inter";
+export const DEFAULT_FONT_ID = "source-sans";
 
 export const fonts = [
   {
@@ -71,7 +71,11 @@ export const fonts = [
 ];
 
 export function getFontById(id) {
-  return fonts.find((font) => font.id === id) || fonts[0];
+  return (
+    fonts.find((font) => font.id === id) ||
+    fonts.find((font) => font.id === DEFAULT_FONT_ID) ||
+    fonts[0]
+  );
 }
 
 export function applyFontToDocument(fontId) {

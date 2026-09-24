@@ -616,7 +616,7 @@ const Header = () => {
             )}
 
             <div className="items-center gap-3 hidden lg:flex xl:gap-4">
-              <FontSwitcher />
+              {/* <FontSwitcher /> */}
               <Button
                 className={`${scheduleDemoBtnBase} !px-6 !py-2 !capitalize !font-bold !hidden lg:!flex`}
                 size="large"

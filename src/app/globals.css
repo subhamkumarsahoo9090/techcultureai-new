@@ -64,7 +64,7 @@
 
 html {
   scroll-behavior: smooth;
-  --font-app: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-app: var(--font-source-sans), system-ui, -apple-system, sans-serif;
 }
 
 body {

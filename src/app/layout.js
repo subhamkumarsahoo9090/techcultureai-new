@@ -126,7 +126,7 @@ export const metadata = {
 const fontBootstrapScript = `
 (function () {
   try {
-    var id = localStorage.getItem("techculture-font") || "inter";
+    var id = localStorage.getItem("techculture-font") || "source-sans";
     var map = {
       inter: "--font-inter",
       "plus-jakarta": "--font-plus-jakarta",
@@ -140,7 +140,7 @@ const fontBootstrapScript = `
       "ibm-plex": "--font-ibm-plex",
       sora: "--font-sora"
     };
-    var cssVar = map[id] || "--font-inter";
+    var cssVar = map[id] || "--font-source-sans";
     document.documentElement.setAttribute("data-font", id);
     document.documentElement.style.setProperty(
       "--font-app",
@@ -156,7 +156,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${fontVariables} h-full antialiased`}
       data-theme="tealOrange"
-      data-font="inter"
+      data-font="source-sans"
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col font-sans">
