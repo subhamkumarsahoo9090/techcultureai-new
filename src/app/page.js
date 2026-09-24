@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Award, Target, Users, Zap } from "lucide-react";
 import { useBookDemo } from "@/context/BookDemoContext";
 import { webdevHref } from "@/lib/webdevelopment/paths";
 import ScrollReveal, { ScrollRevealItem } from "@/components/ScrollReveal";
@@ -23,8 +23,16 @@ import {
 } from "@/components/forWebDevelopment/AnimatedAiIcons";
 import Partners from "@/components/forWebDevelopment/Partners";
 import Testimonials from "@/components/forWebDevelopment/Testimonials";
+import TechnologyStackSection from "@/components/forWebDevelopment/TechnologyStackSection";
 
 const HERO_VIDEOS = ["/heroVideo1.mp4", "/heroVideo2.mp4"];
+
+const highlightStats = [
+  { value: "1000+", label: "Projects Delivered", Icon: Target },
+  { value: "25+", label: "Years Experience", Icon: Award },
+  { value: "97%", label: "Client Retention", Icon: Users },
+  { value: "100%", label: "Global Reach", Icon: Zap },
+];
 
 const pillars = [
   {
@@ -107,29 +115,6 @@ const stats = [
   { value: "Govt + Private", label: "Both sectors served", Icon: AiShieldIcon },
   { value: "Custom build", label: "Not just off-the-shelf", Icon: AiCodeIcon },
   { value: "End-to-end", label: "Design to deployment", Icon: AiPipelineIcon },
-];
-
-const steps = [
-  {
-    title: "Discover",
-    text: "Map the problem, users and the outcome you need.",
-    Icon: AiBrainIcon,
-  },
-  {
-    title: "Design",
-    text: "Shape flows, screens and a clear product direction.",
-    Icon: AiLayersIcon,
-  },
-  {
-    title: "Build",
-    text: "Engineer web, mobile and backend as one system.",
-    Icon: AiCodeIcon,
-  },
-  {
-    title: "Launch",
-    text: "Ship, support and keep improving after go-live.",
-    Icon: AiGlobeIcon,
-  },
 ];
 
 const ease = [0.22, 1, 0.36, 1];
@@ -295,6 +280,43 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="relative z-10 overflow-hidden bg-white px-5 py-12 sm:px-8 lg:px-12 lg:py-14">
+        <div className="relative z-10 mx-auto w-full max-w-6xl">
+          <ScrollReveal
+            direction="up"
+            delay={0.04}
+            duration={0.65}
+            stagger={0.08}
+            className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5"
+          >
+            {highlightStats.map((item) => {
+              const Icon = item.Icon;
+              return (
+                <ScrollRevealItem key={item.label} direction="up">
+                  <div className="flex h-full flex-col items-center justify-center rounded-2xl bg-[#f6f3ee] px-4 py-7 text-center sm:px-5 sm:py-8">
+                    <span className="mb-3 inline-flex text-[#FE602F]">
+                      <Icon size={28} strokeWidth={1.8} />
+                    </span>
+                    <p className="text-2xl font-bold tracking-tight text-[#2E3545]! sm:text-3xl">
+                      {item.value}
+                    </p>
+                    <p className="mt-1.5 text-sm font-medium text-[#2E3545]/80 sm:text-[15px]">
+                      {item.label}
+                    </p>
+                  </div>
+                </ScrollRevealItem>
+              );
+            })}
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <ScrollReveal direction="fade" delay={0.04} duration={0.7}>
+        <section id="clients" className="scroll-mt-24">
+          <Partners />
+        </section>
+      </ScrollReveal>
+
       {/* Who we are */}
       <section className="relative z-10 overflow-hidden bg-white px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
         <ColorWash />
@@ -344,61 +366,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* How we work */}
-      <section className="relative z-10 overflow-hidden bg-[#2E3545] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
-        <ColorWash variant="dark" />
-        <div className="relative z-10 mx-auto w-full max-w-6xl">
-          <ScrollReveal direction="up" delay={0.03} duration={0.65}>
-            <p className="text-sm font-semibold tracking-wide text-[#FE602F]">
-              How we work
-            </p>
-            <h2 className="mt-2 max-w-xl text-2xl font-semibold tracking-tight text-white! sm:text-3xl">
-              Idea to live product, in one flow
-            </h2>
-          </ScrollReveal>
-
-          <div className="relative mt-12">
-            <div className="absolute top-6 right-[8%] left-[8%] hidden h-[2px] overflow-hidden rounded-full bg-white/15 md:block">
-              <motion.span
-                className="absolute inset-y-0 w-1/3 bg-linear-to-r from-transparent via-[#FE602F] to-[#2E3545]"
-                animate={reduceMotion ? undefined : { x: ["-120%", "320%"] }}
-                transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </div>
-
-            <div className="grid gap-8 md:grid-cols-4">
-              {steps.map((step, index) => {
-                const Icon = step.Icon;
-                return (
-                  <ScrollReveal
-                    key={step.title}
-                    direction="up"
-                    delay={0.06 + index * 0.08}
-                    duration={0.6}
-                  >
-                    <div className="relative border-l border-white/15 pl-5">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs font-semibold tracking-[0.18em] text-[#FE602F]">
-                          0{index + 1}
-                        </span>
-                      <span className="grid h-11 w-11 place-items-center rounded-xl bg-white">
-                        <Icon size={32} />
-                      </span>
-                      </div>
-                      <h3 className="mt-3 text-lg font-semibold text-white!">
-                        {step.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-white/65">
-                        {step.text}
-                      </p>
-                    </div>
-                  </ScrollReveal>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
+      <TechnologyStackSection />
 
       {/* Capabilities */}
       <section className="relative z-10 overflow-hidden bg-[#faf9f6] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
@@ -590,12 +558,6 @@ export default function HomePage() {
       <ScrollReveal direction="up" delay={0.05} duration={0.75}>
         <section id="testimonials" className="scroll-mt-24">
           <Testimonials />
-        </section>
-      </ScrollReveal>
-
-      <ScrollReveal direction="fade" delay={0.04} duration={0.7}>
-        <section id="clients" className="scroll-mt-24">
-          <Partners />
         </section>
       </ScrollReveal>
 
