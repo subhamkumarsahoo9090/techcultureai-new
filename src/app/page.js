@@ -1,162 +1,116 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, Award, Target, Users, Zap } from "lucide-react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import {
+  ArrowRight,
+  Award,
+  BarChart3,
+  Brain,
+  Clock3,
+  Cloud,
+  Globe2,
+  Settings2,
+  ShieldCheck,
+  Smartphone,
+  Users,
+} from "lucide-react";
 import { useBookDemo } from "@/context/BookDemoContext";
 import { webdevHref } from "@/lib/webdevelopment/paths";
-import ScrollReveal, { ScrollRevealItem } from "@/components/ScrollReveal";
+import ScrollReveal from "@/components/ScrollReveal";
 import {
-  AiBankIcon,
   AiBrainIcon,
-  AiBuildingIcon,
-  AiCodeIcon,
-  AiGlobeIcon,
-  AiLayersIcon,
-  AiNetworkIcon,
-  AiNeuralDecor,
-  AiPhoneIcon,
-  AiPipelineIcon,
-  AiShieldIcon,
   AiSparkCluster,
 } from "@/components/forWebDevelopment/AnimatedAiIcons";
 import Partners from "@/components/forWebDevelopment/Partners";
 import Testimonials from "@/components/forWebDevelopment/Testimonials";
-import TechnologyStackSection from "@/components/forWebDevelopment/TechnologyStackSection";
 
 const HERO_VIDEOS = ["/heroVideo1.mp4", "/heroVideo2.mp4"];
 
 const highlightStats = [
-  { value: "1000+", label: "Projects Delivered", Icon: Target },
-  { value: "25+", label: "Years Experience", Icon: Award },
-  { value: "97%", label: "Client Retention", Icon: Users },
-  { value: "100%", label: "Global Reach", Icon: Zap },
+  { end: 1000, suffix: "+", label: "Projects Delivered", Icon: Users },
+  { end: 25, suffix: "+", label: "Years Experience", Icon: Clock3 },
+  { end: 97, suffix: "%", label: "Client Retention", Icon: Award },
+  { end: 100, suffix: "%", label: "Global Reach", Icon: Globe2 },
 ];
 
-const pillars = [
+function StatCounter({ end, suffix = "", duration = 1.8 }) {
+  const ref = useRef(null);
+  const reduce = useReducedMotion();
+  const inView = useInView(ref, { once: true, amount: 0.45 });
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    if (reduce) {
+      setValue(end);
+      return;
+    }
+
+    let frame = 0;
+    const start = performance.now();
+    const tick = (now) => {
+      const progress = Math.min(1, (now - start) / (duration * 1000));
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.round(end * eased));
+      if (progress < 1) {
+        frame = requestAnimationFrame(tick);
+      }
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [inView, end, duration, reduce]);
+
+  return (
+    <span ref={ref} className="tabular-nums">
+      {value}
+      {suffix}
+    </span>
+  );
+}
+
+const buildOfferings = [
   {
-    title: "Banking & Fintech",
-    description:
-      "KYC, onboarding, trading and compliance platforms built for modern finance.",
-    href: webdevHref("/banking-fintech"),
-    Icon: AiBankIcon,
-  },
-  {
-    title: "Products",
-    description:
-      "Trading, HRMS, mutual funds, GIS and IPO tools ready for scale.",
+    title: "AI & Machine Learning",
+    description: "Intelligent automation, models and AI-powered product experiences.",
+    Icon: Brain,
     href: webdevHref("/products"),
-    Icon: AiLayersIcon,
   },
   {
-    title: "Middleware",
-    description:
-      "Integration layer that connects systems, data and digital journeys.",
+    title: "Cloud & DevOps",
+    description: "Reliable cloud infrastructure, CI/CD and scalable deployments.",
+    Icon: Cloud,
     href: webdevHref("/middleware"),
-    Icon: AiNetworkIcon,
-  },
-];
-
-const capabilities = [
-  {
-    title: "Websites & Web Apps",
-    description:
-      "Corporate sites, portals, dashboards and full-stack web platforms tailored to your workflows.",
-    Icon: AiGlobeIcon,
   },
   {
-    title: "Mobile Applications",
-    description:
-      "iOS and Android apps built for performance, security and a smooth user experience.",
-    Icon: AiPhoneIcon,
+    title: "Mobile & Web Applications",
+    description: "High-performing apps and websites for iOS, Android and the web.",
+    Icon: Smartphone,
+    href: webdevHref("/mobile-applications"),
   },
   {
-    title: "Custom Software",
-    description:
-      "From enterprise systems to niche tools — we design and engineer software that fits your business.",
-    Icon: AiCodeIcon,
+    title: "Custom Software Development",
+    description: "Tailored platforms engineered around your exact workflows.",
+    Icon: Settings2,
+    href: webdevHref("/custom-saas"),
   },
   {
-    title: "End-to-End Delivery",
-    description:
-      "Discovery, UI/UX, development, testing, deployment and ongoing support under one roof.",
-    Icon: AiPipelineIcon,
-  },
-];
-
-const audiences = [
-  {
-    title: "Government & Public Sector",
-    description:
-      "Secure, compliant digital systems for departments, boards and citizen-facing services.",
-    points: [
-      "Portals & e-governance platforms",
-      "Identity, KYC & compliance flows",
-      "Secure hosting-ready architecture",
-    ],
-    Icon: AiShieldIcon,
+    title: "Enterprise Solutions",
+    description: "Secure, compliant systems for government and private enterprises.",
+    Icon: ShieldCheck,
+    href: webdevHref("/banking-fintech"),
   },
   {
-    title: "Private Enterprises",
-    description:
-      "Product teams and businesses that need reliable software to scale operations and revenue.",
-    points: [
-      "Fintech, HRMS & trading products",
-      "Customer apps & internal tools",
-      "API, middleware & integrations",
-    ],
-    Icon: AiBuildingIcon,
+    title: "Business Intelligence & Analytics",
+    description: "Dashboards and insights that turn data into clear decisions.",
+    Icon: BarChart3,
+    href: webdevHref("/tracking"),
   },
-];
-
-const stats = [
-  { value: "Web + Mobile", label: "Any platform you need", Icon: AiGlobeIcon },
-  { value: "Govt + Private", label: "Both sectors served", Icon: AiShieldIcon },
-  { value: "Custom build", label: "Not just off-the-shelf", Icon: AiCodeIcon },
-  { value: "End-to-end", label: "Design to deployment", Icon: AiPipelineIcon },
 ];
 
 const ease = [0.22, 1, 0.36, 1];
-
-function ColorWash({ variant = "light" }) {
-  const reduce = useReducedMotion();
-  const dark = variant === "dark";
-
-  return (
-    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          background: dark
-            ? "linear-gradient(120deg, #2E3545 0%, #3a3342 42%, #4a3838 72%, #2E3545 100%)"
-            : "linear-gradient(120deg, #ffffff 0%, #fff1ea 32%, #f3f4f6 68%, #ffffff 100%)",
-          backgroundSize: "220% 220%",
-        }}
-        animate={
-          reduce
-            ? undefined
-            : { backgroundPosition: ["0% 40%", "100% 60%", "0% 40%"] }
-        }
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.span
-        className={`absolute -left-24 top-8 h-80 w-80 rounded-full blur-3xl ${
-          dark ? "bg-[#FE602F]/35" : "bg-[#FE602F]/20"
-        }`}
-        animate={reduce ? undefined : { x: [0, 120, 20, 0], y: [0, 40, 90, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.span
-        className={`absolute right-[-4rem] bottom-0 h-72 w-72 rounded-full blur-3xl ${
-          dark ? "bg-[#FE602F]/20" : "bg-[#2E3545]/10"
-        }`}
-        animate={reduce ? undefined : { x: [0, -90, -20, 0], y: [0, -50, -10, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      />
-    </div>
-  );
-}
 
 function HeroVideoBackground() {
   const [active, setActive] = useState(0);
@@ -280,37 +234,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative z-10 overflow-hidden bg-white px-5 py-12 sm:px-8 lg:px-12 lg:py-14">
-        <div className="relative z-10 mx-auto w-full max-w-6xl">
-          <ScrollReveal
-            direction="up"
-            delay={0.04}
-            duration={0.65}
-            stagger={0.08}
-            className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5"
-          >
-            {highlightStats.map((item) => {
-              const Icon = item.Icon;
-              return (
-                <ScrollRevealItem key={item.label} direction="up">
-                  <div className="flex h-full flex-col items-center justify-center rounded-2xl bg-[#f6f3ee] px-4 py-7 text-center sm:px-5 sm:py-8">
-                    <span className="mb-3 inline-flex text-[#FE602F]">
-                      <Icon size={28} strokeWidth={1.8} />
-                    </span>
-                    <p className="text-2xl font-bold tracking-tight text-[#2E3545]! sm:text-3xl">
-                      {item.value}
-                    </p>
-                    <p className="mt-1.5 text-sm font-medium text-[#2E3545]/80 sm:text-[15px]">
-                      {item.label}
-                    </p>
-                  </div>
-                </ScrollRevealItem>
-              );
-            })}
-          </ScrollReveal>
-        </div>
-      </section>
-
       <ScrollReveal direction="fade" delay={0.04} duration={0.7}>
         <section id="clients" className="scroll-mt-24">
           <Partners />
@@ -318,240 +241,214 @@ export default function HomePage() {
       </ScrollReveal>
 
       {/* Who we are */}
-      <section className="relative z-10 overflow-hidden bg-white px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
-        <ColorWash />
-        <AiNeuralDecor className="opacity-50" />
-        <div className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-          <ScrollReveal direction="left" delay={0.04} duration={0.75}>
-            <p className="text-sm font-semibold tracking-wide text-[#FE602F]">
+      <section className="relative z-10 w-full overflow-hidden bg-white px-4 py-0 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-20">
+        <div className="pointer-events-none absolute -left-10 top-16 h-40 w-40 rounded-full border border-[#FE602F]/20" />
+        <div className="pointer-events-none absolute left-24 top-28 h-2 w-2 rounded-full bg-[#FE602F]/50" />
+        <div className="pointer-events-none absolute right-[38%] bottom-16 h-28 w-28 rounded-full border border-[#FE602F]/15" />
+
+        <div className="relative z-10 grid w-full items-center gap-6 md:gap-8 lg:grid-cols-2 lg:gap-10 xl:gap-12">
+          <ScrollReveal direction="left" delay={0.04} duration={0.75} className="w-full min-w-0">
+            <p className="flex items-center gap-2 text-[10px] font-bold tracking-[0.18em] text-[#FE602F] uppercase sm:text-xs">
+              <span className="h-px w-4 bg-[#FE602F] sm:w-5" />
               Who we are
             </p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[#2E3545]! sm:text-3xl lg:text-4xl">
-              We are a full-stack software company
+            <h2 className="mt-2 text-[28px] font-bold tracking-tight text-[#2E3545]! sm:text-4xl md:text-[40px] lg:text-[42px] xl:text-5xl lg:leading-tight">
+              We are a full-stack{" "}
+              <span className="text-[#FE602F]!">software company</span>
             </h2>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-[#667085] sm:text-lg">
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#667085] sm:text-[15px] md:text-base">
               TechCulture AI builds intelligent, scalable digital solutions for
-              every kind of organization. Whether you need a citizen portal, a
-              banking product, an enterprise tool or a consumer mobile app — we
-              turn requirements into production-ready software.
+              every kind of organization — from citizen portals and banking
+              products to enterprise tools and consumer apps.
             </p>
+
+            <div className="mt-5 grid w-full grid-cols-2 gap-3 sm:mt-6 sm:gap-4 lg:grid-cols-4">
+              {highlightStats.map((item) => {
+                const Icon = item.Icon;
+                return (
+                  <div
+                    key={item.label}
+                    className="rounded-2xl border border-[#eceae6] bg-white px-3 py-4 text-center shadow-[0_8px_24px_rgba(46,53,69,0.05)] sm:px-4 sm:py-5"
+                  >
+                    <span className="mx-auto mb-2 inline-flex text-[#FE602F]">
+                      <Icon size={22} strokeWidth={2} />
+                    </span>
+                    <p className="text-2xl font-bold tracking-tight text-[#2E3545]! sm:text-3xl">
+                      <StatCounter end={item.end} suffix={item.suffix} />
+                    </p>
+                    <p className="mt-1 text-[11px] leading-snug font-medium text-[#667085] sm:text-xs">
+                      {item.label}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </ScrollReveal>
 
-          <ScrollReveal
-            direction="right"
-            delay={0.1}
-            duration={0.75}
-            stagger={0.1}
-            className="divide-y divide-[#e8e6e1] border-y border-[#e8e6e1]"
-          >
-            {stats.map((stat) => {
-              const Icon = stat.Icon;
-              return (
-                <ScrollRevealItem
-                  key={stat.value}
-                  direction="right"
-                  className="flex items-center gap-4 py-4"
-                >
-                  <Icon size={44} />
-                  <div>
-                    <p className="text-base font-semibold text-[#2E3545]! sm:text-lg">
-                      {stat.value}
-                    </p>
-                    <p className="mt-0.5 text-sm text-[#667085]">{stat.label}</p>
-                  </div>
-                </ScrollRevealItem>
-              );
-            })}
+          <ScrollReveal direction="right" delay={0.1} duration={0.75} className="w-full min-w-0">
+            <div className="relative w-full">
+              <div className="pointer-events-none absolute -top-6 -left-4 hidden h-24 w-24 rounded-full border border-[#FE602F]/25 sm:block" />
+              <div className="pointer-events-none absolute -right-3 top-10 hidden h-16 w-16 rounded-full border border-[#FE602F]/20 sm:block" />
+              <div className="pointer-events-none absolute -bottom-4 left-10 hidden h-20 w-20 rounded-full border border-[#FE602F]/15 sm:block" />
+
+              <div className="relative w-full overflow-hidden rounded-2xl bg-transparent sm:rounded-[28px]">
+                <Image
+                  src="/whoweare.png"
+                  alt="TechCulture team collaborating"
+                  width={1376}
+                  height={768}
+                  className="h-auto w-full object-contain object-center"
+                  sizes="100vw"
+                  priority
+                />
+              </div>
+
+              <div className="absolute top-2 left-3 flex h-10 w-10 items-center justify-center rounded-xl border border-white/60 bg-white/80 text-[#FE602F] shadow-lg backdrop-blur-md sm:left-6 sm:h-12 sm:w-12 sm:rounded-2xl">
+                <Brain size={18} strokeWidth={2} className="sm:h-5 sm:w-5" />
+              </div>
+              <div className="absolute top-6 -right-1 flex h-10 w-10 items-center justify-center rounded-xl border border-white/60 bg-white/80 text-[#FE602F] shadow-lg backdrop-blur-md sm:top-8 sm:-right-3 sm:h-12 sm:w-12 sm:rounded-2xl">
+                <BarChart3 size={18} strokeWidth={2} className="sm:h-5 sm:w-5" />
+              </div>
+              <div className="absolute bottom-2 right-4 flex h-10 w-10 items-center justify-center rounded-xl border border-white/60 bg-white/80 text-[#FE602F] shadow-lg backdrop-blur-md sm:right-10 sm:h-12 sm:w-12 sm:rounded-2xl">
+                <Globe2 size={18} strokeWidth={2} className="sm:h-5 sm:w-5" />
+              </div>
+            </div>
           </ScrollReveal>
         </div>
       </section>
 
-      <TechnologyStackSection />
+      {/* What we build */}
+      <section className="relative z-10 w-full overflow-hidden bg-white px-4 py-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-20">
+        <div className="pointer-events-none absolute right-10 top-12 h-32 w-32 rounded-full border border-[#FE602F]/15" />
+        <div className="pointer-events-none absolute bottom-10 left-[20%] h-2 w-2 rounded-full bg-[#FE602F]/40" />
+        <div className="pointer-events-none absolute top-1/3 left-[8%] h-64 w-64 rounded-full bg-[#FE602F]/5 blur-3xl" />
 
-      {/* Capabilities */}
-      <section className="relative z-10 overflow-hidden bg-[#faf9f6] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
-        <ColorWash />
-
-        <div className="relative z-10 mx-auto w-full max-w-6xl">
-          <ScrollReveal direction="fade" delay={0.03} duration={0.65}>
-            <p className="text-sm font-semibold tracking-wide text-[#FE602F]">
+        <div className="relative z-10 grid w-full items-center gap-6 md:gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10 xl:gap-12">
+          <ScrollReveal direction="left" delay={0.04} duration={0.7} className="w-full min-w-0 py-2">
+            <p className="flex items-center gap-2 text-[10px] font-bold tracking-[0.18em] text-[#FE602F] uppercase sm:text-xs">
+              <span className="h-px w-4 bg-[#FE602F] sm:w-5" />
               What we build
             </p>
-            <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-tight text-[#2E3545]! sm:text-3xl">
-              Any type of software — websites, apps and beyond
+            <h2 className="mt-2 text-[28px] font-bold tracking-tight text-[#2E3545]! sm:text-4xl md:text-[40px] lg:text-[42px] xl:text-5xl lg:leading-tight">
+              Turning ideas into{" "}
+              <span className="text-[#FE602F]!">powerful digital solutions</span>
             </h2>
-            <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#667085]">
-              From simple marketing sites to complex enterprise systems, our
-              team delivers software that is secure, usable and built to grow
-              with you.
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#667085] sm:text-[15px] md:text-base">
+              From discovery to deployment, we design, engineer and scale
+              products that feel clear, secure and ready for real users.
             </p>
           </ScrollReveal>
 
-          <ScrollReveal
-            direction="up"
-            delay={0.06}
-            duration={0.55}
-            stagger={0.12}
-            className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: { staggerChildren: 0.1, delayChildren: 0.08 },
+              },
+            }}
+            className="grid w-full min-w-0 grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3"
           >
-            {capabilities.map((item) => {
+            {buildOfferings.map((item, index) => {
               const Icon = item.Icon;
               return (
-                <ScrollRevealItem
+                <motion.div
                   key={item.title}
-                  direction="scale"
-                  className="border-t-2 border-[#FE602F] pt-5"
+                  variants={
+                    reduceMotion
+                      ? undefined
+                      : {
+                          hidden: {
+                            opacity: 0,
+                            y: 36,
+                            scale: 0.92,
+                            rotateX: 8,
+                          },
+                          visible: {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            rotateX: 0,
+                            transition: {
+                              duration: 0.55,
+                              ease: [0.22, 1, 0.36, 1],
+                            },
+                          },
+                        }
+                  }
+                  style={{ transformPerspective: 900 }}
+                  className="h-full"
                 >
-                  <Icon size={56} />
-                  <h3 className="mt-4 text-base font-semibold text-[#2E3545]!">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#667085]">
-                    {item.description}
-                  </p>
-                </ScrollRevealItem>
-              );
-            })}
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* Focus */}
-      <section className="relative z-10 overflow-hidden bg-white px-5 py-16 sm:px-8 lg:px-12">
-        <ColorWash />
-        <div className="relative z-10 mx-auto w-full max-w-6xl">
-          <ScrollReveal direction="down" delay={0.02} duration={0.6}>
-            <p className="text-sm font-semibold tracking-wide text-[#FE602F]">
-              Our focus
-            </p>
-            <h2 className="mt-2 max-w-xl text-2xl font-semibold tracking-tight text-[#2E3545]! sm:text-3xl">
-              Platforms across banking, products and middleware
-            </h2>
-          </ScrollReveal>
-
-          <ScrollReveal
-            direction="up"
-            delay={0.05}
-            duration={0.55}
-            stagger={0.14}
-            className="mt-10 grid gap-8 sm:grid-cols-3 sm:gap-8"
-          >
-            {pillars.map((item) => {
-              const Icon = item.Icon;
-              return (
-                <ScrollRevealItem key={item.title} direction="up">
-                  <Link
-                    href={item.href}
-                    className="group flex items-start gap-4 border-b border-[#e8e6e1] py-6 transition hover:border-[#FE602F]"
+                  <motion.div
+                    whileHover={
+                      reduceMotion
+                        ? undefined
+                        : {
+                            y: -10,
+                            scale: 1.03,
+                            transition: {
+                              type: "spring",
+                              stiffness: 320,
+                              damping: 18,
+                            },
+                          }
+                    }
+                    className="h-full"
                   >
-                    <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[#fff0eb]">
-                      <Icon size={40} />
-                    </span>
-                    <span>
-                      <h3 className="text-lg font-semibold text-[#2E3545]!">
+                    <Link
+                      href={item.href}
+                      className="group relative flex h-full min-h-[160px] flex-col overflow-hidden rounded-2xl border border-[#eceae6] bg-white p-4 shadow-[0_8px_24px_rgba(46,53,69,0.04)] sm:min-h-[172px] sm:p-5"
+                    >
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#FE602F]/0 blur-2xl transition duration-500 group-hover:bg-[#FE602F]/20"
+                      />
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-linear-to-r from-[#FE602F] to-[#e55528] transition duration-500 group-hover:scale-x-100"
+                      />
+
+                      <motion.span
+                        className="relative mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[#fff0eb] text-[#FE602F] sm:mb-4 sm:h-11 sm:w-11"
+                        animate={
+                          reduceMotion
+                            ? undefined
+                            : {
+                                y: [0, -3, 0],
+                              }
+                        }
+                        transition={{
+                          duration: 2.4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: index * 0.18,
+                        }}
+                        whileHover={
+                          reduceMotion
+                            ? undefined
+                            : { rotate: [0, -8, 8, 0], scale: 1.12 }
+                        }
+                      >
+                        <Icon size={20} strokeWidth={2} />
+                      </motion.span>
+
+                      <h3 className="relative text-[14px] font-bold leading-snug text-[#2E3545]! transition group-hover:text-[#FE602F]! sm:text-[15px]">
                         {item.title}
                       </h3>
-                      <p className="mt-1 text-sm leading-relaxed text-[#667085]">
+                      <p className="relative mt-2 flex-1 text-[12px] leading-relaxed text-[#667085] sm:text-[12.5px]">
                         {item.description}
                       </p>
-                      <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[#FE602F] transition group-hover:gap-2.5">
-                        View
-                        <ArrowRight size={14} />
+                      <span className="relative mt-3 inline-flex items-center gap-1 text-[#FE602F] transition duration-300 group-hover:gap-2.5 sm:mt-4">
+                        <ArrowRight size={15} className="sm:h-4 sm:w-4" />
                       </span>
-                    </span>
-                  </Link>
-                </ScrollRevealItem>
+                    </Link>
+                  </motion.div>
+                </motion.div>
               );
             })}
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* Who we serve */}
-      <section className="relative z-10 overflow-hidden bg-[#faf9f6] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
-        <ColorWash />
-        <AiNeuralDecor className="opacity-40" />
-        <div className="relative z-10 mx-auto w-full max-w-6xl">
-          <ScrollReveal direction="up" delay={0.03} duration={0.7}>
-            <p className="text-sm font-semibold tracking-wide text-[#FE602F]">
-              Who we serve
-            </p>
-            <h2 className="mt-2 max-w-2xl text-2xl font-semibold tracking-tight text-[#2E3545]! sm:text-3xl">
-              Trusted for government and private sector projects
-            </h2>
-            <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#667085]">
-              The same engineering discipline applies whether you are a public
-              institution or a growing private business — clear requirements,
-              secure architecture and dependable delivery.
-            </p>
-          </ScrollReveal>
-
-          <div className="mt-12 grid gap-8 md:grid-cols-2">
-            {audiences.map((item, index) => {
-              const Icon = item.Icon;
-              return (
-                <ScrollReveal
-                  key={item.title}
-                  direction={index === 0 ? "left" : "right"}
-                  delay={0.06 + index * 0.08}
-                  duration={0.75}
-                >
-                  <div
-                    className={
-                      index === 0
-                        ? "h-full rounded-3xl bg-[#2E3545] p-8 text-white"
-                        : "h-full rounded-3xl border border-[#FE602F]/30 bg-white p-8"
-                    }
-                  >
-                    <span
-                      className={
-                        index === 0
-                          ? "inline-flex rounded-2xl bg-white p-2"
-                          : "inline-flex"
-                      }
-                    >
-                      <Icon size={56} />
-                    </span>
-                    <h3
-                      className={`mt-5 text-xl font-semibold ${
-                        index === 0 ? "text-white!" : "text-[#2E3545]!"
-                      }`}
-                    >
-                      {item.title}
-                    </h3>
-                    <p
-                      className={`mt-2 text-sm leading-relaxed ${
-                        index === 0 ? "text-white/70" : "text-[#667085]"
-                      }`}
-                    >
-                      {item.description}
-                    </p>
-                    <ul className="mt-5 space-y-2.5">
-                      {item.points.map((point, i) => (
-                        <motion.li
-                          key={point}
-                          initial={reduceMotion ? false : { opacity: 0, x: -12 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true, amount: 0.6 }}
-                          transition={{
-                            delay: 0.15 + i * 0.08,
-                            duration: 0.4,
-                            ease,
-                          }}
-                          className={`flex items-start gap-2 text-sm ${
-                            index === 0 ? "text-white/90" : "text-[#2E3545]"
-                          }`}
-                        >
-                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#FE602F]" />
-                          {point}
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-                </ScrollReveal>
-              );
-            })}
-          </div>
+          </motion.div>
         </div>
       </section>
 

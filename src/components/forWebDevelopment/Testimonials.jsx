@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import BounceCards from "@/components/BounceCards";
 import ScrollReveal from "@/components/ScrollReveal";
 
@@ -81,11 +81,7 @@ export default function Testimonials() {
       <div className="container relative mx-auto">
         <ScrollReveal direction="up" delay={0.03} duration={0.65}>
           <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#e95325] shadow-sm">
-              <Sparkles size={13} />
-              Built around real business needs
-            </span>
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
               Our <span className="section-heading-accent">Happy Clients</span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
